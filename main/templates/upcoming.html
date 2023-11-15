@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CTFGames - Cybersecurity Competition</title>
+  <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
   {% load static %}
   <link rel="stylesheet" href="{% static 'main/style.css' %}?{% now " U" %}">
   <link rel="shortcut icon" type="image/png" href="{% static 'main/logo-black.png' %}" />
@@ -21,9 +21,9 @@
   <div class="container col-4 text-center" style="margin-top: 100px!important;">
     <div class="col-6 mx-auto">
       <nav class="nav nav-pills nav-fill">
-        <a class="nav-link text-light" aria-current="page" href="{% url 'running' %}" >Running Events</a>
-        <a class="nav-link active" aria-current="page" href="{% url 'upcoming' %}" style="background-color: #3f4156;">Upcoming Events</a>
-        <a class="nav-link text-light" aria-current="page" href="{% url 'expired' %}">Expired Events</a>
+        <a class="nav-link text-light" aria-current="page" href="{% url 'running' %}" >Işjeň Wakalar</a>
+        <a class="nav-link active" aria-current="page" href="{% url 'upcoming' %}" style="background-color: #3f4156;">Ýetip Gelýän Wakalar</a>
+        <a class="nav-link text-light" aria-current="page" href="{% url 'expired' %}">Bolup Geçen Wakalar</a>
       </nav>
     </div>
    
@@ -48,9 +48,9 @@
               <h3 class="card-title">{{ challenge.name }}</h3>
               <div>
                 <p>
-                  <span class="text-bold">Start at: </span> {{ challenge.date_start }}
+                  <span class="text-bold">Başlanmaly wagty: </span> {{ challenge.date_start }}
                   <br>
-                  <span class="text-bold">End at: </span> {{ challenge.date_end }}
+                  <span class="text-bold">Tamamlanmaly wagty: </span> {{ challenge.date_end }}
                 </p>
 
               </div>
@@ -66,30 +66,30 @@
             <a href="{{ request.get_full_path|add_or_replace_q:'page' }}page=1"><button type="button"
                 class="btn text-light" style="border: 1px solid #51546e;
               background-color: #3f4156;
-              font-size: inherit;">First</button></a>
+              font-size: inherit;">Ilkinji</button></a>
             <a href="{{ request.get_full_path|add_or_replace_q:'page' }}page={{ page_obj.previous_page_number }}"><button
                 type="button" class="btn text-light" style="border: 1px solid #51546e;
               background-color: #3f4156;
-              font-size: inherit;">Previous</button></a>
+              font-size: inherit;">Öňki</button></a>
             {% endif %}
 
             <button type="button" class="btn text-light" style="border: 1px solid #51546e;
               background-color: #3f4156;
               font-size: inherit;"><span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                {{ page_obj.number }}
               </span></button>
 
             {% if page_obj.has_next %}
             <a href="{{ request.get_full_path|add_or_replace_q:'page' }}page={{ page_obj.next_page_number }}">
               <button type="button" class="btn text-light" style="border: 1px solid #51546e;
               background-color: #3f4156;
-              font-size: inherit;">Next</button>
+              font-size: inherit;">Indiki</button>
             </a>
 
             <a href="{{ request.get_full_path|add_or_replace_q:'page' }}page={{ page_obj.paginator.num_pages }}"><button
                 type="button" class="btn text-light" style="border: 1px solid #51546e;
               background-color: #3f4156;
-              font-size: inherit;">Last</button></a>
+              font-size: inherit;">Soňky</button></a>
             {% endif %}
           </span>
         </div>
