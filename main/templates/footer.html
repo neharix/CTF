@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/community.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'main/logo-black.png' %}" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+
+<body>
+    <div class="footer-wrapper mt-auto border-top" style="border-color: #696d97!important;">
+        <footer class="footer my-2">
+            <div class="footer-container">
+                <div class="row">
+                    <div class="footer-col">
+                        <h4>CTFGames</h4>
+                        <ul>
+                            <li>
+                                <a href="{% url 'challenge' %}">Ýaryşlar</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'calendar' %}">Kalendar</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'chart' %}">Diagrammalar</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'news' %}">Täzelikler</a>
+                            </li>
+                            <li>
+                                <a href="/community/">Jemgyýet</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
