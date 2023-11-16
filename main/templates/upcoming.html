@@ -35,7 +35,7 @@
 
     <div class="container p-4">
       <div class="row text-center">
-        {% for challenge in object_list %}
+        {% for challenge in objects %}
         <div class="col-lg-4 my-2" onclick="location.href='{% url 'register_challenge' challenge.id %}'">
           <div class="card">
             <div class="ThumbnailWrapper">
@@ -62,12 +62,12 @@
 
         <div class="pagination_">
           <span class="step-links">
-            {% if page_obj.has_previous %}
-            <a href="{{ request.get_full_path|add_or_replace_q:'page' }}page=1"><button type="button"
+            {% if objects.has_previous %}
+            <a href="{% url "upcoming" %}?page=1"><button type="button"
                 class="btn text-light" style="border: 1px solid #51546e;
               background-color: #3f4156;
               font-size: inherit;">Ilkinji</button></a>
-            <a href="{{ request.get_full_path|add_or_replace_q:'page' }}page={{ page_obj.previous_page_number }}"><button
+            <a href="{% url "upcoming" %}?page={{ objects.previous_page_number }}"><button
                 type="button" class="btn text-light" style="border: 1px solid #51546e;
               background-color: #3f4156;
               font-size: inherit;">Öňki</button></a>
@@ -76,17 +76,17 @@
             <button type="button" class="btn text-light" style="border: 1px solid #51546e;
               background-color: #3f4156;
               font-size: inherit;"><span class="current">
-                {{ page_obj.number }}
+                {{ objects.number }}
               </span></button>
 
-            {% if page_obj.has_next %}
-            <a href="{{ request.get_full_path|add_or_replace_q:'page' }}page={{ page_obj.next_page_number }}">
+            {% if objects.has_next %}
+            <a href="{% url "upcoming" %}?page={{ objects.next_page_number }}">
               <button type="button" class="btn text-light" style="border: 1px solid #51546e;
               background-color: #3f4156;
               font-size: inherit;">Indiki</button>
             </a>
 
-            <a href="{{ request.get_full_path|add_or_replace_q:'page' }}page={{ page_obj.paginator.num_pages }}"><button
+            <a href="{% url "upcoming" %}?page={{ objects.paginator.num_pages }}"><button
                 type="button" class="btn text-light" style="border: 1px solid #51546e;
               background-color: #3f4156;
               font-size: inherit;">Soňky</button></a>

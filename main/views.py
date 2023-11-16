@@ -10,6 +10,7 @@ from django.contrib.auth import get_user_model
 from json import dumps
 from django.views.generic import ListView
 from challenge.models import Challenge
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from datetime import date, datetime
 from django.utils import timezone
@@ -154,43 +155,40 @@ class ChallengeListView(ListView):
         return queryset
 
 
-class ChallengeListViewUpcoming(ListView):
-    model = Challenge
-    context_object_name = 'object_list'
-    template_name = 'upcoming.html'
-    ordering = 'date_created'
-    paginate_by = 6
+def challenge_list_view_expired(request):
+    now = timezone.now()
+    date = now.strftime("%Y-%m-%d %H:%M:%S")
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     return context
+    object_list = Challenge.objects.filter(date_end__lte=date, public=True).order_by('date_created')
+    paginator = Paginator(object_list, 6)
 
-    def get_queryset(self):
-        now = timezone.now()
-        date = now.strftime("%Y-%m-%d %H:%M:%S")
-        
-        queryset = Challenge.objects.filter(date_start__gte=date,public=True)
-        queryset.order_by('date_created')
-        return queryset
+    page = request.GET.get('page')
+    try:
+        objects = paginator.page(page)
+    except PageNotAnInteger:
+        objects = paginator.page(1)
+    except EmptyPage:
+        objects = paginator.page(paginator.num_pages)
 
-class ChallengeListViewExpired(ListView):
-    model = Challenge
-    context_object_name = 'object_list'
-    template_name = 'expired.html'
-    ordering = 'date_created'
-    paginate_by = 6
+    return render(request, 'expired.html', {'objects': objects})
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     return context
+def challenge_list_view_upcoming(request):
+    now = timezone.now()
+    date = now.strftime("%Y-%m-%d %H:%M:%S")
 
-    def get_queryset(self):
-        now = timezone.now()
-        date = now.strftime("%Y-%m-%d %H:%M:%S")
-        
-        queryset = Challenge.objects.filter(date_end__lte=date,public=True)
-        queryset.order_by('date_created')
-        return queryset
+    object_list = Challenge.objects.filter(date_start__gte=date, public=True).order_by('date_created')
+    paginator = Paginator(object_list, 6)
+
+    page = request.GET.get('page')
+    try:
+        objects = paginator.page(page)
+    except PageNotAnInteger:
+        objects = paginator.page(1)
+    except EmptyPage:
+        objects = paginator.page(paginator.num_pages)
+
+    return render(request, 'upcoming.html', {'objects': objects})
+
 
 class ChallengeListViewSearching(ListView):
     model = Challenge
@@ -210,3 +208,26 @@ class ChallengeListViewSearching(ListView):
         queryset = Challenge.objects.filter(name__contains = (self.request.GET.get('q') or ''),public=True)
         queryset.order_by('date_created')
         return queryset
+
+
+def challenge_list_view_searching(request):
+    now = timezone.now()
+    date = now.strftime("%Y-%m-%d %H:%M:%S")
+    try:
+        request.session['q'] = request.GET['q']
+        q = request.GET['q']
+    except:
+        q = request.session['q']
+    object_list = Challenge.objects.filter(name__contains = q, public=True).order_by('date_created')
+    paginator = Paginator(object_list, 6)
+
+    page = request.GET.get('page')
+    try:
+        objects = paginator.page(page)
+    except PageNotAnInteger:
+        objects = paginator.page(1)
+    except EmptyPage:
+        objects = paginator.page(paginator.num_pages)
+
+    return render(request, 'search.html', {'objects': objects})
+
