@@ -63,11 +63,11 @@
         <div class="pagination_">
           <span class="step-links">
             {% if objects.has_previous %}
-            <a href="{% url "home" %}?page=1"><button type="button"
+            <a href="{% url "running" %}?page=1"><button type="button"
                 class="btn text-light" style="border: 1px solid #51546e;
               background-color: #3f4156;
               font-size: inherit;">Ilkinji</button></a>
-            <a href="{% url "home" %}?page={{ objects.previous_page_number }}"><button
+            <a href="{% url "running" %}?page={{ objects.previous_page_number }}"><button
                 type="button" class="btn text-light" style="border: 1px solid #51546e;
               background-color: #3f4156;
               font-size: inherit;">Öňki</button></a>
@@ -80,13 +80,13 @@
               </span></button>
 
             {% if objects.has_next %}
-            <a href="{% url "home" %}?page={{ objects.next_page_number }}">
+            <a href="{% url "running" %}?page={{ objects.next_page_number }}">
               <button type="button" class="btn text-light" style="border: 1px solid #51546e;
               background-color: #3f4156;
               font-size: inherit;">Indiki</button>
             </a>
 
-            <a href="{% url "home" %}?page={{ objects.paginator.num_pages }}"><button
+            <a href="{% url "running" %}?page={{ objects.paginator.num_pages }}"><button
                 type="button" class="btn text-light" style="border: 1px solid #51546e;
               background-color: #3f4156;
               font-size: inherit;">Soňky</button></a>

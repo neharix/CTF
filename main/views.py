@@ -135,25 +135,39 @@ def user_logout(request):
     logout(request)
     return redirect("home")
 
-class ChallengeListView(ListView):
-    model = Challenge
-    context_object_name = 'object_list'
-    template_name = 'index.html'
-    ordering = 'date_created'
-    paginate_by = 6
+def challenge_list_view(request):
+    now = timezone.now()
+    date = now.strftime("%Y-%m-%d %H:%M:%S")
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     return context
+    object_list = Challenge.objects.filter(date_end__gte=date, date_start__lte=date, public=True).order_by('date_created')
+    paginator = Paginator(object_list, 6)
 
-    def get_queryset(self):
-        now = timezone.now()
-        date = now.strftime("%Y-%m-%d %H:%M:%S")
-        
-        queryset = Challenge.objects.filter(date_end__gte=date,date_start__lte=date,public=True)
-        queryset.order_by('date_created')
-        return queryset
+    page = request.GET.get('page')
+    try:
+        objects = paginator.page(page)
+    except PageNotAnInteger:
+        objects = paginator.page(1)
+    except EmptyPage:
+        objects = paginator.page(paginator.num_pages)
 
+    return render(request, 'index.html', {'objects': objects})
+
+def challenge_list_view_running(request):
+    now = timezone.now()
+    date = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    object_list = Challenge.objects.filter(date_end__gte=date, date_start__lte=date, public=True).order_by('date_created')
+    paginator = Paginator(object_list, 6)
+
+    page = request.GET.get('page')
+    try:
+        objects = paginator.page(page)
+    except PageNotAnInteger:
+        objects = paginator.page(1)
+    except EmptyPage:
+        objects = paginator.page(paginator.num_pages)
+
+    return render(request, 'index.html', {'objects': objects})
 
 def challenge_list_view_expired(request):
     now = timezone.now()
@@ -189,30 +203,7 @@ def challenge_list_view_upcoming(request):
 
     return render(request, 'upcoming.html', {'objects': objects})
 
-
-class ChallengeListViewSearching(ListView):
-    model = Challenge
-    context_object_name = 'object_list'
-    template_name = 'search.html'
-    ordering = 'date_created'
-    paginate_by = 6
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     return context
-
-    def get_queryset(self):
-        now = timezone.now()
-        date = now.strftime("%Y-%m-%d %H:%M:%S")
-        
-        queryset = Challenge.objects.filter(name__contains = (self.request.GET.get('q') or ''),public=True)
-        queryset.order_by('date_created')
-        return queryset
-
-
 def challenge_list_view_searching(request):
-    now = timezone.now()
-    date = now.strftime("%Y-%m-%d %H:%M:%S")
     try:
         request.session['q'] = request.GET['q']
         q = request.GET['q']
