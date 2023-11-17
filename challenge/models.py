@@ -6,7 +6,7 @@ from django.db import models
 class Challenge(models.Model):
     name = models.CharField(max_length=200,  null=False, blank=False)
     owner = models.CharField(max_length=200,  null=False, blank=False)
-    public = models.BooleanField()
+    public = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     date_start = models.DateTimeField()
     date_end = models.DateTimeField()

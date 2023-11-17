@@ -10,7 +10,6 @@ from community.models import User, Note
 
 # Create your views here.
 
-
 def viewChallenge(request):
     challenges = {}
     if request.user.is_superuser:
@@ -36,7 +35,7 @@ def create_challenge(request):
             date_start = request.POST.get('date_start')
             date_end = request.POST.get('date_end')
             description = request.POST.get('description')
-            public = request.POST.get('public')
+            public = request.POST.get('public') if request.POST.get('public') != None else False
 
             challenge = Challenge.objects.create(
                 name=name,
@@ -186,8 +185,7 @@ def edit_quizz(request, pk, pk1):
 def join_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
 
-    creator = User.objects.get(username=challenge.owner)
-    creator_name = creator.name
+    creator_name = User.objects.get(username=challenge.owner).name
 
     context = {'challenge': challenge, 'creator_name': creator_name}
     return render(request, 'join_challenge.html', context)

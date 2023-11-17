@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CTFGames - Cybersecurity Competition</title>
+    <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'main/challenge.css' %}?{% now " U" %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'main/logo-black.png' %}" />
@@ -22,10 +22,10 @@
                 {% csrf_token %}
                 <div class="card-title mx-auto mt-3">{{challenge.name}}</div>
                 <div class="card-body d-inline">
-                    Start from: {{challenge.date_start}} <br>
-                    To: {{challenge.date_end}} <br>
-                    Created by: {{creator_name}} <br>
-                    Description: {{challenge.description}}
+                    Başlanmaly wagty: {{challenge.date_start}} <br>
+                    Tamamlanmaly wagty: {{challenge.date_end}} <br>
+                    Dörediji: {{creator_name}} <br>
+                    Düşündiriş: {{challenge.description}}
                 </div>
             </div>
             {% load static %}
@@ -37,8 +37,8 @@
     </div>
 
     <div class="container text-center">
-        <div class="h2">You can't do anything with expired challenge! <br></div>
-        <a href="{% url 'expired' %}">Click here to come back.</a>
+        <div class="h2">Möhleti geçen ýaryş bilen hiç zat edip bilmersiňiz! <br></div>
+        <a href="{% url 'expired' %}">Yza gaýdyp gelmek üçin şu ýere basyň.</a>
     </div>
 
 

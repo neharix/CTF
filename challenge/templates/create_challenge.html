@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CTFGames - Cybersecurity Competition</title>
+    <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'main/challenge.css' %}?{% now " U" %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'main/logo-black.png' %}" />
@@ -16,7 +16,7 @@
     {% include 'navbar.html' %}
     {% block content %}
     <div class="card col-sm-5 mx-auto pt-0 rounded-4 my-5" style="background-color: #3f4156!important;">
-        <h2 class="card-header pt-4 text-center" style="background-color: #696d97!important;">Create a challenge</h2>
+        <h2 class="card-header pt-4 text-center" style="background-color: #696d97!important;">Ýaryş dörediň</h2>
         <div class="card-body">
             <form action="" method="POST">
                 {% csrf_token %}
@@ -25,16 +25,16 @@
                 {% else %}
                 <label for="{{ field.name }}" class="text-capitalize ms-3">
                     {% if field.name == "name" %}
-                    Name
+                    Ady
                     {% endif %}
                     {% if field.name == "date_start" %}
-                    Start From
+                    Başlanmaly wagty
                     {% endif %}
                     {% if field.name == "date_end" %}
-                    To
+                    Tamamlanmaly wagty
                     {% endif %}
                     {% if field.name == "description" %}
-                    Description
+                    Düşündiriş
                     {% endif %}
                 </label>
                 {% endif %}
@@ -51,7 +51,7 @@
                 {% elif field.name == "public" %}
                 <div class="form-check bg-transparent border-0 ms-3"  onclick="getChecked()">
                     <label class="form-check-label" for="id_{{ field.name }}">
-                        Public
+                        Publiki
                     </label>
                     <input class="form-check-input"  type="checkbox" value="False" name="{{ field.name }}" id="id_{{ field.name }}">
                     
@@ -64,7 +64,7 @@
                 {% endif %}
                 {% endfor %}
                 <div class="container text-end mx-0 w-100">
-                    <button type="submit" class="btn btn-primary" style="background-color: #6D83F2;">Submit</button>
+                    <button type="submit" class="btn btn-primary" style="background-color: #6D83F2;">Tassyklaň</button>
                 </div>
             </form>
         </div>

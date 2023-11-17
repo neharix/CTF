@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CTFGames - Cybersecurity Competition</title>
+    <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'main/challenge.css' %}?{% now " U" %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'main/logo-black.png' %}" />
@@ -16,7 +16,7 @@
     {% include 'navbar.html' %}
     {% block content %}
     <div class="container text-center">
-        <div class="h1">Create quizzes</div>
+        <div class="h1">Sowalnamany redaktirläň</div>
     </div>
 
     <form action="" method="post" autocomplete="off" enctype="multipart/form-data">
@@ -31,7 +31,7 @@
                 {% csrf_token %}
                 <!-- Name -->
                 <label for="name" class="text-capitalize ms-3" onclick="console.log('{{quizz.file_content}}')">
-                    Name:
+                    Ady:
                 </label>
                 <div class="form-control bg-transparent border-0">
                     <input type="text" class="form-control bg-transparent border-2 text-light fs-4"
@@ -40,7 +40,7 @@
 
                 <!-- Question -->
                 <label for="question" class="text-capitalize ms-3">
-                    Question:
+                    Sorag:
                 </label>
                 <div class="form-control bg-transparent border-0">
                     <textarea class="form-control bg-transparent border-2 text-light fs-4"
@@ -49,7 +49,7 @@
 
                 <!-- Answer -->
                 <label for="answer" class="text-capitalize ms-3">
-                    answer:
+                    Jogaby:
                 </label>
                 <div class="form-control bg-transparent border-0">
                     <textarea class="form-control bg-transparent border-2 text-light fs-4"
@@ -58,7 +58,7 @@
 
                 <!-- Point -->
                 <label for="point" class="text-capitalize ms-3">
-                    point:
+                    Bal:
                 </label>
                 <div class="form-control bg-transparent border-0">
                     <input type="text" class="form-control bg-transparent border-2 text-light fs-4"
@@ -71,7 +71,7 @@
                     <div class="form-check col-2" onclick="addfile(event)">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                         <label class="form-check-label" for="flexCheckDefault">
-                            Add file
+                            Faýl goşuň
                         </label>
                     </div>
                     <!-- <div class="ms-3 col-3" id="uploadElement">
@@ -84,7 +84,7 @@
                         <input class="form-check-input" onclick="addfile(event)" type="checkbox" value=""
                             id="flexCheckDefault" checked>
                         <label class="form-check-label" for="flexCheckDefault">
-                            Add file
+                            Faýl goşuň
                         </label>
                     </div>
                     <div class="ms-3 col-9" id="uploadElement">
@@ -100,15 +100,15 @@
                     {% for hint in hints %}
                     <div class="input-group form-control bg-transparent border-0 hint-element">
                         <input type="" class="d-none" id="quizz_id" name="quizz_id">
-                        <span class="input-group-text bg-transparent border-2 text-light fs-4 my-3">Hint</span>
+                        <span class="input-group-text bg-transparent border-2 text-light fs-4 my-3">Maslahat</span>
                         <input type="text" placeholder="Hint" style="width: 350px;" aria-label="Hint"
                             class="form-control bg-transparent border-2 text-light fs-4 my-3" name="hint"
                             value="{{hint.content}}">
-                        <input type="text" placeholder="Points" style="min-width: 70px;" aria-label="Point"
+                        <input type="text" placeholder="Bal" style="min-width: 70px;" aria-label="Point"
                             class="form-control bg-transparent border-2 text-light fs-4 my-3" name="hint_point"
                             value="{{hint.point}}">
                         <button onclick="delHint(event)" class="btn btn-outline-danger my-3 fs-4" type="button"
-                            id="hintDelBtn">Discard</button>
+                            id="hintDelBtn">Aýyrmak</button>
                     </div>
                     {% endfor %}
                 </div>
@@ -122,7 +122,7 @@
                                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z">
                             </path>
                         </svg>
-                        Add a hint
+                        Maslahat goşuň
                     </button>
                 </div>
             </div>
@@ -133,14 +133,14 @@
             <div class="input-group d-inline-block">
                 <button type="button" onclick="location.href='/challenge/display_quizzes/{{challenge_id}}/'"
                     class="btn btn-lg btn-danger my-auto" style="background-color: #c93232!important;">
-                    Cancel
+                    Ýapmak
                 </button>
                 <button type="submit" name="Delete" onclick="location.href='/challenge/display_quizzes/{{challenge_id}}/'"
                     class="btn btn-lg btn-danger my-auto" style="background-color: #c93232!important;">
-                    Delete
+                    Pozmak
                 </button>
                 <button type="submit" name="Submit" class="btn btn-lg btn-light my-auto" style="background-color: #696d97!important;">
-                    Submit
+                    Tassyklamak
                 </button>
             </div>
         </div>
@@ -186,7 +186,9 @@
                 console.log(nodeList[i].children[0].value);
             }
         }
-
+        function delQuizz(event) {
+            event.target.parentElement.parentElement.remove();
+        }
         function delHint(event) {
             event.target.parentElement.remove();
         }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CTFGames - Cybersecurity Competition</title>
+    <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'main/challenge.css' %}?{% now " U" %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'main/logo-black.png' %}" />
@@ -16,7 +16,7 @@
     {% include 'navbar.html' %}
     {% block content %}
     <div class="container text-center">
-        <div class="h1">Create quiz</div>
+        <div class="h1">Sowalnama dörediň</div>
     </div>
 
     <form action="" method="post" autocomplete="off" enctype="multipart/form-data">
@@ -32,7 +32,12 @@
                 {% for field in form %}
                 {% if field.name == "question" or field.name == "answer" %}
                 <label for="{{field.name}}" class="text-capitalize ms-3">
-                    {{field.name}}
+                    {% if field.name == "question" %}
+                        Sorag
+                    {% endif %}
+                    {% if field.name == "answer" %}
+                        Jogaby
+                    {% endif %}
                 </label>
                 <div class="form-control bg-transparent border-0">
                     <textarea class="form-control bg-transparent border-2 text-light fs-4"
@@ -44,7 +49,7 @@
                         <input class="form-check-input" style="pointer-events:all;" type="checkbox" value=""
                             id="flexCheckDefault" onclick="addfile(event)">
                         <label class="form-check-label" for="flexCheckDefault">
-                            Add file
+                            Faýl goşuň
                         </label>
                     </div>
                     <!-- <div class="ms-3 col-3" id="uploadElement">
@@ -54,7 +59,12 @@
                 </div>
                 {% else %}
                 <label for="{{field.name}}" class="text-capitalize ms-3">
-                    {{field.name}}
+                    {% if field.name == "name" %}
+                        Ady
+                    {% endif %}
+                    {% if field.name == "point" %}
+                        Bal
+                    {% endif %}
                 </label>
                 <div class="form-control bg-transparent border-0">
                     <input type="text" class="form-control bg-transparent border-2 text-light fs-4"
@@ -86,7 +96,7 @@
                                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z">
                             </path>
                         </svg>
-                        Add a hint
+                        Maslahat goşuň
                     </button>
                 </div>
             </div>
@@ -112,11 +122,11 @@
                 <button type="button" class="btn btn-lg btn-light text-light"
                     onclick="location.href='{% url 'display_quizzes' challenge.id %}'"
                     style="background-color: #800202!important;">
-                    Exit
+                    Çykyş
                 </button>
                 <button type="submit" class="btn btn-lg btn-light text-light"
                     style="background-color: #696d97!important;">
-                    Submit & Continue
+                    Tassyklamak & Dowam etmek
                 </button>
 
             </div>

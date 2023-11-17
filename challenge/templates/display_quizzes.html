@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CTFGames - Cybersecurity Competition</title>
+    <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'main/challenge.css' %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'main/logo-black.png' %}" />
@@ -27,9 +27,13 @@
                 <div class="card col-sm mx-auto pt-0 rounded-4 ms-3" style="background-color: #3f4156!important;">
                     {% csrf_token %}
                     <div class="card-body d-inline">
-                        Name: {{challenge.name}} <br>Start from: {{challenge.date_start}} <br>
-                        To: {{challenge.date_end}} <br>
-                        {{challenge.public}}
+                        Ady: {{challenge.name}} <br>Başlanmaly wagty: {{challenge.date_start}} <br>
+                        Tamamlanmaly wagty: {{challenge.date_end}} <br> Ýaryşyň statusy:
+                        {% if challenge.public %}
+                            Publiki
+                        {% else %}
+                            Gizlin
+                        {% endif %}
                         <div class="container h-75 text-end">
                             {% if challenge.public %}
                             <button type="submit" name="changePrivate"
@@ -42,7 +46,7 @@
                                     <path
                                         d="M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 1a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm.535-10a3.975 3.975 0 0 1-.409-1H4a1 1 0 0 1 0-2h2.126c.091-.355.23-.69.41-1H4a2 2 0 1 0 0 4h2.535z" />
                                     <path d="M14 4a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" />
-                                </svg>Change to Private
+                                </svg>Statusy gizlin ediň
                             </button>
                             {% else %}
                             <button type="submit" name="changePublic"
@@ -55,7 +59,7 @@
                                     <path
                                         d="M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 1a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm.535-10a3.975 3.975 0 0 1-.409-1H4a1 1 0 0 1 0-2h2.126c.091-.355.23-.69.41-1H4a2 2 0 1 0 0 4h2.535z" />
                                     <path d="M14 4a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" />
-                                </svg>Change to Public
+                                </svg>Statusy publik ediň
                             </button>
                             {% endif %}
                         </div>
@@ -81,7 +85,7 @@
                     {% if key == 'file_content' %}
                     <div class="ms-3">
                         <label for="{{ key }}" class="text-capitalize fs-4">
-                            File:
+                            Faýl:
                         </label>
                         <div class="bg-transparent border-0 d-inline fs-4">
                             <p class="text-light d-inline">{{quizz.file_content}}</p>
@@ -90,14 +94,27 @@
                     {% else %}
                     <div class="ms-3">
                         <div class="bg-transparent border-0 d-inline fs-4" >
-                            <p class="text-light d-bloc" style="overflow: hidden; white-space: nowrap;text-overflow: ellipsis;"><span class="text-capitalize">{{key}}:</span> {{value}}</p>
+                            <p class="text-light d-bloc" style="overflow: hidden; white-space: nowrap;text-overflow: ellipsis;">
+                                <span class="text-capitalize">
+                                    {% if key == "id"  %}
+                                        Id:
+                                    {% elif key == "name"%}
+                                        Ady:
+                                    {% elif key == "question" %}
+                                        Sorag:
+                                    {% elif key == "answer" %}
+                                        Jogaby:
+                                    {% elif key == "point" %}
+                                        Bal:
+                                    {% endif %}
+                                </span> {{value}}</p>
                         </div>
                     </div>
                     {% endif %}
                     {% endfor %}
                     <div class="ms-3">
                         <label for="{{ key }}" class="text-capitalize fs-4">
-                            Hints:
+                            Maslahatlar:
                         </label>
                         <div class="bg-transparent border-0 d-inline fs-4">
                             <p class="text-light d-inline">{{hintCounts|index:forloop.counter0}}</p>
@@ -116,7 +133,7 @@
                         <img class="" width="78px" height="78px" src="{% static 'main/images/plus-symbol1.svg' %}">
                     </div>
                     <div class="card-body mt-2 text-center">
-                        <h5 class="card-title">Create a new quiz</h5>
+                        <h5 class="card-title">Täze sowalnama dörediň</h5>
                     </div>
                 </div>
             </div>
@@ -125,9 +142,9 @@
             <form action="" method="POST">
                 <div class="container text-end mb-3 w-100">
                     <button type="button" class="btn btn-primary" onclick="location.href='{% url 'challenge' %}'"
-                        style="background-color: #696d97;">Back</button>
+                        style="background-color: #696d97;">Yzyňa dolanmak</button>
                     <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-primary"
-                        style="background-color: rgb(162, 1, 1);">Delete</button>
+                        style="background-color: rgb(162, 1, 1);">Pozmak</button>
                 </div>
             </form>
 

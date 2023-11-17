@@ -29,8 +29,8 @@
               <path d="m243.63 53.863h12.043l-17.324 17.325c-2.929 2.929-2.929 7.678 0 10.606 2.881 2.881 7.725 2.882 10.606 0l30.127-30.128c4.648-4.648 1.23-12.803-5.303-12.803h-12.042l11.667-11.667c2.929-2.929 2.929-7.678 0-10.606-2.928-2.93-7.677-2.929-10.606 0l-24.471 24.47c-2.145 2.145-2.787 5.371-1.626 8.173 1.161 2.803 3.895 4.63 6.929 4.63z" />
             </g>
           </svg>
-        <p style="padding:1.5rem 0 0 0; font-family: 'Poppins';">You haven't created any challenges yet.</p>
-        <a style="border: 1px solid #51546e; background-color: #3f4156; padding: 1rem 2rem; border-radius: 1rem; font-family: 'Poppins'; margin-top: 2rem;" href="{% url 'create_challenge' %}">Create</a>
+        <p style="padding:1.5rem 0 0 0; font-family: 'Poppins';">Siz entek hiç hili ýaryş döretmediňiz.</p>
+        <a style="border: 1px solid #51546e; background-color: #3f4156; padding: 1rem 2rem; border-radius: 1rem; font-family: 'Poppins'; margin-top: 2rem;" href="{% url 'create_challenge' %}">Dörediň</a>
       </div>
       </section>
     </div>
@@ -38,8 +38,8 @@
     {% csrf_token %}
     <section class="text-light p-5 bg-dark" id="section-event">
       <div class="center-title text-center">
-        <h1 id="upcoming">Your Challenges</h1>
-        <p class="h4"><i>Challenges that you or your team have created will be shown here.</i></p>
+        <h1 id="upcoming">Siziň ýaryşlaryňyz</h1>
+        <p class="h4"><i>Siziň döreden ýaryşlaryňyz şu ýerde görkeziler.</i></p>
       </div>
       <div class="container p-4">
         <div class="row text-center">
@@ -57,9 +57,9 @@
                 <h3 class="card-title">{{ challenge.name }}</h3>
                 <div>
                   <p>
-                    <span class="text-bold">Start at: </span> {{ challenge.date_start }}
+                    <span class="text-bold">Başlanmaly wagty: </span> {{ challenge.date_start }}
                     <br>
-                    <span class="text-bold">End at: </span> {{ challenge.date_end }}
+                    <span class="text-bold">Tamamlanmaly wagty: </span> {{ challenge.date_end }}
                   </p>
 
                 </div>
@@ -74,7 +74,7 @@
                 <img class="my-5" src="{% static 'main/images/plus-symbol1.svg' %}">
               </div>
               <div class="card-body">
-                <h5 class="card-title mt-4 mb-5">Create new challenge</h5>
+                <h5 class="card-title mt-4 mb-5">Täze ýaryş dörediň</h5>
               </div>
             </div>
           </div>
@@ -92,8 +92,8 @@
         <path d="m243.63 53.863h12.043l-17.324 17.325c-2.929 2.929-2.929 7.678 0 10.606 2.881 2.881 7.725 2.882 10.606 0l30.127-30.128c4.648-4.648 1.23-12.803-5.303-12.803h-12.042l11.667-11.667c2.929-2.929 2.929-7.678 0-10.606-2.928-2.93-7.677-2.929-10.606 0l-24.471 24.47c-2.145 2.145-2.787 5.371-1.626 8.173 1.161 2.803 3.895 4.63 6.929 4.63z" />
       </g>
     </svg>
-    <div class="h1 mx-auto" style="padding:1.5rem 0 0 0; font-family: 'Poppins';">You are not authorized to create challenges.</div>
-    <p class="h2-title-description" style="font-style: italic">Only administrators have permission to create challenges!</p>
+    <div class="h1 mx-auto" style="padding:1.5rem 0 0 0; font-family: 'Poppins';">Size ýaryş döretmäge rugsat berilmeýär.</div>
+    <p class="h2-title-description" style="font-style: italic">Diňe administratorlaryň ýaryş döretmäge rugsady bar!</p>
   </div>
 
   {% endif %}

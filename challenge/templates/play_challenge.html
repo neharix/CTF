@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CTFGames - Cybersecurity Competition</title>
+  <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
   {% load static %}
   <link rel="stylesheet" href="{% static 'main/challenge.css' %}?{% now " U" %}">
   <link rel="shortcut icon" type="image/png" href="{% static 'main/logo-black.png' %}" />
@@ -23,7 +23,7 @@
 
   <div class="container text-center">
     <div class="h1 mx-auto">{{challenge.name}}</div>
-    <div class="h3 mx-auto">Score: {{score}}</div>
+    <div class="h3 mx-auto">Ballaryň jemi: {{score}}</div>
   </div>
 
   <div class="row container">
@@ -33,20 +33,20 @@
       <div data-toggle="modal" data-target="#myModal" class="card clickable-element" onclick="_id={{quizz.id}}">
         <div class="card-title border-bottom">{{quizz.name}}</div>
         <div class="card-body">
-          Points: {{quizz.point}}
+          Bal: {{quizz.point}}
         </div>
       </div>
 
       <div style="color: yellow;" id="check">
-        Completed <span class="glyphicon glyphicon-ok"></span>
+        Tamamlandy <span class="glyphicon glyphicon-ok"></span>
       </div>
       {% if status|index:quizz.id == "True" %}
       <div style="color: green;">
-        True <span class="glyphicon glyphicon-ok"></span>
+        Dogry <span class="glyphicon glyphicon-ok"></span>
       </div>
       {% else %}
       <div style="color: red;">
-        False <span class="glyphicon glyphicon-remove"></span>
+        Ýalňyş <span class="glyphicon glyphicon-remove"></span>
       </div>
       {% endif %}
       {% else %}
@@ -54,7 +54,7 @@
         class="card clickable-element">
         <div class="card-title border-bottom">{{quizz.name}}</div>
         <div class="card-body">
-          Points: {{quizz.point}}
+          Bal: {{quizz.point}}
         </div>
       </div>
       <div>
@@ -75,7 +75,7 @@
       <!-- Modal content-->
       <div class="modal-content text-light" style="background-color:#212529">
         <div class="modal-header row border-0">
-          <h4 class="modal-title col-5">Confirmation</h4>
+          <h4 class="modal-title col-5">Tassyklama</h4>
           <button type="button" class="close col-5 text-end" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body border-0">
@@ -86,14 +86,14 @@
               <path
                 d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
             </svg>
-            WARNING <br>
-            If you want to try again, only 75% of points are earned for this quiz!
+            DUÝDURYŞ <br>
+            Gaýtadan synanyşmak isleseňiz, bu sowalnama üçin ballaryň diňe 75% -i gazanylýar!
           </p>
         </div>
         <div class="modal-footer border-0">
-          <button type="button" class="btn text-light bg-transparent" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn text-light bg-transparent" data-dismiss="modal">Çykmak</button>
           <button type="button" onclick="redirecting()" class="btn text-light" style="background-color: #696d97;"
-            data-dismiss="modal">OK & Continue</button>
+            data-dismiss="modal">OK & Dowam et</button>
         </div>
       </div>
 

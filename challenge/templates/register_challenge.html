@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CTFGames - Cybersecurity Competition</title>
+    <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'main/challenge.css' %}?{% now " U" %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'main/logo-black.png' %}" />
@@ -25,10 +25,10 @@
                 {% csrf_token %}
                 <div class="card-title mx-auto mt-3">{{challenge.name}}</div>
                 <div class="card-body d-inline">
-                    Start from: {{challenge.date_start}} <br>
-                    To: {{challenge.date_end}} <br>
-                    Created by: {{creator_name}} <br>
-                    Description: {{challenge.description}}
+                    Başlanmaly wagty: {{challenge.date_start}} <br>
+                    Tamamlanmaly wagty: {{challenge.date_end}} <br>
+                    Dörediji: {{creator_name}} <br>
+                    Düşündiriş: {{challenge.description}}
                 </div>
             </div>
             {% load static %}
@@ -45,21 +45,21 @@
         <div class="text-end col-4">
             <button type="button" class="btn btn-lg btn-light my-auto" onclick="location.href='{% url 'upcoming' %}'"
                 style="background-color: rgb(186, 2, 2)!important;" >
-                Back
+                Yzyňa dolanmak
             </button>
         </div>
         {% if registered == 'yes' %}
         <div class="text-start col-2">
             <button data-toggle="modal" data-target="#myModal" type="button" class="btn btn-lg btn-light my-auto"
                 style="background-color: #696d97!important;" disabled>
-                Registered
+                Hasaba alyndy
             </button>
         </div>
         {% else %}
         <div class="text-start col-2">
             <button data-toggle="modal" data-target="#myModal" type="button" class="btn btn-lg btn-light my-auto"
                 style="background-color: #696d97!important;" >
-                Register
+                Hasaba al
             </button>
         </div>
         {% endif %}
@@ -74,13 +74,13 @@
             <!-- Modal content-->
             <div class="modal-content text-light" style="background-color:#212529">
                 <div class="modal-header row border-0">
-                    <h4 class="modal-title col-5">Notification</h4>
+                    <h4 class="modal-title col-5">Duýduryş</h4>
                     <button type="button" class="close col-5 text-end" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body border-0">
                     <p style="color: green;">
-                        Notification <br>
-                        You have registered successfully! You will receive a notification once this challenge starts.
+                        Duýduryş <br>
+                        Siz üstünlikli hasaba alyndyňyz! Bu ýaryş başlansoň size habar berler.
                     </p>
                 </div>
                 <div class="modal-footer border-0">
@@ -88,7 +88,7 @@
                         {% csrf_token %}
                         <input type="text" name="holder" value="place holder" class="d-none">
                         <button type="submit" class="btn text-light"
-                            style="background-color: #696d97;">OK & Continue
+                            style="background-color: #696d97;">OK & Dowam et
                         </button>
                     </form>
                 </div>
