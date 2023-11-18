@@ -37,6 +37,7 @@ class Hint(models.Model):
 
 class Answer(models.Model):
     username=models.CharField(max_length=20,  null=True, blank=True)
+    team = models.CharField(max_length=20, null=True, blank=True)
     challenge_id = models.IntegerField()
     quizz_id = models.IntegerField()
     answer = models.TextField(null=False, blank=False)

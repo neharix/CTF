@@ -8,6 +8,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=200, unique=True)
     email = models.EmailField(null=True)
     bio = models.TextField(null=True)
+    team = models.ForeignKey("Team", on_delete=models.CASCADE, blank=True, null=True)
 
     avatar = models.ImageField(null=True, default="static/main/images/avatar.svg")
 
@@ -20,6 +21,9 @@ class Topic(models.Model):
     def __str__(self):
         return self.name
 
+
+class Team(models.Model):
+    name = models.CharField(max_length=100)
 
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

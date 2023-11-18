@@ -8,7 +8,7 @@ from django.core.files.storage import FileSystemStorage
 from .forms import ChallengeForm, QuizzForm, AnswerForm
 from .forms import Challenge, Quizz, Hint, Answer
 
-from community.models import User, Note
+from community.models import User, Note, Team
 
 
 def viewChallenge(request):
@@ -268,6 +268,7 @@ from django.utils import timezone
 
 def play_challenge_quizz(request, pk, pk1):
     challenge = Challenge.objects.get(id=pk)
+    team = Team.objects.get(name=User.objects.get(username=request.user.username)).name
     if challenge.date_end > datetime.now() and challenge.date_start < datetime.now():
         quizz = Quizz.objects.get(id=pk1)
         hints = Hint.objects.filter(quizz_id=quizz.id)
@@ -298,6 +299,7 @@ def play_challenge_quizz(request, pk, pk1):
                 answer_obj = Answer.objects.create(
                     challenge_id=challenge.id,
                     username=request.user.username,
+                    team=team,
                     quizz_id=quizz.id,
                     answer=_answer,
                     point=_point,
