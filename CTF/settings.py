@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
     'community.apps.CommunityConfig',
-    'news.apps.NewsConfig',
     'challenge.apps.ChallengeConfig',
     'chart.apps.ChartConfig',
 ]

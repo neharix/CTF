@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
@@ -8,7 +10,6 @@ from .forms import Challenge, Quizz, Hint, Answer
 
 from community.models import User, Note
 
-# Create your views here.
 
 def viewChallenge(request):
     challenges = {}
@@ -229,76 +230,86 @@ def expired_challenge(request, pk):
     context = {'challenge': challenge, 'creator_name': creator_name}
     return render(request, 'expired_challenge.html', context)
 
-
 def play_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
-    quizzes = Quizz.objects.all().filter(challenge_id=pk).values(
-        'id', 'name', 'question', 'answer', 'point', 'file_content')
+    if challenge.date_end > datetime.now() and challenge.date_start < datetime.now():
 
-    completed = {}
-    status = {}
+        quizzes = Quizz.objects.all().filter(challenge_id=pk).values(
+            'id', 'name', 'question', 'answer', 'point', 'file_content')
 
-    score = 0
+        completed = {}
+        status = {}
 
-    for quizz in quizzes:
-        try:
-            obj = Answer.objects.get(quizz_id=quizz['id'],username=request.user)
-            completed[quizz['id']] = 'yes'
-            if obj.status == 'True':
-                status[quizz['id']] ="True"
-            else:
-                status[quizz['id']] ="False"
-            score += obj.point
-        except Answer.DoesNotExist:
-            completed[quizz['id']] = 'no' 
-            pass
+        score = 0
 
-    context = {'challenge': challenge, 'quizzes': quizzes,
-               'completed': completed, 'score': score, 'status':status}
-    return render(request, 'play_challenge.html', context)
+        for quizz in quizzes:
+            try:
+                obj = Answer.objects.get(quizz_id=quizz['id'],username=request.user)
+                completed[quizz['id']] = 'yes'
+                if obj.status == 'True':
+                    status[quizz['id']] ="True"
+                else:
+                    status[quizz['id']] ="False"
+                score += obj.point
+            except Answer.DoesNotExist:
+                completed[quizz['id']] = 'no' 
+                pass
+
+        context = {'challenge': challenge, 'quizzes': quizzes,
+                'completed': completed, 'score': score, 'status':status}
+        return render(request, 'play_challenge.html', context)
+    elif challenge.date_end < datetime.now():
+        return redirect('expired')
+    elif challenge.date_start > datetime.now():
+        return redirect('upcoming')
 
 from datetime import date, datetime
 from django.utils import timezone
 
 def play_challenge_quizz(request, pk, pk1):
     challenge = Challenge.objects.get(id=pk)
-    quizz = Quizz.objects.get(id=pk1)
-    hints = Hint.objects.filter(quizz_id=quizz.id)
+    if challenge.date_end > datetime.now() and challenge.date_start < datetime.now():
+        quizz = Quizz.objects.get(id=pk1)
+        hints = Hint.objects.filter(quizz_id=quizz.id)
 
-    _point = 0
-    _status = "False"
-    now = timezone.now()
-    date = now.strftime("%Y-%m-%d %H:%M:%S")
-    if request.method == 'POST':
-        _answer = request.POST.get('answer')
-        minus_point = request.POST.get('minus-point')
-        # print('begin')
-        # print(minus_point)
-        if _answer == quizz.answer:
-            _point = quizz.point-int(minus_point)
-            _status="True"
-        else:
-            _point = 0
-            _status="False"
+        _point = 0
+        _status = "False"
+        now = timezone.now()
+        date = now.strftime("%Y-%m-%d %H:%M:%S")
+        if request.method == 'POST':
+            _answer = request.POST.get('answer')
+            minus_point = request.POST.get('minus-point')
+            # print('begin')
+            # print(minus_point)
+            if _answer == quizz.answer:
+                _point = quizz.point-int(minus_point)
+                _status="True"
+            else:
+                _point = 0
+                _status="False"
 
-        try:
-            obj = Answer.objects.get(quizz_id=quizz.id,username=request.user.username)
-            _point = int(75*int(_point)/100)
-            obj.point = _point
-            obj.status=_status
-            obj.save()
-        except Answer.DoesNotExist:
-            answer_obj = Answer.objects.create(
-                challenge_id=challenge.id,
-                username=request.user.username,
-                quizz_id=quizz.id,
-                answer=_answer,
-                point=_point,
-                status=_status
-            )
-            answer_obj.save()
+            try:
+                obj = Answer.objects.get(quizz_id=quizz.id,username=request.user.username)
+                _point = int(75*int(_point)/100)
+                obj.point = _point
+                obj.status=_status
+                obj.save()
+            except Answer.DoesNotExist:
+                answer_obj = Answer.objects.create(
+                    challenge_id=challenge.id,
+                    username=request.user.username,
+                    quizz_id=quizz.id,
+                    answer=_answer,
+                    point=_point,
+                    status=_status
+                )
+                answer_obj.save()
 
-        return redirect(play_challenge, pk=pk)
+            return redirect(play_challenge, pk=pk)
+    elif challenge.date_end < datetime.now():
+        return redirect('expired')
+    elif challenge.date_start > datetime.now():
+        return redirect('upcoming')
 
     # print(hints)
 
