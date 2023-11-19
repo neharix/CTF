@@ -268,7 +268,7 @@ from django.utils import timezone
 
 def play_challenge_quizz(request, pk, pk1):
     challenge = Challenge.objects.get(id=pk)
-    team = Team.objects.get(name=User.objects.get(username=request.user.username)).name
+    team = request.user.team.name
     if challenge.date_end > datetime.now() and challenge.date_start < datetime.now():
         quizz = Quizz.objects.get(id=pk1)
         hints = Hint.objects.filter(quizz_id=quizz.id)
