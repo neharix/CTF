@@ -3,7 +3,8 @@
 *.pot
 *.pyc
 __pycache__
-
+*.xlsx
+*.jpg
 # Backup files # 
 *.bak 
 

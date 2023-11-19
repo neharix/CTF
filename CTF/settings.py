@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'community.apps.CommunityConfig',
     'challenge.apps.ChallengeConfig',
     'chart.apps.ChartConfig',
+    'admin_tools.apps.AdminToolsConfig',
 ]
 
 MIDDLEWARE = [
@@ -145,4 +146,4 @@ except Exception as e:
 AUTH_USER_MODEL = 'community.User'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-MEDIA_URL = ''
+MEDIA_URL = '/media/'

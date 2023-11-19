@@ -22,6 +22,7 @@ urlpatterns = [
     path('community/', include("community.urls")),
     path('challenge/', include("challenge.urls")),
     path('chart/', include("chart.urls")),
+    path('admin_tools/', include("admin_tools.urls"))
 ]
 
 from django.conf import settings

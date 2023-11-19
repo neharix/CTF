@@ -45,7 +45,7 @@ def community(request):
         Q(description__icontains=q)
     )
     topics = Topic.objects.all()
-    post_count = posts.count()
+    post_count = Post.objects.all().count()
     comments = Comment.objects.filter(Q(post__topic__name__icontains=q))
     # https://simpleisbetterthancomplex.com/tutorial/2016/08/03/how-to-paginate-with-django.html
     paginator = Paginator(posts, 5)
@@ -61,7 +61,6 @@ def community(request):
         post.created = get_timesince(post.created)
     comments_dub, i = [], 0
     for comment in comments:
-        comment.created = get_timesince(comment.created)
         comments_dub.append(comment)
         i += 1
         if i == 5:

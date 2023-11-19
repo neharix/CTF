@@ -4,12 +4,12 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 class User(AbstractUser):
-    name = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=50, null=True)
+    surname = models.CharField(max_length=50, null=True)
     username = models.CharField(max_length=200, unique=True)
     email = models.EmailField(null=True)
     bio = models.TextField(null=True)
     team = models.ForeignKey("Team", on_delete=models.CASCADE, blank=True, null=True)
-
     avatar = models.ImageField(null=True, default="static/main/images/avatar.svg")
 
     USERNAME_FIELD = 'username'
@@ -24,6 +24,10 @@ class Topic(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
 
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
