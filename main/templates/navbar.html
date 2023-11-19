@@ -91,7 +91,11 @@
                         <div class="avatar avatar--medium active">
                             <img src="{{request.user.avatar.url}}" />
                         </div>
+                        {% if request.user.name == None %}
+                        <p><span>@{{request.user.username}}</span></p>
+                        {% else %}
                         <p>{{request.user.name}} <span>@{{request.user.username}}</span></p>
+                        {% endif %}
                     </a>
                     <button class="dropdown-button">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32"

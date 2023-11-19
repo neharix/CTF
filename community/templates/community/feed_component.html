@@ -8,7 +8,7 @@
             <span>@{{post.author.username}}</span>
         </a>
         <div class="postListPost__actions">
-            <span>{{post.created|timesince}} ago</span>
+            <span>{{post.created}}</span>
         </div>
     </div>
     <div class="postListPost__content">
@@ -32,7 +32,7 @@
                     d="M12 16c3.859 0 7-3.141 7-7s-3.141-7-7-7c-3.859 0-7 3.141-7 7s3.141 7 7 7zM12 4c2.757 0 5 2.243 5 5s-2.243 5-5 5-5-2.243-5-5c0-2.757 2.243-5 5-5z">
                 </path>
             </svg>
-            {{post.participants.all.count}} Joined
+            {{post.participants.all.count}} Goşuldy
         </a>
         <p class="postListPost__topic">{{post.topic.name}}</p>
     </div>

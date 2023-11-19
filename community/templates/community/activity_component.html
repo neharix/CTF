@@ -1,6 +1,6 @@
 <div class="activities">
     <div class="activities__header">
-        <h2>Recent Activities</h2>
+        <h2>Soňky çäreler</h2>
     </div>
     {% for comment in comments %}
     <div class="activities__box">
@@ -11,7 +11,7 @@
                 </div>
                 <p>
                     @{{comment.user.username}}
-                    <span>{{comment.created|timesince}} ago</span>
+                    <span>{{comment.created}}</span>
                 </p>
             </a>
 
@@ -30,7 +30,7 @@
 
         </div>
         <div class="activities__boxContent">
-            <p>replied to post “<a href="{% url 'post' comment.post.id %}">{{comment.post}}</a>”</p>
+            <p>jogap berdi <a href="{% url 'post' comment.post.id %}">{{comment.post}}</a></p>
             <div class="activities__boxPostContent">{{comment.body}}</div>
         </div>
     </div>

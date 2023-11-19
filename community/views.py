@@ -6,9 +6,35 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Post, Topic, Comment, User
 from .forms import PostForm, UserForm
+import datetime
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
+
+def get_timesince(datetime_arg):
+	delta = abs(datetime_arg - datetime.datetime.now())
+	if hasattr(delta, 'days'):
+		if delta.days > 365:
+			timeoutput = f'{delta.days // 365} ýyl öň'
+		elif delta.days >= 7 and delta.days <= 30:
+			timeoutput = f'{delta.days // 7} hepde öň'
+		elif delta.days > 30 and delta.days <= 365:
+			timeoutput = f'{delta.days // 30} aý öň'
+		else:
+			timeoutput = f'{delta.days} gün öň'
+	
+	if timeoutput == '0 gün öň':
+		if hasattr(delta, 'seconds'):
+			if delta.seconds >= 60 and delta.seconds < 3600:
+				timeoutput = f'{delta.seconds // 60} minut öň'
+			elif delta.seconds >= 3600 and delta.seconds < 86400:
+				timeoutput = f'{delta.seconds // 3600} sagat öň'
+			else:
+				timeoutput = f'{delta.seconds} sekund öň'
+		else:
+			timeoutput = '1 sekund öň'
+
+	return timeoutput
 
 
 def community(request):
@@ -30,7 +56,18 @@ def community(request):
         post_pagin = paginator.page(1)
     except EmptyPage:
         post_pagin = paginator.page(paginator.num_pages)
-    context = {'topics': topics, 'post_count': post_count, 'comments': comments,'post_pagin':post_pagin}
+
+    for post in post_pagin:
+        post.created = get_timesince(post.created)
+    comments_dub, i = [], 0
+    for comment in comments:
+        comment.created = get_timesince(comment.created)
+        comments_dub.append(comment)
+        i += 1
+        if i == 5:
+            break
+
+    context = {'topics': topics, 'post_count': post_count, 'comments': comments_dub,'post_pagin':post_pagin}
     return render(request, 'community/community.html', context)
 
 
@@ -46,6 +83,8 @@ def post(request, pk):
         )
         post.participants.add(request.user)
         return redirect('post', pk=post.id)
+
+    post.created = get_timesince(post.created)
     context = {'post': post, 'comments': comments,
                'participants': participants}
     return render(request, 'community/post.html', context)
@@ -129,7 +168,11 @@ def userProfile(request, pk):
     posts = user.post_set.all()
     comments = user.comment_set.all()
     topics = Topic.objects.all()
-    context = {'user': user, 'post_pagin': posts, 'comments': comments, 'topics': topics}
+    posts_all_count = Post.objects.all().count
+
+    for post in posts:
+        post.created = get_timesince(post.created)
+    context = {'user': user, 'post_pagin': posts, 'comments': comments, 'topics': topics, 'post_count': posts_all_count}
     return render(request, 'community/profile.html', context)
 
 @login_required(login_url='login')

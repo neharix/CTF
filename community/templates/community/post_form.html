@@ -15,7 +15,7 @@
                 </path>
               </svg>
             </a>
-            <h3>Create/Update Post</h3>
+            <h3>Posty dörediň / täzeläň</h3>
           </div>
         </div>
         <div class="layout__body">
@@ -23,7 +23,7 @@
             {% csrf_token %}
 
             <div class="form__group">
-              <label for="post_topic">Enter a Topic</label>
+              <label for="post_topic">Bölümi giriziň</label>
               <input required type="text" value="{{post.topic.name}}" name="topic" list="topic-list" />
               <datalist id="topic-list">
                 <select id="post_topic">
@@ -36,12 +36,12 @@
 
 
             <div class="form__group">
-              <label for="post_name">Post Title</label>
+              <label for="post_name">Postyň Ady</label>
               {{form.title}}
             </div>
 
             <div class="form__group">
-              <label for="post_description">Post Description</label>
+              <label for="post_description">Postyň Düşündirişi</label>
               {{form.description}}
             </div>
 
@@ -60,8 +60,8 @@
 
 
             <div class="form__action">
-              <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a>
-              <button class="btn btn--main" type="submit">Submit</button>
+              <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Ýapmak</a>
+              <button class="btn btn--main" type="submit">Tassyklamak</button>
             </div>
           </form>
         </div>

@@ -16,7 +16,7 @@
                 </path>
               </svg>
             </a>
-            <h3>Published Post</h3>
+            <h3>Çap edilen Post</h3>
           </div>
           {% if post.author == request.user %}
           <div class="post__topRight">
@@ -55,16 +55,16 @@
           <div class="post__header scroll">
             <div class="post__info">
               <h3>{{post.title}}</h3>
-              <span>{{post.created|timesince}} ago</span>
+              <span>{{post.created}}</span>
             </div>
             <div class="post__hosted">
-              <p>Created By</p>
               <a href="{% url 'user-profile' post.author.id %}" class="post__author">
                 <div class="avatar avatar--small">
                   <img src="{{post.author.avatar.url}}" />
                 </div>
                 <span>@{{post.author.username}}</span>
               </a>
+              <p>tarapyndan döredildi</p>
             </div>
             <!-- <div class="post__details">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi, tenetur laudantium? Dicta repellendus
@@ -125,7 +125,7 @@
 
       <!--   Start -->
       <div class="participants">
-        <h3 class="participants__top">Participants <span>({{participants.count}} Joined)</span></h3>
+        <h3 class="participants__top">Gatnaşanlar <span>({{participants.count}} Goşuldy)</span></h3>
         <div class="participants__list scroll">
           {% for user in participants %}
           <a href="{%  url 'user-profile' user.id %}" class="participant">
