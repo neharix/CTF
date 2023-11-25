@@ -17,7 +17,6 @@ from django.utils import timezone
 # import pandas as pd
 
 User = get_user_model()
-from community.models import Note
 
 # Create your views here.
 

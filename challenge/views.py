@@ -8,7 +8,7 @@ from django.core.files.storage import FileSystemStorage
 from .forms import ChallengeForm, QuizzForm, AnswerForm
 from .forms import Challenge, Quizz, Hint, Answer
 
-from community.models import User, Note, Team
+from main.models import User, Team
 
 
 def viewChallenge(request):

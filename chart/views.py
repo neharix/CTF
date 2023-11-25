@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from community.models import Topic, Post, Team, User
+from main.models import Team, User
 from challenge.models import Challenge, Answer
 
 import random

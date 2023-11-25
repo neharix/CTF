@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
-    'community.apps.CommunityConfig',
     'challenge.apps.ChallengeConfig',
     'chart.apps.ChartConfig',
     'admin_tools.apps.AdminToolsConfig',
@@ -143,7 +142,7 @@ except Exception as e:
     pass
 
 
-AUTH_USER_MODEL = 'community.User'
+AUTH_USER_MODEL = 'main.User'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
