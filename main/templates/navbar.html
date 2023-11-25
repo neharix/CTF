@@ -42,12 +42,16 @@
                     <a href="{% url 'home' %}" class="site__logo">
                         <img src="{% static 'main/logo.png' %}" />
                     </a>
+
+                  {% if request.user.is_superuser %}
+                  <ul class="nav__list">
+                    <li><a href="{% url 'admin_tools' %}">Admin gurallary</a></li>
+                  </ul>
+                  {% else %}
                   <ul class="nav__list">
                     <li><a href="{% url 'chart' %}" class="nav__link">Diagrammalar</a></li>
-                    {% if request.user.is_superuser %}
-                      <li><a href="{% url 'admin_tools' %}">Admin gurallary</a></li>
-                    {% endif %}
                   </ul>
+                  {% endif %}
                 </nav>
                 <label for="nav__input" class="nav__bar-btn">
                   <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path></svg>
@@ -58,12 +62,15 @@
                     <a href="{% url 'home' %}" class="header__logo" style="margin: 12px;">
                         <img src="{% static 'main/logo.png' %}" />
                     </a>
+                  {% if request.user.is_superuser %}
+                  <ul class="nav__mobile-list" style="margin-top: 10px;">
+                    <li><a href="{% url 'admin_tools' %}">Admin gurallary</a></li>
+                  </ul>
+                  {% else %}
                   <ul class="nav__mobile-list" style="margin-top: 10px;">
                     <li><a href="{% url 'chart' %}" class="nav__mobile-link">Diagrammalar</a></li>
-                    {% if request.user.is_superuser %}
-                      <li><a href="{% url 'admin_tools' %}">Admin gurallary</a></li>
-                    {% endif %}
                   </ul>
+                  {% endif %}
                   <label for="nav__input" class="nav__mobile-btn">
                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" class="svg-inline--fa fa-times fa-w-11" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg>
                   </label>
@@ -89,16 +96,14 @@
                 <!-- Logged In -->
                 {% if request.user.is_authenticated %}
                 <div class="header__user">
-                    <a href="{% url 'user-profile' request.user.id %}">
-                        <div class="avatar avatar--medium active">
-                            <img src="{{request.user.avatar.url}}" />
-                        </div>
-                        {% if request.user.name == None %}
-                        <p><span>@{{request.user.username}}</span></p>
-                        {% else %}
-                        <p>{{request.user.name}} <span>@{{request.user.username}}</span></p>
-                        {% endif %}
-                    </a>
+                    <div class="avatar avatar--medium active">
+                        <img src="{{request.user.avatar.url}}" />
+                    </div>
+                    {% if request.user.name == None %}
+                    <p><span>@{{request.user.username}}</span></p>
+                    {% else %}
+                    <p>{{request.user.name}} <span>@{{request.user.username}}</span></p>
+                    {% endif %}
                     <button class="dropdown-button">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                             viewBox="0 0 32 32">
