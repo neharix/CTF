@@ -52,7 +52,7 @@ def userLogin(request):
         try:
             user = User.objects.get(username=username)
         except:
-            messages.error(request, 'User does not exist')
+            messages.error(request, 'Ulanyjy ady ulanyjylar hasabynda ýok')
 
         user = authenticate(request, username=username, password=password)
 
@@ -60,20 +60,7 @@ def userLogin(request):
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request, 'Invalid username or password')
-
-    #Register Process
-    if request.method == 'POST' and request.POST.get('su-username') != None:
-        username = request.POST.get('su-username').lower()
-        password = request.POST.get('su-password')
-        email = request.POST.get('su-email')
-
-        if User.objects.filter(username=username).exists() == False:
-            user = User.objects.create_user(username,email,password)
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.error(request, 'This username already existed')
+            messages.error(request, 'Nädogry ulanyjy ady ýa-da açar sözi')
 
     context = {}
     return render(request, 'menu/login_register.html', context)

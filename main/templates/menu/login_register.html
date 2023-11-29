@@ -16,39 +16,15 @@
     {% block content %}
     <div class="login-wrapper" id="login-wrapper">
         <div class="login-container" id="login-container">
-            <div class="form-container sign-up-container">
-                <form method="POST" action="#">
-                    {% csrf_token %}
-                    <h1>Registrasiýa</h1>
-                    <input type="text" name="su-username" placeholder="Username" />
-                    <input type="email" name="su-email" placeholder="Email" />
-                    <input type="password" name="su-password" placeholder="Password" />
-                    <button type="submit">Hasap döret</button>
-                </form>
-            </div>
-            <div class="form-container sign-in-container">
+            <div class="form-container">
                 <form method="POST" action="#">
                     {% csrf_token %}
                     <h1>Hasabyňyza giriň</h1>
                     
-                    <input type="text" name="username" placeholder="Username" />
-                    <input type="password" name="password" placeholder="Password" />
+                    <input type="text" name="username" placeholder="Ulanyjy ady" />
+                    <input type="password" name="password" placeholder="Açar sözi" />
                     <button type="submit">Hasaba gir</button>
                 </form>
-            </div>
-            <div class="overlay-container">
-                <div class="overlay">
-                    <div class="overlay-panel overlay-left">
-                        <h1>Gaýtadan hoş geldiňiz!</h1>
-                        <p>Biz bilen aragatnaşyk saklamak üçin şahsy maglumatlaryňyz bilen girmegiňizi haýyş edýäris</p>
-                        <button class="ghost" id="signIn">Hasabyňyza Giriň</button>
-                    </div>
-                    <div class="overlay-panel overlay-right">
-                        <h1>Salam, ulanyjy!</h1>
-                        <p>Şahsy maglumatlaryňyzy giriziň we biziň bilen syýahaty başlaň</p>
-                        <button class="ghost" id="signUp">Hasap Dörediň</button>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -65,7 +41,6 @@
         </div>
     </div>
     {% endblock content %}
-    {% include 'footer.html' %}
 
     {% load static %}
     <script src="{% static 'main/script.js' %}"></script>
