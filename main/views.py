@@ -1,32 +1,37 @@
+from datetime import date, datetime
+from json import dumps
 from telnetlib import LOGOUT
-from django.shortcuts import render, redirect
-from django.contrib import messages
 from tkinter.tix import CheckList
 from urllib import request
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import get_user_model
-from json import dumps
-from django.views.generic import ListView
-from challenge.models import Challenge
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from datetime import date, datetime
+from django.contrib import messages
+from django.contrib.auth import authenticate, get_user_model, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import redirect, render
 from django.utils import timezone
+from django.views.generic import ListView
+
+from challenge.models import Challenge
+
 # import pandas as pd
 
 User = get_user_model()
 
 # Create your views here.
 
+
 def home(request):
     now = timezone.now()
     date = now.strftime("%Y-%m-%d %H:%M:%S")
     # challenges = Challenge.objects.all()
-    challenges = Challenge.objects.all().filter(date_end__gte=date,date_start__lte=date)
-    context = {'challenges': challenges}
-    return render(request, 'index.html', context)
+    challenges = Challenge.objects.all().filter(
+        date_end__gte=date, date_start__lte=date
+    )
+    context = {"challenges": challenges}
+    return render(request, "index.html", context)
+
 
 # def challenge(request):
 #     challenge = Challenge.objects.get(id=pk)
@@ -37,47 +42,51 @@ def home(request):
 #     context = {'challenge':challenge}
 #     return render(request, './menu/challenge.html')
 
+
 def chart(request):
-    return render(request, 'menu/chart.html')
+    return render(request, "menu/chart.html")
+
 
 def userLogin(request):
-   
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect("home")
 
-    if request.method == 'POST' and request.POST.get('su-username') == None:
-        username = request.POST.get('username').lower()
-        password = request.POST.get('password')
+    if request.method == "POST" and request.POST.get("su-username") == None:
+        username = request.POST.get("username").lower()
+        password = request.POST.get("password")
 
         try:
             user = User.objects.get(username=username)
         except:
-            messages.error(request, 'Ulanyjy ady ulanyjylar hasabynda ýok')
+            messages.error(request, "Ulanyjy ady ulanyjylar hasabynda ýok")
 
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
-            return redirect('home')
+            return redirect("home")
         else:
-            messages.error(request, 'Nädogry ulanyjy ady ýa-da açar sözi')
+            messages.error(request, "Nädogry ulanyjy ady ýa-da açar sözi")
 
     context = {}
-    return render(request, 'menu/login_register.html', context)
+    return render(request, "menu/login_register.html", context)
 
 
 def user_logout(request):
     logout(request)
     return redirect("home")
 
+
 def challenge_list_view(request):
     now = timezone.now()
     date = now.strftime("%Y-%m-%d %H:%M:%S")
 
-    object_list = Challenge.objects.filter(date_end__gte=date, date_start__lte=date, public=True).order_by('date_created')
+    object_list = Challenge.objects.filter(
+        date_end__gte=date, date_start__lte=date, public=True
+    ).order_by("date_created")
     paginator = Paginator(object_list, 6)
 
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     try:
         objects = paginator.page(page)
     except PageNotAnInteger:
@@ -85,16 +94,19 @@ def challenge_list_view(request):
     except EmptyPage:
         objects = paginator.page(paginator.num_pages)
 
-    return render(request, 'index.html', {'objects': objects})
+    return render(request, "index.html", {"objects": objects})
+
 
 def challenge_list_view_running(request):
     now = timezone.now()
     date = now.strftime("%Y-%m-%d %H:%M:%S")
 
-    object_list = Challenge.objects.filter(date_end__gte=date, date_start__lte=date, public=True).order_by('date_created')
+    object_list = Challenge.objects.filter(
+        date_end__gte=date, date_start__lte=date, public=True
+    ).order_by("date_created")
     paginator = Paginator(object_list, 6)
 
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     try:
         objects = paginator.page(page)
     except PageNotAnInteger:
@@ -102,16 +114,19 @@ def challenge_list_view_running(request):
     except EmptyPage:
         objects = paginator.page(paginator.num_pages)
 
-    return render(request, 'index.html', {'objects': objects})
+    return render(request, "index.html", {"objects": objects})
+
 
 def challenge_list_view_expired(request):
     now = timezone.now()
     date = now.strftime("%Y-%m-%d %H:%M:%S")
 
-    object_list = Challenge.objects.filter(date_end__lte=date, public=True).order_by('date_created')
+    object_list = Challenge.objects.filter(date_end__lte=date, public=True).order_by(
+        "date_created"
+    )
     paginator = Paginator(object_list, 6)
 
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     try:
         objects = paginator.page(page)
     except PageNotAnInteger:
@@ -119,16 +134,19 @@ def challenge_list_view_expired(request):
     except EmptyPage:
         objects = paginator.page(paginator.num_pages)
 
-    return render(request, 'expired.html', {'objects': objects})
+    return render(request, "expired.html", {"objects": objects})
+
 
 def challenge_list_view_upcoming(request):
     now = timezone.now()
     date = now.strftime("%Y-%m-%d %H:%M:%S")
 
-    object_list = Challenge.objects.filter(date_start__gte=date, public=True).order_by('date_created')
+    object_list = Challenge.objects.filter(date_start__gte=date, public=True).order_by(
+        "date_created"
+    )
     paginator = Paginator(object_list, 6)
 
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     try:
         objects = paginator.page(page)
     except PageNotAnInteger:
@@ -136,18 +154,21 @@ def challenge_list_view_upcoming(request):
     except EmptyPage:
         objects = paginator.page(paginator.num_pages)
 
-    return render(request, 'upcoming.html', {'objects': objects})
+    return render(request, "upcoming.html", {"objects": objects})
+
 
 def challenge_list_view_searching(request):
     try:
-        request.session['q'] = request.GET['q']
-        q = request.GET['q']
+        request.session["q"] = request.GET["q"]
+        q = request.GET["q"]
     except:
-        q = request.session['q']
-    object_list = Challenge.objects.filter(name__contains = q, public=True).order_by('date_created')
+        q = request.session["q"]
+    object_list = Challenge.objects.filter(name__contains=q, public=True).order_by(
+        "date_created"
+    )
     paginator = Paginator(object_list, 6)
 
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     try:
         objects = paginator.page(page)
     except PageNotAnInteger:
@@ -155,5 +176,4 @@ def challenge_list_view_searching(request):
     except EmptyPage:
         objects = paginator.page(paginator.num_pages)
 
-    return render(request, 'search.html', {'objects': objects})
-
+    return render(request, "search.html", {"objects": objects})
