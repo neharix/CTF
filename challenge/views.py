@@ -1,4 +1,6 @@
+import ast
 import datetime
+import socket
 
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
@@ -71,6 +73,11 @@ def create_challenge_quizz(request, pk):
             _answer = request.POST.get("answer")
             _point = request.POST.get("point")
 
+            url = request.POST.get("url")
+
+            if not url:
+                url = None
+
             hints = request.POST.getlist("hint")
             hint_points = request.POST.getlist("hint_point")
 
@@ -86,6 +93,7 @@ def create_challenge_quizz(request, pk):
                 answer=_answer,
                 point=_point,
                 file_content=file,
+                url=url,
             )
             quizz.save()
 
@@ -184,10 +192,13 @@ def edit_quizz(request, pk, pk1):
 def join_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
 
-    creator_name = User.objects.get(username=challenge.owner).name
-
     context = {"challenge": challenge, "creator_name": creator_name}
     return render(request, "join_challenge.html", context)
+
+
+def redirect_library(request, pk, pk1):
+    quizz = Quizz.objects.get(pk=pk1)
+    user = request.user
 
 
 def register_challenge(request, pk):
