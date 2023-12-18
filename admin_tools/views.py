@@ -2,8 +2,7 @@ import random
 
 import pandas as pd
 from django.shortcuts import redirect, render
-
-from main.models import Team, User,
+from main.models import Team, User
 
 from .forms import XlsxForm
 from .models import Xlsxes

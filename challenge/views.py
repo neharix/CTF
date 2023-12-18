@@ -1,12 +1,11 @@
 import ast
 import datetime
-import socket
 import json
+import socket
 
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
-from django.contrib.auth import  get_user_model
-
 from main.models import Team, User
 
 from .forms import Answer, AnswerForm, Challenge, ChallengeForm, Hint, Quizz, QuizzForm
@@ -192,7 +191,19 @@ def edit_quizz(request, pk, pk1):
 
 def join_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
-    quizz = Quizz.objects.filter(cha)
+    quizz = Quizz.objects.filter(challenge_id=challenge.pk)
+    user = get_user_model().objects.get(username=request.user.username)
+    data = json.dumps(
+        {
+            "request_type": "emigrate_user",
+            "username": user.username,
+            "password": user.password_for_usage,
+            "quizz_id": quizz.id,
+        }
+    )
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect(("127.0.0.1", 8888))
 
     context = {"challenge": challenge}
     return render(request, "join_challenge.html", context)
@@ -201,7 +212,14 @@ def join_challenge(request, pk):
 def redirect_library(request, pk, pk1):
     quizz = Quizz.objects.get(pk=pk1)
     user = get_user_model().objects.get(username=request.user.username)
-    data = json.dumps({"request_type": "emigrate_user", "username": user.username, "password": user.password_for_usage, "quizz_id": quizz.id})
+    data = json.dumps(
+        {
+            "request_type": "emigrate_user",
+            "username": user.username,
+            "password": user.password_for_usage,
+            "quizz_id": quizz.id,
+        }
+    )
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect(("127.0.0.1", 8888))
@@ -216,20 +234,13 @@ def register_challenge(request, pk):
     creator_name = creator.name
 
     try:
-        obj = Note.objects.get(challenge_id=challenge.id)
         registered = "yes"
-    except Note.DoesNotExist:
+    except:
         registered = "no"
 
     if request.method == "POST":
         _content = challenge.name + " has started. Join us now!"
-        note = Note.objects.create(
-            user=request.user,
-            date=challenge.date_start,
-            content=_content,
-            challenge_id=challenge.id,
-        )
-        note.save()
+
         return redirect("upcoming")
 
     # print(creator_name)
