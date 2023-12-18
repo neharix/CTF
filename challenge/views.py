@@ -191,19 +191,25 @@ def edit_quizz(request, pk, pk1):
 
 def join_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
-    quizz = Quizz.objects.filter(challenge_id=challenge.pk)
-    user = get_user_model().objects.get(username=request.user.username)
+    r_user = get_user_model.objects.get(username=request.user.username)
     data = json.dumps(
         {
-            "request_type": "emigrate_user",
-            "username": user.username,
-            "password": user.password_for_usage,
-            "quizz_id": quizz.id,
+            "request_type": "emigrate_users",
+            "users": [
+                {
+                    "username": user.username,
+                    "password": user.password_for_usage,
+                    "email": user.email,
+                }
+                for user in User.objects.filter(team=r_user.team.name)
+            ],
         }
     )
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect(("127.0.0.1", 8888))
+    s.send(ast.literal_eval(f"b'{json.loads(data)}'"))
+    s.close()
 
     context = {"challenge": challenge}
     return render(request, "join_challenge.html", context)
@@ -214,9 +220,10 @@ def redirect_library(request, pk, pk1):
     user = get_user_model().objects.get(username=request.user.username)
     data = json.dumps(
         {
-            "request_type": "emigrate_user",
+            "request_type": "redirect_user",
             "username": user.username,
             "password": user.password_for_usage,
+            "email": user.email,
             "quizz_id": quizz.id,
         }
     )
