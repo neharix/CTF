@@ -1,10 +1,11 @@
 import ast
 import datetime
 import socket
+import json
 
 from django.contrib.auth.decorators import login_required
-from django.core.files.storage import FileSystemStorage
 from django.shortcuts import redirect, render
+from django.contrib.auth import  get_user_model
 
 from main.models import Team, User
 
@@ -191,14 +192,21 @@ def edit_quizz(request, pk, pk1):
 
 def join_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
+    quizz = Quizz.objects.filter(cha)
 
-    context = {"challenge": challenge, "creator_name": creator_name}
+    context = {"challenge": challenge}
     return render(request, "join_challenge.html", context)
 
 
 def redirect_library(request, pk, pk1):
     quizz = Quizz.objects.get(pk=pk1)
-    user = request.user
+    user = get_user_model().objects.get(username=request.user.username)
+    data = json.dumps({"request_type": "emigrate_user", "username": user.username, "password": user.password_for_usage, "quizz_id": quizz.id})
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect(("127.0.0.1", 8888))
+    s.send(ast.literal_eval(f"b'{json.loads(data)}'"))
+    s.close()
 
 
 def register_challenge(request, pk):

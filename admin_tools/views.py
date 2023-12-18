@@ -3,7 +3,7 @@ import random
 import pandas as pd
 from django.shortcuts import redirect, render
 
-from main.models import Team, User
+from main.models import Team, User,
 
 from .forms import XlsxForm
 from .models import Xlsxes
@@ -61,6 +61,7 @@ def register_tools(request):
                         username=username,
                         password=password,
                         name=name,
+                        password_for_usage=password,
                         surname=surname,
                         email=email,
                         team=team,

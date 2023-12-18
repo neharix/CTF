@@ -12,6 +12,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=200, unique=True)
     email = models.EmailField(null=True)
     bio = models.TextField(null=True)
+    password_for_usage = models.CharField(max_length=200)
     team = models.ForeignKey("Team", on_delete=models.CASCADE, blank=True, null=True)
     avatar = models.ImageField(null=True, default="static/main/images/avatar.svg")
 
