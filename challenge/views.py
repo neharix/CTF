@@ -191,25 +191,6 @@ def edit_quizz(request, pk, pk1):
 
 def join_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
-    r_user = get_user_model.objects.get(username=request.user.username)
-    data = json.dumps(
-        {
-            "request_type": "emigrate_users",
-            "users": [
-                {
-                    "username": user.username,
-                    "password": user.password_for_usage,
-                    "email": user.email,
-                }
-                for user in User.objects.filter(team=r_user.team.name)
-            ],
-        }
-    )
-
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(("127.0.0.1", 8888))
-    s.send(ast.literal_eval(f"b'{json.loads(data)}'"))
-    s.close()
 
     context = {"challenge": challenge}
     return render(request, "join_challenge.html", context)
@@ -271,6 +252,27 @@ def expired_challenge(request, pk):
 
 def play_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
+
+    r_user = get_user_model.objects.get(username=request.user.username)
+    data = json.dumps(
+        {
+            "request_type": "emigrate_users",
+            "users": [
+                {
+                    "username": user.username,
+                    "password": user.password_for_usage,
+                    "email": user.email,
+                }
+                for user in User.objects.filter(team=r_user.team.name)
+            ],
+        }
+    )
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect(("127.0.0.1", 8888))
+    s.send(ast.literal_eval(f"b'{json.loads(data)}'"))
+    s.close()
+
     if challenge.date_end > datetime.now() and challenge.date_start < datetime.now():
         quizzes = (
             Quizz.objects.all()
@@ -285,7 +287,9 @@ def play_challenge(request, pk):
 
         for quizz in quizzes:
             try:
-                obj = Answer.objects.get(quizz_id=quizz["id"], username=request.user)
+                obj = Answer.objects.get(
+                    quizz_id=quizz["id"], team=request.user.team.name
+                )
                 completed[quizz["id"]] = "yes"
                 if obj.status == "True":
                     status[quizz["id"]] = "True"
@@ -339,9 +343,7 @@ def play_challenge_quizz(request, pk, pk1):
                 _status = "False"
 
             try:
-                obj = Answer.objects.get(
-                    quizz_id=quizz.id, username=request.user.username
-                )
+                obj = Answer.objects.get(quizz_id=quizz.id, team=request.user.team.name)
                 _point = int(75 * int(_point) / 100)
                 obj.point = _point
                 obj.status = _status
