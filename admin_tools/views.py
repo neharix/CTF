@@ -78,7 +78,7 @@ def register_tools(request):
             del request.session["path"]
 
             context = {"form": form, "path": download_path, "download": True}
-            return render(request, "admin_tools_page.html", context)
+            return render(request, "register_tools.html", context)
         else:
             context = {"form": form}
             return render(request, "register_tools.html", context)

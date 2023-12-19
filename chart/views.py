@@ -1,8 +1,8 @@
 import random
 
-from django.shortcuts import render
-
 from challenge.models import Answer, Challenge
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from main.models import Team, User
 
 
@@ -20,6 +20,7 @@ class TeamStatics:
         self.color = color
 
 
+@login_required(login_url="/login/")
 def chart(request):
     user_team = request.user.team
     topics = Topic.objects.all()

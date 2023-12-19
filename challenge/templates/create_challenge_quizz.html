@@ -33,15 +33,25 @@
                 {% if field.name == "question" or field.name == "answer" %}
                 <label for="{{field.name}}" class="text-capitalize ms-3">
                     {% if field.name == "question" %}
-                        Sorag
+                    Sorag
                     {% endif %}
                     {% if field.name == "answer" %}
-                        Jogaby
+                    Jogaby
                     {% endif %}
                 </label>
+
                 <div class="form-control bg-transparent border-0">
                     <textarea class="form-control bg-transparent border-2 text-light fs-4"
                         style="border-color: #696d97;" name="{{field.name}}" id="{{ field.name }}" required></textarea>
+                </div>
+                {% elif field.name == "url" %}
+                <label for="{{field.name}}" class="text-capitalize ms-3">
+                    Pentest saýt
+                </label>
+                <div class="row ms-3">
+                    <div class="form-check col-2" style="pointer-events: none;">
+                        <input class="form-check-input" style="pointer-events:all;" type="checkbox">
+                    </div>
                 </div>
                 {% elif field.name == "file_content" %}
                 <div class="row ms-3">
@@ -60,10 +70,10 @@
                 {% else %}
                 <label for="{{field.name}}" class="text-capitalize ms-3">
                     {% if field.name == "name" %}
-                        Ady
+                    Ady
                     {% endif %}
                     {% if field.name == "point" %}
-                        Bal
+                    Bal
                     {% endif %}
                 </label>
                 <div class="form-control bg-transparent border-0">

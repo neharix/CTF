@@ -23,7 +23,7 @@ class Quizz(models.Model):
     answer = models.TextField(null=False, blank=False)
     point = models.IntegerField()
     file_content = models.FileField(upload_to="files/", null=True, blank=True)
-    url = models.URLField(null=True, blank=True)
+    url = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.challenge_id)
