@@ -75,9 +75,6 @@ def create_challenge_quizz(request, pk):
 
             url = request.POST.get("url")
 
-            if not url:
-                url = None
-
             hints = request.POST.getlist("hint")
             hint_points = request.POST.getlist("hint_point")
 
@@ -253,7 +250,7 @@ def expired_challenge(request, pk):
 def play_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
 
-    r_user = get_user_model.objects.get(username=request.user.username)
+    r_user = get_user_model().objects.get(username=request.user.username)
     data = json.dumps(
         {
             "request_type": "emigrate_users",
@@ -263,14 +260,13 @@ def play_challenge(request, pk):
                     "password": user.password_for_usage,
                     "email": user.email,
                 }
-                for user in User.objects.filter(team=r_user.team.name)
+                for user in get_user_model().objects.filter(team__name=r_user.team.name)
             ],
         }
     )
-
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect(("127.0.0.1", 8888))
-    s.send(ast.literal_eval(f"b'{json.loads(data)}'"))
+    s.send(ast.literal_eval(f"b'{json.dumps(data)}'"))
     s.close()
 
     if challenge.date_end > datetime.now() and challenge.date_start < datetime.now():
