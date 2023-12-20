@@ -1,0 +1,30 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<hr>
+
+
+<div class="row">
+    {% for each in books %}
+    <div class="col">
+        <div class="card" style="width: 13rem;">
+            <img src="/media/{{ each.image }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ each.title|slice:":25"}} ...</h5>            
+                {% if each.book_available is True %}
+                <li class="text-primary">Elýeterli</li>
+                {% else %}
+                <li class="text-danger">Elýeterli däl!</li>
+                {% endif %}<br>
+                <a href="{{ each.pk }}/" class="btn btn-primary">Görmek</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}
+

@@ -14,8 +14,6 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views.generic import ListView
 
-from ...Bookstore.accounts.views import socket
-
 # import pandas as pd
 
 User = get_user_model()
@@ -24,7 +22,6 @@ User = get_user_model()
 
 
 def home(request):
-    socket()
     now = timezone.now()
     date = now.strftime("%Y-%m-%d %H:%M:%S")
     # challenges = Challenge.objects.all()
