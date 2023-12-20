@@ -19,7 +19,7 @@ class ChallengeForm(ModelForm):
 class QuizzForm(ModelForm):
     class Meta:
         model = Quizz
-        fields = "__all__"
+        fields = ("challenge_id", "name", "question", "point", "file_content")
         exclude = ["challenge_id"]
 
 

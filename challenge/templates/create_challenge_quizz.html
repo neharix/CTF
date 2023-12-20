@@ -29,31 +29,34 @@
                         class="btn-close-white btn-close me-0" aria-label="Close"></button>
                 </div>
                 {% csrf_token %}
-                {% for field in form %}
-                {% if field.name == "question" or field.name == "answer" %}
-                <label for="{{field.name}}" class="text-capitalize ms-3">
-                    {% if field.name == "question" %}
-                    Sorag
-                    {% endif %}
-                    {% if field.name == "answer" %}
-                    Jogaby
-                    {% endif %}
+                <label for="name" class="text-capitalize ms-3">
+                    Ady
                 </label>
-
+                <div class="form-control bg-transparent border-0">
+                    <input type="text" class="form-control bg-transparent border-2 text-light fs-4"
+                        style="border-color: #696d97;" name="name" id="name" required>
+                </div>
+                <label for="question" class="text-capitalize ms-3">
+                    Sorag
+                </label>
                 <div class="form-control bg-transparent border-0">
                     <textarea class="form-control bg-transparent border-2 text-light fs-4"
-                        style="border-color: #696d97;" name="{{field.name}}" id="{{ field.name }}" required></textarea>
+                        style="border-color: #696d97;" name="question" id="question" required></textarea>
                 </div>
-                {% elif field.name == "url" %}
-                <label for="{{field.name}}" class="text-capitalize ms-3">
-                    Pentest saýt
+                <label for="answer" class="text-capitalize ms-3">
+                    Jogaby
                 </label>
-                <div class="row ms-3">
-                    <div class="form-check col-2" style="pointer-events: none;">
-                        <input class="form-check-input" style="pointer-events:all;" type="checkbox">
-                    </div>
+                <div class="form-control bg-transparent border-0">
+                    <textarea class="form-control bg-transparent border-2 text-light fs-4"
+                        style="border-color: #696d97;" name="answer" id="answer"></textarea>
                 </div>
-                {% elif field.name == "file_content" %}
+                <label for="point" class="text-capitalize ms-3">
+                    Bal
+                </label>
+                <div class="form-control bg-transparent border-0">
+                    <input type="text" class="form-control bg-transparent border-2 text-light fs-4"
+                        style="border-color: #696d97;" name="point" id="point" required>
+                </div>
                 <div class="row ms-3">
                     <div class="form-check col-2" style="pointer-events: none;">
                         <input class="form-check-input" style="pointer-events:all;" type="checkbox" value=""
@@ -67,22 +70,16 @@
                         <input type="" name="id_file" value="">
                     </div> -->
                 </div>
-                {% else %}
-                <label for="{{field.name}}" class="text-capitalize ms-3">
-                    {% if field.name == "name" %}
-                    Ady
-                    {% endif %}
-                    {% if field.name == "point" %}
-                    Bal
-                    {% endif %}
-                </label>
-                <div class="form-control bg-transparent border-0">
-                    <input type="text" class="form-control bg-transparent border-2 text-light fs-4"
-                        style="border-color: #696d97;" name="{{field.name}}" id="{{ field.name }}" required>
-                </div>
-                {% endif %}
-                {% endfor %}
 
+                <div class="row ms-3">
+                    <div class="form-check col-2" style="pointer-events: none;">
+                        <input onclick="add_ctf_user(event)" class="form-check-input" id="url-check"
+                            style="pointer-events:all;" type="checkbox">
+                        <label for="url-check" class="ms-3">
+                            Pentest saýt
+                        </label>
+                    </div>
+                </div>
 
                 <div style="width: 100%;" id="hint-container">
                     <!-- <div class="input-group form-control bg-transparent border-0 hint-element">
@@ -97,7 +94,7 @@
                     </div> -->
                 </div>
 
-                <div class="text-end col-12">
+                <div class="m-2 col-12">
                     <button onclick="addHint(event)" type="button" class="btn btn-sm btn-light mx-auto mb-2 me-3"
                         style="background-color: #696d97!important;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -167,6 +164,19 @@
         function delQuizz(event) {
             event.target.parentElement.parentElement.remove();
         }
+        function add_ctf_user(event) {
+            if (event.target.checked == true) {
+                const container = event.target.parentElement.parentElement.parentElement;
+                const newElement = document.createElement('DIV');
+                newElement.className = 'form-control bg-transparent border-0';
+                newElement.id = 'ctf_data';
+                newElement.innerHTML = '<label style="color: white;" class="m-2 fs-5">Kitaphana ulanyjysy</label><input type="text" class="form-control bg-transparent border-2 text-light fs-4" name="ctf_username" required><br><label style="color:white;" class="m-2 fs-5">Açar sözi</label><input type="text" class="form-control bg-transparent border-2 text-light fs-4" name="ctf_password" required>';
+                container.appendChild(newElement)
+            }
+            else {
+                event.target.parentElement.parentElement.parentElement.querySelector('#ctf_data').remove()
+            }
+        }
 
         function addfile(event) {
             if (event.target.checked == true) {
@@ -188,7 +198,7 @@
 
             const newcard = document.createElement('DIV');
             newcard.className = 'input-group form-control bg-transparent border-0 hint-element';
-            newcard.innerHTML = '<input type="" class="d-none" id="quizz_id" name="quizz_id"><span class="input-group-text bg-transparent border-2 text-light fs-4 my-3">Hint</span> <input type="text" placeholder="Hint" style="width: 350px;" aria-label="Hint" class="form-control bg-transparent border-2 text-light fs-4 my-3" name="hint" required> <input type="text" placeholder="Points" style="min-width: 70px;" aria-label="Point" class="form-control bg-transparent border-2 text-light fs-4 my-3" name="hint_point" required> <button onclick="delHint(event)" class="btn btn-outline-danger my-3 fs-4" type="button" id="hintDelBtn">Discard</button>'
+            newcard.innerHTML = '<input type="" class="d-none" id="quizz_id" name="quizz_id"><span class="input-group-text bg-transparent border-2 text-light fs-4 my-3">Maslahat</span> <input type="text" placeholder="Maslahat" style="width: 350px;" aria-label="Hint" class="form-control bg-transparent border-2 text-light fs-4 my-3" name="hint" required> <input type="text" placeholder="Ballar" style="min-width: 70px;" aria-label="Point" class="form-control bg-transparent border-2 text-light fs-4 my-3" name="hint_point" required> <button onclick="delHint(event)" class="btn btn-outline-danger my-3 fs-4" type="button" id="hintDelBtn">Pozmak</button>'
 
             container.appendChild(newcard);
 

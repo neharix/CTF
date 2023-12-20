@@ -1,9 +1,10 @@
 import random
 
-from challenge.models import Answer, Challenge
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from main.models import Team, User
+
+from challenge.models import Answer, Challenge
+from main.models import Team, Topic, User
 
 
 # Create your views here.

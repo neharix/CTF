@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.shortcuts import redirect, render
 
-from .models import Book, ConnectionJournal, CtfTaskObjects
+from .models import Book, ConnectionJournal, CtfTaskObjects, UserDatas
 
 
 class conObj:
@@ -58,7 +58,12 @@ def get_connection_info(request):
 def books_list(request):
     if get_connection_info(request).is_connected:
         books = Book.objects.all()
-        context = {"books": books, "connection": get_connection_info(request)}
+        flag = UserDatas.objects.get(for_team=request.user.team.name).flag
+        context = {
+            "books": books,
+            "connection": get_connection_info(request),
+            "flag": flag,
+        }
         return render(request, "list.html", context)
     else:
         return redirect("login_view")

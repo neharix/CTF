@@ -16,11 +16,20 @@ class Challenge(models.Model):
         return self.name
 
 
+class TrueAnswers(models.Model):
+    is_public = models.BooleanField(default=False)
+    answer = models.CharField(max_length=200)
+    for_team = models.CharField(max_length=100, blank=True, null=True)
+    quizz_id = models.IntegerField()
+
+    def __str__(self):
+        return self.answer
+
+
 class Quizz(models.Model):
     challenge_id = models.IntegerField()
     name = models.CharField(max_length=200, null=True, blank=True)
     question = models.TextField(null=False, blank=False)
-    answer = models.TextField(null=False, blank=False)
     point = models.IntegerField()
     file_content = models.FileField(upload_to="files/", null=True, blank=True)
     url = models.BooleanField(default=False)

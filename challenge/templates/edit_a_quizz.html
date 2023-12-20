@@ -66,6 +66,7 @@
                 </div>
 
                 <!-- Add file -->
+
                 {% if quizz.file_content == '' %}
                 <div class="row ms-3">
                     <div class="form-check col-2" onclick="addfile(event)">
@@ -135,11 +136,13 @@
                     class="btn btn-lg btn-danger my-auto" style="background-color: #c93232!important;">
                     Ýapmak
                 </button>
-                <button type="submit" name="Delete" onclick="location.href='/challenge/display_quizzes/{{challenge_id}}/'"
+                <button type="submit" name="Delete"
+                    onclick="location.href='/challenge/display_quizzes/{{challenge_id}}/'"
                     class="btn btn-lg btn-danger my-auto" style="background-color: #c93232!important;">
                     Pozmak
                 </button>
-                <button type="submit" name="Submit" class="btn btn-lg btn-light my-auto" style="background-color: #696d97!important;">
+                <button type="submit" name="Submit" class="btn btn-lg btn-light my-auto"
+                    style="background-color: #696d97!important;">
                     Tassyklamak
                 </button>
             </div>
@@ -164,6 +167,19 @@
             }
             else {
                 event.target.parentElement.parentElement.querySelector('#uploadElement').remove()
+            }
+        }
+        function add_ctf_user(event) {
+            if (event.target.checked == true) {
+                const container = event.target.parentElement.parentElement.parentElement;
+                const newElement = document.createElement('DIV');
+                newElement.className = 'form-control bg-transparent border-0';
+                newElement.id = 'ctf_data';
+                newElement.innerHTML = '<label style="color: white;" class="m-2 fs-5">Kitaphana ulanyjysy</label><input type="text" class="form-control bg-transparent border-2 text-light fs-4" name="ctf_username" required><br><label style="color:white;" class="m-2 fs-5">Açar sözi</label><input type="text" class="form-control bg-transparent border-2 text-light fs-4" name="ctf_password" required>';
+                container.appendChild(newElement)
+            }
+            else {
+                event.target.parentElement.parentElement.parentElement.querySelector('#ctf_data').remove()
             }
         }
 

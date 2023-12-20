@@ -1,7 +1,9 @@
 import random
 
 import pandas as pd
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
+
 from main.models import Team, User
 
 from .forms import XlsxForm
@@ -55,7 +57,17 @@ def register_tools(request):
                     user_data["Email"].append(email)
                     user_data["Topar"].append(dataframe["Topar"][i])
 
-                    team = Team.objects.get(name=dataframe["Topar"][i])
+                    try:
+                        team = Team.objects.get(name=dataframe["Topar"][i])
+                    except ObjectDoesNotExist:
+                        return render(
+                            request,
+                            "register_tools.html",
+                            {
+                                "error": "Tablisadaky toparlar maglumat bazasyna girizilmedik! Administrasiýa saýtynda toparlary registrirläň!",
+                                "form": XlsxForm(),
+                            },
+                        )
                     User.objects.create_user(
                         username=username,
                         password=password,
@@ -72,7 +84,7 @@ def register_tools(request):
 
                 request.session["path"] = export_path
 
-                return redirect("admin_tools")
+                return redirect("register_tools")
         if request.session.get("path"):
             download_path = request.session["path"]
             del request.session["path"]

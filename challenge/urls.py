@@ -31,9 +31,4 @@ urlpatterns = [
         views.play_challenge_quizz,
         name="play_challenge_quizz",
     ),
-    path(
-        "play_challenge/<str:pk>/play_challenge_quizz/<str:pk1>/redirect/",
-        views.redirect_library,
-        name="redirect",
-    ),
 ]

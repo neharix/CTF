@@ -1,14 +1,15 @@
-import ast
 import datetime
-import json
-import socket
+import random
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+
+from bookstore.models import ConnectionJournal, CtfTaskObjects, UserDatas
 from main.models import Team, User
 
-from .forms import Answer, AnswerForm, Challenge, ChallengeForm, Hint, Quizz, QuizzForm
+from .forms import ChallengeForm, Hint, QuizzForm
+from .models import Answer, Challenge, Hint, Quizz, TrueAnswers
 
 
 def viewChallenge(request):
@@ -63,44 +64,51 @@ def create_challenge_quizz(request, pk):
     challenge = Challenge.objects.get(id=pk)
     name = challenge.name
     context = {"name": name}
-    form = QuizzForm()
 
     if request.method == "POST":
-        form = QuizzForm(request.POST, request.FILES)
-        if form.is_valid():
-            _name = request.POST.get("name")
-            _question = request.POST.get("question")
-            _answer = request.POST.get("answer")
-            _point = request.POST.get("point")
+        _name = request.POST.get("name")
+        _question = request.POST.get("question")
+        _answer = request.POST.get("answer")
+        _point = request.POST.get("point")
 
-            url = request.POST.get("url")
+        ctf_username = request.POST.get("ctf_username")
+        ctf_password = request.POST.get("ctf_password")
 
-            hints = request.POST.getlist("hint")
-            hint_points = request.POST.getlist("hint_point")
+        if ctf_username and ctf_password:
+            CtfTaskObjects.objects.create(username=ctf_username, password=ctf_password)
+            url = True
+        else:
+            url = False
 
-            file = request.FILES.get("file_content")
+        hints = request.POST.getlist("hint")
+        hint_points = request.POST.getlist("hint_point")
 
-            if not file:
-                file = None
+        file = request.FILES.get("file_content")
 
-            quizz = Quizz.objects.create(
-                challenge_id=pk,
-                name=_name,
-                question=_question,
-                answer=_answer,
-                point=_point,
-                file_content=file,
-                url=url,
+        if not file:
+            file = None
+
+        quizz = Quizz.objects.create(
+            challenge_id=pk,
+            name=_name,
+            question=_question,
+            point=_point,
+            file_content=file,
+            url=url,
+        )
+        if _answer:
+            TrueAnswers.objects.create(
+                is_public=True, answer=_answer, quizz_id=quizz.pk
             )
-            quizz.save()
+        quizz.save()
 
-            for content, hint_point in zip(hints, hint_points):
-                hint = Hint.objects.create(
-                    quizz_id=quizz.id, content=content, point=hint_point
-                )
-                hint.save()
+        for content, hint_point in zip(hints, hint_points):
+            hint = Hint.objects.create(
+                quizz_id=quizz.id, content=content, point=hint_point
+            )
+            hint.save()
 
-    context = {"form": form, "challenge": challenge}
+    context = {"challenge": challenge}
     return render(request, "create_challenge_quizz.html", context)
 
 
@@ -110,7 +118,7 @@ def display_quizzes(request, pk):
     quizzes = (
         Quizz.objects.all()
         .filter(challenge_id=pk)
-        .values("id", "name", "question", "answer", "point", "file_content")
+        .values("id", "name", "question", "point", "file_content")
     )
 
     hint_counts = []
@@ -134,7 +142,7 @@ def display_quizzes(request, pk):
         return redirect(display_quizzes, pk)
 
     if request.method == "POST" and "changePublic" in request.POST:
-        print("yess")
+        print("yes")
         Challenge.objects.filter(id=pk).update(public="True")
         return redirect(display_quizzes, pk)
 
@@ -193,25 +201,6 @@ def join_challenge(request, pk):
     return render(request, "join_challenge.html", context)
 
 
-def redirect_library(request, pk, pk1):
-    quizz = Quizz.objects.get(pk=pk1)
-    user = get_user_model().objects.get(username=request.user.username)
-    data = json.dumps(
-        {
-            "request_type": "redirect_user",
-            "username": user.username,
-            "password": user.password_for_usage,
-            "email": user.email,
-            "quizz_id": quizz.id,
-        }
-    )
-
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(("127.0.0.1", 8888))
-    s.send(ast.literal_eval(f"b'{json.loads(data)}'"))
-    s.close()
-
-
 def register_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
 
@@ -250,31 +239,8 @@ def expired_challenge(request, pk):
 def play_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
 
-    r_user = get_user_model().objects.get(username=request.user.username)
-    data = json.dumps(
-        {
-            "request_type": "emigrate_users",
-            "users": [
-                {
-                    "username": user.username,
-                    "password": user.password_for_usage,
-                    "email": user.email,
-                }
-                for user in get_user_model().objects.filter(team__name=r_user.team.name)
-            ],
-        }
-    )
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(("127.0.0.1", 8888))
-    s.send(ast.literal_eval(f"b'{json.dumps(data)}'"))
-    s.close()
-
     if challenge.date_end > datetime.now() and challenge.date_start < datetime.now():
-        quizzes = (
-            Quizz.objects.all()
-            .filter(challenge_id=pk)
-            .values("id", "name", "question", "answer", "point", "file_content")
-        )
+        quizzes = Quizz.objects.filter(challenge_id=pk)
 
         completed = {}
         status = {}
@@ -284,17 +250,39 @@ def play_challenge(request, pk):
         for quizz in quizzes:
             try:
                 obj = Answer.objects.get(
-                    quizz_id=quizz["id"], team=request.user.team.name
+                    quizz_id=quizz.pk, username=request.user.username
                 )
-                completed[quizz["id"]] = "yes"
+                completed[quizz.pk] = "yes"
                 if obj.status == "True":
-                    status[quizz["id"]] = "True"
+                    status[quizz.pk] = "True"
                 else:
-                    status[quizz["id"]] = "False"
+                    status[quizz.pk] = "False"
                 score += obj.point
             except Answer.DoesNotExist:
-                completed[quizz["id"]] = "no"
+                completed[quizz.pk] = "no"
                 pass
+
+            if (
+                quizz.url
+                and len(
+                    TrueAnswers.objects.filter(
+                        quizz_id=quizz.pk, for_team=request.user.team.name
+                    )
+                )
+                == 0
+            ):
+                cycle = random.randint(10, 30)
+                inflag = ""
+                for i in range(cycle):
+                    inflag += random.choice(
+                        [chr(random.randint(97, 122)), chr(random.randint(65, 90))]
+                    )
+                flag = "flag{" + inflag + "}"
+
+                UserDatas.objects.create(flag=flag, for_team=request.user.team.name)
+                TrueAnswers.objects.create(
+                    answer=flag, for_team=request.user.team.name, quizz_id=quizz.pk
+                )
 
         context = {
             "challenge": challenge,
@@ -322,6 +310,13 @@ def play_challenge_quizz(request, pk, pk1):
         quizz = Quizz.objects.get(id=pk1)
         hints = Hint.objects.filter(quizz_id=quizz.id)
 
+        try:
+            true_answer = TrueAnswers.objects.get(
+                quizz_id=quizz.pk, for_team=request.user.team.name
+            )
+        except:
+            true_answer = TrueAnswers.objects.get(quizz_id=quizz.pk, is_public=True)
+
         _point = 0
         _status = "False"
         now = timezone.now()
@@ -331,7 +326,7 @@ def play_challenge_quizz(request, pk, pk1):
             minus_point = request.POST.get("minus-point")
             # print('begin')
             # print(minus_point)
-            if _answer == quizz.answer:
+            if _answer == true_answer.answer:
                 _point = quizz.point - int(minus_point)
                 _status = "True"
             else:
