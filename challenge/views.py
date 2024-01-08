@@ -6,12 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
 from bookstore.models import ConnectionJournal, CtfTaskObjects, UserDatas
-from main.models import Team, User
+from main.models import File, Team, User
 
 from .forms import ChallengeForm, Hint, QuizzForm
 from .models import Answer, Challenge, Hint, Quizz, TrueAnswers
 
 
+@login_required(login_url="login")
 def viewChallenge(request):
     challenges = {}
     if request.user.is_superuser:
@@ -71,31 +72,36 @@ def create_challenge_quizz(request, pk):
         _answer = request.POST.get("answer")
         _point = request.POST.get("point")
 
-        ctf_username = request.POST.get("ctf_username")
-        ctf_password = request.POST.get("ctf_password")
+        bookstore_username = request.POST.get("ctf_username")
+        bookstore_password = request.POST.get("ctf_password")
 
-        if ctf_username and ctf_password:
-            CtfTaskObjects.objects.create(username=ctf_username, password=ctf_password)
-            url = True
+        files_count = int(request.POST.get("files_count"))
+
+        if bookstore_username and bookstore_password:
+            CtfTaskObjects.objects.create(
+                username=bookstore_username, password=bookstore_password
+            )
+            is_pentest = True
         else:
-            url = False
+            is_pentest = False
 
         hints = request.POST.getlist("hint")
         hint_points = request.POST.getlist("hint_point")
-
-        file = request.FILES.get("file_content")
-
-        if not file:
-            file = None
 
         quizz = Quizz.objects.create(
             challenge_id=pk,
             name=_name,
             question=_question,
             point=_point,
-            file_content=file,
-            url=url,
+            is_pentest=is_pentest,
         )
+
+        if files_count:
+            for index in range(1, files_count + 1):
+                File.objects.create(
+                    file=request.FILES[f"file{index}"], quizz_id=quizz.pk
+                )
+
         if _answer:
             TrueAnswers.objects.create(
                 is_public=True, answer=_answer, quizz_id=quizz.pk
@@ -118,7 +124,7 @@ def display_quizzes(request, pk):
     quizzes = (
         Quizz.objects.all()
         .filter(challenge_id=pk)
-        .values("id", "name", "question", "point", "file_content")
+        .values("id", "name", "question", "point")
     )
 
     hint_counts = []
@@ -164,6 +170,8 @@ def edit_quizz(request, pk, pk1):
 
     hints = Hint.objects.filter(quizz_id=pk1).values("content", "point")
 
+    files = File.objects.filter(quizz_id=pk1)
+
     if request.method == "POST":
         if "Submit" in request.POST:
             form = QuizzForm(request.POST, request.FILES, instance=quizz)
@@ -190,7 +198,13 @@ def edit_quizz(request, pk, pk1):
         # hint_points = request.POST.getlist('hint_point')
         # print(hintss)
 
-    context = {"form": form, "quizz": quizz, "challenge_id": pk, "hints": hints}
+    context = {
+        "form": form,
+        "quizz": quizz,
+        "challenge_id": pk,
+        "hints": hints,
+        "files": files,
+    }
     return render(request, "edit_a_quizz.html", context)
 
 
@@ -263,7 +277,7 @@ def play_challenge(request, pk):
                 pass
 
             if (
-                quizz.url
+                quizz.is_pentest
                 and len(
                     TrueAnswers.objects.filter(
                         quizz_id=quizz.pk, for_team=request.user.team.name

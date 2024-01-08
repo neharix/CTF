@@ -41,42 +41,59 @@ def register_tools(request):
                     name = dataframe["Ady"][i]
                     surname = dataframe["Familiyasy"][i]
                     email = dataframe["Email"][i]
-                    username = (
-                        name.lower() + surname.lower() + str(random.randint(1000, 2000))
-                    )
-                    password = (
-                        random.choice([name, surname])
-                        + random.choice([name, surname])
-                        + str(random.randint(1000, 2000))
-                    )
+                    team = dataframe["Topar"][i]
+                    already_in_db = True
+                    try:
+                        User.objects.get(name=name, surname=surname)
+                    except:
+                        already_in_db = False
+
+                    if already_in_db:
+                        name = f"{surname} {name}"
+                        surname = "Eýýäm maglumat bazasyna bellenilen"
+                        email = ""
+                        password = ""
+                        email = ""
+                        team = ""
+                        username = ""
+                    else:
+                        username = (
+                            name.lower()
+                            + surname.lower()
+                            + str(random.randint(1000, 2000))
+                        )
+                        password = (
+                            random.choice([name, surname])
+                            + random.choice([name, surname])
+                            + str(random.randint(1000, 2000))
+                        )
+                        try:
+                            team = Team.objects.get(name=dataframe["Topar"][i])
+                        except ObjectDoesNotExist:
+                            return render(
+                                request,
+                                "register_tools.html",
+                                {
+                                    "error": "Tablisadaky toparlar maglumat bazasyna girizilmedik! Administrasiýa saýtynda toparlary registrirläň!",
+                                    "form": XlsxForm(),
+                                },
+                            )
+                        User.objects.create_user(
+                            username=username,
+                            password=password,
+                            name=name,
+                            password_for_usage=password,
+                            surname=surname,
+                            email=email,
+                            team=team,
+                        )
 
                     user_data["Ady"].append(name)
                     user_data["Familiyasy"].append(surname)
                     user_data["Login"].append(username)
                     user_data["Password"].append(password)
                     user_data["Email"].append(email)
-                    user_data["Topar"].append(dataframe["Topar"][i])
-
-                    try:
-                        team = Team.objects.get(name=dataframe["Topar"][i])
-                    except ObjectDoesNotExist:
-                        return render(
-                            request,
-                            "register_tools.html",
-                            {
-                                "error": "Tablisadaky toparlar maglumat bazasyna girizilmedik! Administrasiýa saýtynda toparlary registrirläň!",
-                                "form": XlsxForm(),
-                            },
-                        )
-                    User.objects.create_user(
-                        username=username,
-                        password=password,
-                        name=name,
-                        password_for_usage=password,
-                        surname=surname,
-                        email=email,
-                        team=team,
-                    )
+                    user_data["Topar"].append(team)
 
                 export_path = f"/media/exported_xlsx/{Xlsxes.objects.last().file}"
                 dataframe = pd.DataFrame(user_data)

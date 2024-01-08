@@ -28,3 +28,11 @@ class Topic(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class File(models.Model):
+    file = models.FileField(upload_to="files/")
+    quizz_id = models.IntegerField()
+
+    def __str__(self):
+        return f"Quizz {self.quizz_id} file"

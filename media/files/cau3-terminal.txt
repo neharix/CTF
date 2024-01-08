@@ -1,1 +1,0 @@
-Lệnh nào dùng để xóa thư mục trong linux

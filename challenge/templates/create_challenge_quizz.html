@@ -57,19 +57,6 @@
                     <input type="text" class="form-control bg-transparent border-2 text-light fs-4"
                         style="border-color: #696d97;" name="point" id="point" required>
                 </div>
-                <div class="row ms-3">
-                    <div class="form-check col-2" style="pointer-events: none;">
-                        <input class="form-check-input" style="pointer-events:all;" type="checkbox" value=""
-                            id="flexCheckDefault" onclick="addfile(event)">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Faýl goşuň
-                        </label>
-                    </div>
-                    <!-- <div class="ms-3 col-3" id="uploadElement">
-                        <input type="file" name="file_content" id="id_file_content">
-                        <input type="" name="id_file" value="">
-                    </div> -->
-                </div>
 
                 <div class="row ms-3">
                     <div class="form-check col-2" style="pointer-events: none;">
@@ -81,20 +68,23 @@
                     </div>
                 </div>
 
+                <div style="width: 100%;" id="file-container">
+                    
+                </div>
                 <div style="width: 100%;" id="hint-container">
-                    <!-- <div class="input-group form-control bg-transparent border-0 hint-element">
-                        <input type="" class="d-none" id="quizz_id" name="quizz_id">
-                        <span class="input-group-text bg-transparent border-2 text-light fs-4 my-3">Hint</span>
-                        <input type="text" placeholder="Hint" style="width: 350px;" aria-label="Hint"
-                            class="form-control bg-transparent border-2 text-light fs-4 my-3" name="hint">
-                        <input type="text" placeholder="Points" style="min-width: 70px;" aria-label="Point"
-                            class="form-control bg-transparent border-2 text-light fs-4 my-3" name="hint_point">
-                        <button onclick="delHint(event)" class="btn btn-outline-danger my-3 fs-4" type="button"
-                            id="hintDelBtn">Discard</button>
-                    </div> -->
                 </div>
 
                 <div class="m-2 col-12">
+                    <button onclick="addFile(event)" type="button" class="btn btn-sm btn-light mx-auto mb-2 me-3"
+                        style="background-color: #696d97!important;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus" viewBox="0 0 16 16">
+                            <path
+                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z">
+                            </path>
+                        </svg>
+                        Faýl goşuň
+                    </button>
                     <button onclick="addHint(event)" type="button" class="btn btn-sm btn-light mx-auto mb-2 me-3"
                         style="background-color: #696d97!important;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -142,6 +132,7 @@
         <div class="text-end col-12 my-3">
 
         </div>
+        <input type="number" style="display: none;" name="files_count" id="files_count"/>
     </form>
 
 
@@ -150,6 +141,9 @@
     {% include 'footer.html' %}
     <script>
         var num = 1;
+        let hidden_files_count = document.querySelector("#files_count");
+        var files_count = 0;
+        hidden_files_count.value = files_count;
         function addQuizz() {
             num += 1;
             const container = document.querySelector('.quizz-container');
@@ -178,19 +172,19 @@
             }
         }
 
-        function addfile(event) {
-            if (event.target.checked == true) {
-                const container = event.target.parentElement.parentElement;
-                const newElement = document.createElement('DIV');
-                newElement.className = 'ms-3 col-3';
-                newElement.id = 'uploadElement'
-                var _id = event.target.parentElement.parentElement.parentElement.id;
-                newElement.innerHTML = `<input type="file" name="file_content" id="id_file_content"><input type="" class="d-none" name="id_file" value="${_id}">`;
-                container.appendChild(newElement)
-            }
-            else {
-                event.target.parentElement.parentElement.querySelector('#uploadElement').remove()
-            }
+        function addFile(event) {
+            const container = event.target.parentElement.parentElement.querySelector('#file-container');
+
+            const newcard = document.createElement('DIV');
+            
+            files_count += 1;
+            hidden_files_count.value = files_count;
+
+            newcard.className = 'input-group p-2 form-control bg-transparent border-0 file-element';
+            newcard.innerHTML = '<input type="" class="d-none" id="quizz_id" name="quizz_id"><span class="input-group-text bg-transparent border-2 text-light fs-4 my-3">Faýl</span> <input type="file" style="width: 350px;" aria-label="File" class="form-control bg-transparent border-2 text-light fs-4 my-3" name="file' + files_count + '" required><button onclick="delFile(event)" class="btn btn-outline-danger my-3" type="button" id="fileDelBtn">Pozmak</button>'
+            newcard.style = "align-items: center;";
+
+            container.appendChild(newcard);
         }
 
         function addHint(event) {
@@ -201,19 +195,14 @@
             newcard.innerHTML = '<input type="" class="d-none" id="quizz_id" name="quizz_id"><span class="input-group-text bg-transparent border-2 text-light fs-4 my-3">Maslahat</span> <input type="text" placeholder="Maslahat" style="width: 350px;" aria-label="Hint" class="form-control bg-transparent border-2 text-light fs-4 my-3" name="hint" required> <input type="text" placeholder="Ballar" style="min-width: 70px;" aria-label="Point" class="form-control bg-transparent border-2 text-light fs-4 my-3" name="hint_point" required> <button onclick="delHint(event)" class="btn btn-outline-danger my-3 fs-4" type="button" id="hintDelBtn">Pozmak</button>'
 
             container.appendChild(newcard);
-
-            var arr = event.target.parentElement.parentElement.getAttribute('id');
-            console.log(arr);
-            var arr2 = event.target.parentElement.parentElement.querySelectorAll(".hint-element");
-            let nodeList = event.target.parentElement.parentElement.querySelectorAll(".hint-element");
-            console.log(nodeList);
-            for (let i = 0; i < nodeList.length; i++) {
-                nodeList[i].children[0].value = arr;
-                console.log(nodeList[i].children[0].value);
-            }
         }
 
         function delHint(event) {
+            event.target.parentElement.remove();
+        }
+        function delFile(event) {
+            files_count -= 1 ;
+            hidden_files_count.value = files_count;
             event.target.parentElement.remove();
         }
     </script>

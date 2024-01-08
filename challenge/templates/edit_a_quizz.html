@@ -67,6 +67,22 @@
 
                 <!-- Add file -->
 
+                {% for file in files %}
+                    <button onclick="addFile(event)" type="button" class="btn btn-sm btn-light mx-auto mb-2 me-3"
+                        style="background-color: #696d97!important;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus" viewBox="0 0 16 16">
+                            <path
+                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z">
+                            </path>
+                        </svg>
+                        Faýl goşuň
+                    </button>
+                {% empty %}
+                
+                {% endfor %}
+
+                <input type="number" style="display: none;" name="files_count" id="files_count"/>
                 {% if quizz.file_content == '' %}
                 <div class="row ms-3">
                     <div class="form-check col-2" onclick="addfile(event)">
@@ -155,7 +171,23 @@
     {% endblock content %}
     {% include 'footer.html' %}
     <script>
+        let hidden_files_count = document.querySelector("#files_count");
+        var files_count = 0;
+        hidden_files_count.value = files_count;
+        function addFile(event) {
+            const container = event.target.parentElement.parentElement.querySelector('#file-container');
 
+            const newcard = document.createElement('DIV');
+            
+            files_count += 1;
+            hidden_files_count.value = files_count;
+
+            newcard.className = 'input-group p-2 form-control bg-transparent border-0 file-element';
+            newcard.innerHTML = '<input type="" class="d-none" id="quizz_id" name="quizz_id"><span class="input-group-text bg-transparent border-2 text-light fs-4 my-3">Faýl</span> <input type="file" style="width: 350px;" aria-label="File" class="form-control bg-transparent border-2 text-light fs-4 my-3" name="file' + files_count + '" required><button onclick="delFile(event)" class="btn btn-outline-danger my-3" type="button" id="fileDelBtn">Pozmak</button>'
+            newcard.style = "align-items: center;";
+
+            container.appendChild(newcard);
+        }
         function addfile(event) {
             if (event.target.checked == true) {
                 const container = event.target.parentElement.parentElement;
