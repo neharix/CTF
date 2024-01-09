@@ -43,10 +43,10 @@
                     <textarea class="form-control bg-transparent border-2 text-light fs-4"
                         style="border-color: #696d97;" name="question" id="question" required></textarea>
                 </div>
-                <label for="answer" class="text-capitalize ms-3">
+                <label id="answer-label" for="answer" class="text-capitalize ms-3">
                     Jogaby
                 </label>
-                <div class="form-control bg-transparent border-0">
+                <div id="answer" class="form-control bg-transparent border-0">
                     <textarea class="form-control bg-transparent border-2 text-light fs-4"
                         style="border-color: #696d97;" name="answer" id="answer"></textarea>
                 </div>
@@ -66,6 +66,13 @@
                             Pentest saýt
                         </label>
                     </div>
+                    <div class="form-check col-2" style="pointer-events: none;">
+                        <input onclick="morse_checkbox_toggle(event)" class="form-check-input" id="morse-checkbox" style="pointer-events:all;" type="checkbox">
+                        <label for="url-check" class="ms-3">
+                            Morze terjimeçisi
+                        </label>
+                    </div>
+                    <input type="hidden" id="hidden-inf-morse" name="morse-info" />
                 </div>
 
                 <div style="width: 100%;" id="file-container">
@@ -98,22 +105,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Button Add Question -->
-        <!-- <div class="text-center col-12">
-            <button onclick="addQuizz()" type="button" class="btn btn-lg btn-light mx-auto mt-5"
-                style="background-color: #696d97!important;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus"
-                    viewBox="0 0 16 16">
-                    <path
-                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z">
-                    </path>
-                </svg>
-                Add a question
-            </button>
-        </div> -->
-
-        <!-- Button Submit -->
         <div class="container text-center mt-5">
             <div class="input-group d-inline-block ">
                 <button type="button" class="btn btn-lg btn-light text-light"
@@ -141,9 +132,19 @@
     {% include 'footer.html' %}
     <script>
         var num = 1;
+        
         let hidden_files_count = document.querySelector("#files_count");
         var files_count = 0;
         hidden_files_count.value = files_count;
+        
+        let answer_label = document.querySelector("#answer-label");
+        let answer_field = document.querySelector("#answer");
+
+        let pentest_checkbox = document.querySelector("#url-check");
+        let morse_checkbox = document.querySelector("#morse-checkbox");
+
+        let hidden_morse = document.querySelector("#hidden-inf-morse");
+
         function addQuizz() {
             num += 1;
             const container = document.querySelector('.quizz-container');
@@ -159,16 +160,42 @@
             event.target.parentElement.parentElement.remove();
         }
         function add_ctf_user(event) {
+            if (morse_checkbox.checked == true){
+                morse_checkbox.checked = false;
+                hidden_morse.value = "";
+            }
             if (event.target.checked == true) {
-                const container = event.target.parentElement.parentElement.parentElement;
+                const container = event.target.parentElement.parentElement;
                 const newElement = document.createElement('DIV');
                 newElement.className = 'form-control bg-transparent border-0';
                 newElement.id = 'ctf_data';
-                newElement.innerHTML = '<label style="color: white;" class="m-2 fs-5">Kitaphana ulanyjysy</label><input type="text" class="form-control bg-transparent border-2 text-light fs-4" name="ctf_username" required><br><label style="color:white;" class="m-2 fs-5">Açar sözi</label><input type="text" class="form-control bg-transparent border-2 text-light fs-4" name="ctf_password" required>';
-                container.appendChild(newElement)
+                newElement.innerHTML = '<div class="px-4"><label style="color: white;" class="m-2 fs-5">Kitaphana ulanyjysy</label><input type="text" class="form-control bg-transparent border-2 text-light fs-4" name="ctf_username" required><br><label style="color:white;" class="m-2 fs-5">Açar sözi</label><input type="text" class="form-control bg-transparent border-2 text-light fs-4" name="ctf_password" required></div>';
+                container.appendChild(newElement);
+                answer_label.style = "display: none;";
+                answer_field.style = "display: none;";
             }
             else {
-                event.target.parentElement.parentElement.parentElement.querySelector('#ctf_data').remove()
+                event.target.parentElement.parentElement.parentElement.querySelector('#ctf_data').remove();
+                answer_label.style = "";
+                answer_field.style = "";
+            }
+        }
+
+        function morse_checkbox_toggle(event) {
+            if (pentest_checkbox.checked == true){
+                pentest_checkbox.checked = false;
+                document.querySelector("#ctf_data").remove();
+
+            }
+            if (event.target.checked == true) {
+                answer_label.style = "display: none;";
+                answer_field.style = "display: none;";
+                hidden_morse.value = "true";
+            }
+            else {
+                answer_label.style = "";
+                answer_field.style = "";
+                hidden_morse.value = "";
             }
         }
 

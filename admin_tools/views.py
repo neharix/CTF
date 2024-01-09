@@ -10,18 +10,10 @@ from .forms import XlsxForm
 from .models import Xlsxes
 
 
-class Stub:
-    is_superuser = False
-
-
 def register_tools(request):
     form = XlsxForm()
 
-    try:
-        user = User.objects.get(username=request.user.username)
-    except:
-        user = Stub()
-    if user.is_superuser:
+    if request.user.is_superuser:
         if request.method == "POST":
             form = XlsxForm(request.POST, request.FILES)
             if form.is_valid():
@@ -44,7 +36,7 @@ def register_tools(request):
                     team = dataframe["Topar"][i]
                     already_in_db = True
                     try:
-                        User.objects.get(name=name, surname=surname)
+                        user_object = User.objects.get(name=name, surname=surname)
                     except:
                         already_in_db = False
 
@@ -116,6 +108,19 @@ def register_tools(request):
         return redirect("home")
 
 
-# stub
 def admin_tools(request):
-    return render(request, "admin_tools.html")
+    if request.user.is_superuser:
+        return render(request, "admin_tools.html")
+    else:
+        return redirect("home")
+
+
+def add_team(request):
+    if request.user.is_superuser:
+        if request.method == "POST":
+            Team.objects.create(name=request.POST["team"])
+            return render(request, "add_team.html")
+        else:
+            return render(request, "add_team.html")
+    else:
+        return redirect("home")

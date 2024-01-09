@@ -4,7 +4,6 @@ from telnetlib import LOGOUT
 from tkinter.tix import CheckList
 from urllib import request
 
-from challenge.models import Challenge
 from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
@@ -13,6 +12,8 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views.generic import ListView
+
+from challenge.models import Challenge
 
 # import pandas as pd
 
@@ -26,7 +27,7 @@ def home(request):
     date = now.strftime("%Y-%m-%d %H:%M:%S")
     # challenges = Challenge.objects.all()
     challenges = Challenge.objects.all().filter(
-        date_end__gte=date, date_start__lte=date
+        date_end__gte=date, date_start__lte=date, public=True
     )
     context = {"challenges": challenges}
     return render(request, "index.html", context)

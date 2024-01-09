@@ -1,0 +1,59 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div style="min-height:100vh;">
+  <main class="create-post layout">
+    <div class="container">
+      <div class="layout__box">
+        <div class="layout__boxHeader">
+          <div class="layout__boxTitle">
+            <a href="{{request.META.HTTP_REFERER}}">
+              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+                <title>arrow-left</title>
+                <path
+                  d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z">
+                </path>
+              </svg>
+            </a>
+            <h3>TOPAR GOŞMAK</h3>
+          </div>
+        </div>
+        <div class="layout__body">
+          <form class="form" method="post">
+            {% csrf_token %}
+            <div class="form__group">
+              <label for="inputzone">Toparyň adyny giriziň</label>
+              <input id="inputzone" type="text" name='team' required/>
+            </div>
+            <div class="form__action">
+              <button class="btn btn--main" type="submit">Tassyklamak</button>
+            </div>
+          </form>
+          {% if error %}
+          <p style="color:red;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+              class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img"
+              aria-label="Warning:">
+              <path
+                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+            </svg>
+            ÜNS BERIŇ!<br>
+            {{ error }}
+          </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+{% if download %}
+<a href='{{ path }}' id='download-a' download style='display: none;'></a>
+<script defer>
+  let a = document.querySelector('#download-a');
+  setTimeout(() => {
+    a.click();
+  },
+    1 * 1000);
+
+</script>
+{% endif %}
+{% endblock content %}

@@ -58,7 +58,10 @@ def get_connection_info(request):
 def books_list(request):
     if get_connection_info(request).is_connected:
         books = Book.objects.all()
-        flag = UserDatas.objects.get(for_team=request.user.team.name).flag
+        flag = UserDatas.objects.get(
+            for_team=request.user.team.name,
+            quizz_id=get_connection_info(request).task_object.for_quizz,
+        ).flag
         context = {
             "books": books,
             "connection": get_connection_info(request),

@@ -48,15 +48,17 @@
                         </button>
                     </div>
                     {% endif %}
-                    {% if quizz.file_content %}
-                    <div class="ms-3">
+                    {% for file in files %}
+                    <div class="ms-3 my-1">
                         Faýl:
-                        <a href="{{quizz.file_content.url}}" class="btn btn-lg btn-primary px-3 py-2"
+                        <a href="/media/{{file.file}}" class="btn btn-lg btn-primary px-3 py-2"
                             style="background-color: #696d97!important;">
-                            Faýly ýükläň
+                            Ýükle
                         </a>
                     </div>
-                    {% endif %}
+                    {% empty %}
+                        <div></div>
+                    {% endfor %}
 
                     <label for="answer" class="text-capitalize ms-3">
                         Jogaby:

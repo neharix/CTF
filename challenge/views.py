@@ -1,5 +1,6 @@
 import datetime
 import random
+import zoneinfo
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -77,13 +78,9 @@ def create_challenge_quizz(request, pk):
 
         files_count = int(request.POST.get("files_count"))
 
-        if bookstore_username and bookstore_password:
-            CtfTaskObjects.objects.create(
-                username=bookstore_username, password=bookstore_password
-            )
-            is_pentest = True
-        else:
-            is_pentest = False
+        is_morse = True if request.POST.get("morse-info") == "true" else False
+
+        is_pentest = True if bookstore_username and bookstore_password else False
 
         hints = request.POST.getlist("hint")
         hint_points = request.POST.getlist("hint_point")
@@ -94,7 +91,15 @@ def create_challenge_quizz(request, pk):
             question=_question,
             point=_point,
             is_pentest=is_pentest,
+            is_morse=is_morse,
         )
+
+        if bookstore_username and bookstore_password:
+            CtfTaskObjects.objects.create(
+                username=bookstore_username,
+                password=bookstore_password,
+                for_quizz=quizz.pk,
+            )
 
         if files_count:
             for index in range(1, files_count + 1):
@@ -253,7 +258,9 @@ def expired_challenge(request, pk):
 def play_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
 
-    if challenge.date_end > datetime.now() and challenge.date_start < datetime.now():
+    if challenge.date_end > datetime.now(
+        tz=zoneinfo.ZoneInfo("America/New_York")
+    ) and challenge.date_start < datetime.now(tz=zoneinfo.ZoneInfo("America/New_York")):
         quizzes = Quizz.objects.filter(challenge_id=pk)
 
         completed = {}
@@ -277,26 +284,26 @@ def play_challenge(request, pk):
                 pass
 
             if (
-                quizz.is_pentest
-                and len(
+                len(
                     TrueAnswers.objects.filter(
                         quizz_id=quizz.pk, for_team=request.user.team.name
                     )
                 )
                 == 0
             ):
-                cycle = random.randint(10, 30)
-                inflag = ""
-                for i in range(cycle):
-                    inflag += random.choice(
-                        [chr(random.randint(97, 122)), chr(random.randint(65, 90))]
-                    )
-                flag = "flag{" + inflag + "}"
+                if quizz.is_pentest:
+                    cycle = random.randint(10, 30)
+                    inflag = ""
+                    for i in range(cycle):
+                        inflag += random.choice(
+                            [chr(random.randint(97, 122)), chr(random.randint(65, 90))]
+                        )
+                    flag = "flag{" + inflag + "}"
 
-                UserDatas.objects.create(flag=flag, for_team=request.user.team.name)
-                TrueAnswers.objects.create(
-                    answer=flag, for_team=request.user.team.name, quizz_id=quizz.pk
-                )
+                    UserDatas.objects.create(flag=flag, for_team=request.user.team.name)
+                    TrueAnswers.objects.create(
+                        answer=flag, for_team=request.user.team.name, quizz_id=quizz.pk
+                    )
 
         context = {
             "challenge": challenge,
@@ -320,9 +327,12 @@ from django.utils import timezone
 def play_challenge_quizz(request, pk, pk1):
     challenge = Challenge.objects.get(id=pk)
     team = request.user.team.name
-    if challenge.date_end > datetime.now() and challenge.date_start < datetime.now():
+    if challenge.date_end > datetime.now(
+        tz=zoneinfo.ZoneInfo("America/New_York")
+    ) and challenge.date_start < datetime.now(tz=zoneinfo.ZoneInfo("America/New_York")):
         quizz = Quizz.objects.get(id=pk1)
         hints = Hint.objects.filter(quizz_id=quizz.id)
+        files = File.objects.filter(quizz_id=pk1)
 
         try:
             true_answer = TrueAnswers.objects.get(
@@ -373,5 +383,5 @@ def play_challenge_quizz(request, pk, pk1):
 
     # print(hints)
 
-    context = {"challenge": challenge, "quizz": quizz, "hints": hints}
+    context = {"challenge": challenge, "quizz": quizz, "hints": hints, "files": files}
     return render(request, "play_challenge_quizz.html", context)
