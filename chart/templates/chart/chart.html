@@ -38,18 +38,6 @@
             <canvas id="userTeam"></canvas>
           </div>
         </div>
-
-        <div>
-          <div class="center-title">
-            <h1 id="upcoming">Teams Scoreboard</h1>
-            <p class="h2-title-description">
-              <i>These 5 users has resolved the most challenges.</i>
-            </p>
-          </div>
-          <div class="radar-container" style="width:120rem;">
-            <canvas id="teamScoreboard"></canvas>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -71,32 +59,7 @@
           options: {}
       }
       );
-
-      //Line Chart - Teams Scoreboard
-      new Chart(document.getElementById('teamScoreboard').getContext('2d'), {
-          type: 'line',
-          data: {
-              labels: ['CTF1','CTF2','CTF3','CTF4','CTF5','CTF6','CTF7',],
-              datasets: [
-              {
-                label: 'Team 1',
-                data: [65, 59, 80, 81, 56, 55, 40],
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-              },
-              {
-                label: 'Team 2',
-                data: [50, 49, 75, 64, 70, 61, 69],
-                fill: false,
-                borderColor: 'rgb(255, 99, 132)',
-                tension: 0.1
-              },
-          ]
-          },
-      }
-      );
-
+      
       new Chart(document.getElementById('userTeam').getContext('2d'), {
         type: 'line',
         data: {

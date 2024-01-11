@@ -2,15 +2,15 @@ import datetime
 import random
 import zoneinfo
 
-from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
-from bookstore.models import ConnectionJournal, CtfTaskObjects, UserDatas
+from bookstore.models import CtfTaskObjects, UserDatas
 from main.models import File, Team, User
 
 from .forms import ChallengeForm, Hint, QuizzForm
 from .models import Answer, Challenge, Hint, Quizz, TrueAnswers
+from .tools import morse_to_mp3
 
 
 @login_required(login_url="login")
@@ -104,10 +104,11 @@ def create_challenge_quizz(request, pk):
         if files_count:
             for index in range(1, files_count + 1):
                 File.objects.create(
-                    file=request.FILES[f"file{index}"], quizz_id=quizz.pk
+                    file=request.FILES[f"file{index}"],
+                    quizz_id=quizz.pk,
                 )
 
-        if _answer:
+        if _answer and is_morse == False and is_pentest == False:
             TrueAnswers.objects.create(
                 is_public=True, answer=_answer, quizz_id=quizz.pk
             )
@@ -213,13 +214,18 @@ def edit_quizz(request, pk, pk1):
     return render(request, "edit_a_quizz.html", context)
 
 
+@login_required(login_url="login")
 def join_challenge(request, pk):
-    challenge = Challenge.objects.get(id=pk)
+    if request.user.is_superuser:
+        return redirect("home")
+    else:
+        challenge = Challenge.objects.get(id=pk)
 
-    context = {"challenge": challenge}
-    return render(request, "join_challenge.html", context)
+        context = {"challenge": challenge}
+        return render(request, "join_challenge.html", context)
 
 
+@login_required(login_url="login")
 def register_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
 
@@ -245,6 +251,7 @@ def register_challenge(request, pk):
     return render(request, "register_challenge.html", context)
 
 
+@login_required(login_url="login")
 def expired_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
 
@@ -255,6 +262,7 @@ def expired_challenge(request, pk):
     return render(request, "expired_challenge.html", context)
 
 
+@login_required(login_url="login")
 def play_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
 
@@ -270,9 +278,7 @@ def play_challenge(request, pk):
 
         for quizz in quizzes:
             try:
-                obj = Answer.objects.get(
-                    quizz_id=quizz.pk, username=request.user.username
-                )
+                obj = Answer.objects.get(quizz_id=quizz.pk, team=request.user.team.name)
                 completed[quizz.pk] = "yes"
                 if obj.status == "True":
                     status[quizz.pk] = "True"
@@ -291,18 +297,26 @@ def play_challenge(request, pk):
                 )
                 == 0
             ):
-                if quizz.is_pentest:
-                    cycle = random.randint(10, 30)
-                    inflag = ""
-                    for i in range(cycle):
-                        inflag += random.choice(
-                            [chr(random.randint(97, 122)), chr(random.randint(65, 90))]
-                        )
+                cycle = random.randint(10, 30)
+                inflag = ""
+                for i in range(cycle):
+                    inflag += random.choice(
+                        [chr(random.randint(97, 122)), chr(random.randint(65, 90))]
+                    )
                     flag = "flag{" + inflag + "}"
-
-                    UserDatas.objects.create(flag=flag, for_team=request.user.team.name)
-                    TrueAnswers.objects.create(
-                        answer=flag, for_team=request.user.team.name, quizz_id=quizz.pk
+                TrueAnswers.objects.create(
+                    answer=flag, for_team=request.user.team.name, quizz_id=quizz.pk
+                )
+                if quizz.is_pentest:
+                    UserDatas.objects.create(
+                        flag=flag, for_team=request.user.team.name, quizz_id=quizz.pk
+                    )
+                elif quizz.is_morse:
+                    morse_to_mp3(flag)
+                    File.objects.create(
+                        file=f'morse_sounds/{flag.replace("{", "").replace("}", "")}.mp3',
+                        quizz_id=quizz.pk,
+                        for_team=request.user.team.name,
                     )
 
         context = {
@@ -324,6 +338,7 @@ from datetime import date, datetime
 from django.utils import timezone
 
 
+@login_required(login_url="login")
 def play_challenge_quizz(request, pk, pk1):
     challenge = Challenge.objects.get(id=pk)
     team = request.user.team.name
@@ -332,7 +347,9 @@ def play_challenge_quizz(request, pk, pk1):
     ) and challenge.date_start < datetime.now(tz=zoneinfo.ZoneInfo("America/New_York")):
         quizz = Quizz.objects.get(id=pk1)
         hints = Hint.objects.filter(quizz_id=quizz.id)
-        files = File.objects.filter(quizz_id=pk1)
+        files = File.objects.filter(
+            quizz_id=pk1, for_team=request.user.team.name
+        ) | File.objects.filter(quizz_id=pk1, for_team="status:public")
 
         try:
             true_answer = TrueAnswers.objects.get(

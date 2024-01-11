@@ -14,6 +14,7 @@ class CtfTaskObjects(models.Model):
 class UserDatas(models.Model):
     flag = models.CharField(max_length=100)
     for_team = models.CharField(max_length=100)
+    quizz_id = models.IntegerField()
 
     def __str__(self):
         return self.for_team

@@ -33,6 +33,7 @@ class Topic(models.Model):
 class File(models.Model):
     file = models.FileField(upload_to="files/")
     quizz_id = models.IntegerField()
+    for_team = models.CharField(max_length=50, default="status:public")
 
     def __str__(self):
         return f"Quizz {self.quizz_id} file"
