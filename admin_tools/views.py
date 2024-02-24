@@ -4,10 +4,18 @@ import pandas as pd
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 
+from challenge.models import Answer, Challenge
 from main.models import Team, User
 
 from .forms import XlsxForm
 from .models import Xlsxes
+
+
+class TeamResults:
+    def __init__(self, place, data):
+        self.place = place
+        self.team = data["team"]
+        self.points = data["points"]
 
 
 def register_tools(request):
@@ -122,5 +130,39 @@ def add_team(request):
             return render(request, "add_team.html")
         else:
             return render(request, "add_team.html")
+    else:
+        return redirect("home")
+
+
+def challenge_results(request):
+    if request.user.is_superuser or request.user.is_staff:
+        challenges = Challenge.objects.all()
+        return render(request, "challenge_results.html", {"challenges": challenges})
+    else:
+        return redirect("home")
+
+
+def challenge_result(request, challenge_id):
+    if request.user.is_superuser or request.user.is_staff:
+        by_score_sort = lambda e: e["points"]
+        teams = Team.objects.all()
+        challenge = Challenge.objects.get(pk=challenge_id)
+        results_list = []
+        for team in teams:
+            points = []
+            answers = Answer.objects.filter(challenge_id=challenge.pk, team=team.name)
+            for answer in answers:
+                points.append(answer.point)
+            results_list.append({"team": team.name, "points": sum(points)})
+        results_list.sort(key=by_score_sort, reverse=True)
+        results = [
+            TeamResults(results_list.index(result) + 1, result)
+            for result in results_list
+        ]
+        return render(
+            request,
+            "challenge_result.html",
+            {"results": results, "challenge": challenge},
+        )
     else:
         return redirect("home")

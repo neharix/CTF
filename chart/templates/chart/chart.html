@@ -6,43 +6,36 @@
     <title>CTFGames - Cybersecurity Competition</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'main/style.css' %}" />
-    <link
-      rel="shortcut icon"
-      type="image/png"
-      href="{% static 'main/logo-black.png' %}"
-    />
+    <link rel="shortcut icon"
+          type="image/png"
+          href="{% static 'main/logo-black.png' %}" />
   </head>
-
   <body>
-    {% include 'navbar.html' %} 
+    {% include 'navbar.html' %}
     {% block content %}
-
-    <div style="min-height: 100vh">
-      <div class="chart-container" style="padding:10rem 0;">
-        <div>
-          <div class="center-title">
-            <h1 id="upcoming">Toparyň işjeň oýunçylary</h1>
-            <p class="h2-title-description">
-            </p>
+      <div style="min-height: 100vh">
+        <div class="chart-container" style="padding:10rem 0;">
+          <div>
+            <div class="center-title">
+              <h1 id="upcoming">Toparyň işjeň oýunçylary</h1>
+              <p class="h2-title-description"></p>
+            </div>
+            <div class="radar-container">
+              <canvas id="tryhardUser"></canvas>
+            </div>
           </div>
-          <div class="radar-container">
-            <canvas id="tryhardUser"></canvas>
-          </div>
-        </div>
-
-        <div>
-          <div class="center-title">
-            <h1 id="upcoming">Toparyň ýetişigi</h1>
-          </div>
-          <div class="radar-container">
-            <canvas id="userTeam"></canvas>
+          <div>
+            <div class="center-title">
+              <h1 id="upcoming">Toparyň ýetişigi</h1>
+            </div>
+            <div class="radar-container">
+              <canvas id="userTeam"></canvas>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+      <script>
       Chart.defaults.font.family = "Poppins";
 
       //Polar Area Chart - Most Try-hard Users
@@ -76,8 +69,8 @@
         },
     }
     );
-    </script>
-
-    {% endblock content %} {% include 'footer.html' %}
+      </script>
+    {% endblock content %}
+    {% include 'footer.html' %}
   </body>
 </html>

@@ -1,102 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'main/challenge.css' %}?{% now " U" %}">
-    <link rel="shortcut icon" type="image/png" href="{% static 'main/logo-black.png' %}" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-</head>
-
-<body class="d-flex flex-column min-vh-100">
-    {% include 'navbar.html' %}
-    {% block content %}
-
-    <form action="" method="POST">
-        {% csrf_token %}
-        <div class="container text-center mb-4">
-            <div class="card w-50 mx-auto text-center">
-                <div class="card-title border-bottom">{{quizz.name}}</div>
-                <div class="card-body text-start">
-                    <div class="ms-3">
-                        Sorag: {{quizz.question}} <br>
-                    </div>
-                    <div class="ms-3">
-                        Bal: {{quizz.point}} <br>
-                    </div>
-                    <div class="ms-3">
-                        {% for hint in hints %}
-                        <div>
-                            Maslahat {{forloop.counter}}:
-                            <span style="color: #71c6dd;" class="clickable-element" onclick="event.target.innerHTML='{{hint.content}}'; num+=parseInt('{{hint.point}}');
-                                getPoint();">
-                                Maslahaty görmek üçin basyň
-                            </span>
-                            (-{{hint.point}} bal)<br>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
+        {% load static %}
+        <link rel="stylesheet"
+              href="{% static 'main/challenge.css' %}?{% now " U" %}">
+        <link rel="shortcut icon"
+              type="image/png"
+              href="{% static 'main/logo-black.png' %}" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+              rel="stylesheet"
+              integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+              crossorigin="anonymous">
+    </head>
+    <body class="d-flex flex-column min-vh-100">
+        {% include 'navbar.html' %}
+        {% block content %}
+            <div class="h3 mx-auto my-5" id="timer"></div>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="container text-center mb-4">
+                    <div class="card w-50 mx-auto text-center">
+                        <div class="card-title border-bottom">{{ quizz.name }}</div>
+                        <div class="card-body text-start">
+                            <div class="ms-3">
+                                Sorag: {{ quizz.question|safe }}
+                                <br>
+                            </div>
+                            <div class="ms-3">
+                                Bal: {{ quizz.point }}
+                                <br>
+                            </div>
+                            <div class="ms-3">
+                                {% for hint in hints %}
+                                    <div>
+                                        Maslahat {{ forloop.counter }}:
+                                        <span style="color: #71c6dd"
+                                              class="clickable-element"
+                                              onclick="event.target.innerHTML='{{ hint.content }}'; num+=parseInt('{{ hint.point }}'); getPoint();">
+                                            Maslahaty görmek üçin basyň
+                                        </span>
+                                        (-{{ hint.point }} bal)
+                                        <br>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% for file in files %}
+                                <div class="ms-3 my-1">
+                                    Faýl:
+                                    <a href="/media/{{ file.file }}"
+                                       class="btn btn-lg btn-primary px-3 py-2"
+                                       style="background-color: #696d97!important">Ýükle</a>
+                                </div>
+                            {% empty %}
+                                <div></div>
+                            {% endfor %}
+                            <label for="answer" class="text-capitalize ms-3">Jogaby:</label>
+                            <div class="form-control bg-transparent border-0">
+                                <textarea class="form-control bg-transparent border-2 text-light fs-4"
+                                          style="border-color: #696d97"
+                                          name="answer"
+                                          id="id_answer"
+                                          required></textarea>
+                            </div>
+                            <input type="text"
+                                   class="d-none"
+                                   id="minus-point"
+                                   name="minus-point"
+                                   value="0">
                         </div>
-                        {% endfor %}
                     </div>
-                    {% if quizz.url %}
-                    <div class="ms-3">
-                        <button onclick="redirect_to_view('{% url 'list' %}')" class="btn btn-lg btn-light my-auto"
-                            style="background-color: #3a9063!important;">
-                            Web-sahypa geç
-                        </button>
-                    </div>
-                    {% endif %}
-                    {% for file in files %}
-                    <div class="ms-3 my-1">
-                        Faýl:
-                        <a href="/media/{{file.file}}" class="btn btn-lg btn-primary px-3 py-2"
-                            style="background-color: #696d97!important;">
-                            Ýükle
-                        </a>
-                    </div>
-                    {% empty %}
-                        <div></div>
-                    {% endfor %}
-
-                    <label for="answer" class="text-capitalize ms-3">
-                        Jogaby:
-                    </label>
-                    <div class="form-control bg-transparent border-0">
-                        <textarea class="form-control bg-transparent border-2 text-light fs-4"
-                            style="border-color: #696d97;" name="answer" id="id_answer" required></textarea>
-                    </div>
-
-                    <input type="text" class="d-none" id="minus-point" name="minus-point" value=0>
                 </div>
-            </div>
-        </div>
-
-        <div class="container row mt-0">
-            <!-- Button Cancel -->
-            <div class="text-end col-8">
-                <button type="button" onclick="location.href='{% url 'play_challenge' challenge.id %}'"
-                    class="btn btn-lg btn-danger me-1 my-auto" style="background-color: #c93232!important;">
-                    Çykmak
-                </button>
-            </div>
-            <!-- Button Submit -->
-            <div class="text-end col-1">
-                <button type="submit" class="btn btn-lg btn-light my-auto" style="background-color: #696d97!important;">
-                    Tassyklamak
-                </button>
-            </div>
-        </div>
-    </form>
-
-
-    {% endblock content %}
-    {% include 'footer.html' %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-        crossorigin="anonymous"></script>
-    <script type="text/javascript">
+                <div class="container row mt-0">
+                    <!-- Button Cancel -->
+                    <div class="text-end col-8">
+                        <button type="button"
+                                onclick="location.href='{% url 'play_challenge' challenge.id %}'"
+                                class="btn btn-lg btn-danger me-1 my-auto"
+                                style="background-color: #c93232!important">Çykmak</button>
+                    </div>
+                    <!-- Button Submit -->
+                    <div class="text-end col-1">
+                        <button type="submit"
+                                class="btn btn-lg btn-light my-auto"
+                                style="background-color: #696d97!important">Tassyklamak</button>
+                    </div>
+                </div>
+            </form>
+        {% endblock content %}
+        {% include 'footer.html' %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+                crossorigin="anonymous"></script>
+        <script type="text/javascript">
         var num = 0;
         function showHint(event) {
             container = event.target;
@@ -117,7 +115,33 @@
             a.click()
             document.body.removeChild(a);
         }
-    </script>
-</body>
-
+        
+        function timer() {
+            var nowDate = new Date();
+            var achiveDate = new Date();
+            achiveDate.setFullYear({{ timer_timeout_year }});
+            achiveDate.setMonth({{ timer_timeout_month }});
+            achiveDate.setHours({{ timer_timeout_hours }});
+            var result = (achiveDate - nowDate)+1000;
+            if (result < 0) {
+            var elmnt = document.getElementById('timer');
+            elmnt.innerHTML = ' - : - - : - - : - - ';
+            return undefined;
+            }
+            var seconds = Math.floor((result/1000)%60);
+            var minutes = Math.floor((result/1000/60)%60);
+            var hours = Math.floor((result/1000/60/60)%24);
+            var days = Math.floor(result/1000/60/60/24);
+            if (seconds < 10) seconds = '0' + seconds;
+            if (minutes < 10) minutes = '0' + minutes;
+            if (hours < 10) hours = '0' + hours;
+            var elmnt = document.getElementById('timer');
+            elmnt.innerHTML = 'Galan wagt: ' + days + ' gün ' + hours + ':' + minutes + ':' + seconds;
+            setTimeout(timer, 1000);
+        }
+        window.onload = function() {
+            timer();
+        }
+        </script>
+    </body>
 </html>

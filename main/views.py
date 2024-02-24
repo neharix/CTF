@@ -119,7 +119,8 @@ def challenge_list_view_running(request):
 
 def challenge_list_view_expired(request):
     now = timezone.now()
-    date = now.strftime("%Y-%m-%d %H:%M:%S")
+    date = f"{now.year}-{now.month}-{now.day} {int(now.hour) - 11}:{now.minute}:{now.second}"
+    print(date)
 
     object_list = Challenge.objects.filter(date_end__lte=date, public=True).order_by(
         "date_created"
@@ -139,8 +140,7 @@ def challenge_list_view_expired(request):
 
 def challenge_list_view_upcoming(request):
     now = timezone.now()
-    date = now.strftime("%Y-%m-%d %H:%M:%S")
-
+    date = f"{now.year}-{now.month}-{now.day} {int(now.hour)}:{now.minute}:{now.second}"
     object_list = Challenge.objects.filter(date_start__gte=date, public=True).order_by(
         "date_created"
     )

@@ -265,7 +265,6 @@ def expired_challenge(request, pk):
 @login_required(login_url="login")
 def play_challenge(request, pk):
     challenge = Challenge.objects.get(id=pk)
-
     if challenge.date_end > datetime.now(
         tz=zoneinfo.ZoneInfo("America/New_York")
     ) and challenge.date_start < datetime.now(tz=zoneinfo.ZoneInfo("America/New_York")):
@@ -275,6 +274,11 @@ def play_challenge(request, pk):
         status = {}
 
         score = 0
+        timer_timeout_year = f"{challenge.date_end.year}"
+        timer_timeout_month = (
+            f"{int(challenge.date_end.month) - 1}, {challenge.date_end.day}"
+        )
+        timer_timeout_hours = f"{int(challenge.date_end.hour) + 5}, {challenge.date_end.minute}, {challenge.date_end.second}, 0"
 
         for quizz in quizzes:
             try:
@@ -290,13 +294,13 @@ def play_challenge(request, pk):
                 pass
 
             if (
-                len(
-                    TrueAnswers.objects.filter(
-                        quizz_id=quizz.pk, for_team=request.user.team.name
-                    )
-                )
-                == 0
+                TrueAnswers.objects.filter(
+                    quizz_id=quizz.pk, for_team=request.user.team.name
+                ).exists()
+                or TrueAnswers.objects.filter(quizz_id=quizz.pk, for_team=None).exists()
             ):
+                pass
+            else:
                 cycle = random.randint(10, 30)
                 inflag = ""
                 for i in range(cycle):
@@ -325,11 +329,14 @@ def play_challenge(request, pk):
             "completed": completed,
             "score": score,
             "status": status,
+            "timer_timeout_year": timer_timeout_year,
+            "timer_timeout_month": timer_timeout_month,
+            "timer_timeout_hours": timer_timeout_hours,
         }
         return render(request, "play_challenge.html", context)
-    elif challenge.date_end < datetime.now():
+    elif challenge.date_end < datetime.now(tz=zoneinfo.ZoneInfo("America/New_York")):
         return redirect("expired")
-    elif challenge.date_start > datetime.now():
+    elif challenge.date_start > datetime.now(tz=zoneinfo.ZoneInfo("America/New_York")):
         return redirect("upcoming")
 
 
@@ -343,9 +350,15 @@ def play_challenge_quizz(request, pk, pk1):
     challenge = Challenge.objects.get(id=pk)
     team = request.user.team.name
     if challenge.date_end > datetime.now(
-        tz=zoneinfo.ZoneInfo("America/New_York")
+        tz=zoneinfo.ZoneInfo("Asia/Ashgabat")
     ) and challenge.date_start < datetime.now(tz=zoneinfo.ZoneInfo("America/New_York")):
         quizz = Quizz.objects.get(id=pk1)
+
+        timer_timeout_year = f"{challenge.date_end.year}"
+        timer_timeout_month = (
+            f"{int(challenge.date_end.month) - 1}, {challenge.date_end.day}"
+        )
+        timer_timeout_hours = f"{int(challenge.date_end.hour) + 5}, {challenge.date_end.minute}, {challenge.date_end.second}, 0"
         hints = Hint.objects.filter(quizz_id=quizz.id)
         files = File.objects.filter(
             quizz_id=pk1, for_team=request.user.team.name
@@ -362,6 +375,15 @@ def play_challenge_quizz(request, pk, pk1):
         _status = "False"
         now = timezone.now()
         date = now.strftime("%Y-%m-%d %H:%M:%S")
+        context = {
+            "challenge": challenge,
+            "quizz": quizz,
+            "hints": hints,
+            "files": files,
+            "timer_timeout_year": timer_timeout_year,
+            "timer_timeout_month": timer_timeout_month,
+            "timer_timeout_hours": timer_timeout_hours,
+        }
         if request.method == "POST":
             _answer = request.POST.get("answer")
             minus_point = request.POST.get("minus-point")
@@ -393,12 +415,11 @@ def play_challenge_quizz(request, pk, pk1):
                 answer_obj.save()
 
             return redirect(play_challenge, pk=pk)
-    elif challenge.date_end < datetime.now():
+    elif challenge.date_end < datetime.now(tz=zoneinfo.ZoneInfo("America/New_York")):
         return redirect("expired")
-    elif challenge.date_start > datetime.now():
+    elif challenge.date_start > datetime.now(tz=zoneinfo.ZoneInfo("America/New_York")):
         return redirect("upcoming")
 
     # print(hints)
 
-    context = {"challenge": challenge, "quizz": quizz, "hints": hints, "files": files}
     return render(request, "play_challenge_quizz.html", context)
