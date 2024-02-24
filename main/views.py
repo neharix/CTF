@@ -43,6 +43,7 @@ def home(request):
 #     return render(request, './menu/challenge.html')
 
 
+@login_required(login_url="/login/")
 def chart(request):
     return render(request, "menu/chart.html")
 

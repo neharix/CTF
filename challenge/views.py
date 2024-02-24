@@ -10,7 +10,6 @@ from main.models import File, Team, User
 
 from .forms import ChallengeForm, Hint, QuizzForm
 from .models import Answer, Challenge, Hint, Quizz, TrueAnswers
-from .tools import morse_to_mp3
 
 
 @login_required(login_url="login")
@@ -78,8 +77,6 @@ def create_challenge_quizz(request, pk):
 
         files_count = int(request.POST.get("files_count"))
 
-        is_morse = True if request.POST.get("morse-info") == "true" else False
-
         is_pentest = True if bookstore_username and bookstore_password else False
 
         hints = request.POST.getlist("hint")
@@ -91,7 +88,6 @@ def create_challenge_quizz(request, pk):
             question=_question,
             point=_point,
             is_pentest=is_pentest,
-            is_morse=is_morse,
         )
 
         if bookstore_username and bookstore_password:
@@ -108,7 +104,7 @@ def create_challenge_quizz(request, pk):
                     quizz_id=quizz.pk,
                 )
 
-        if _answer and is_morse == False and is_pentest == False:
+        if _answer and is_pentest == False:
             TrueAnswers.objects.create(
                 is_public=True, answer=_answer, quizz_id=quizz.pk
             )
@@ -314,13 +310,6 @@ def play_challenge(request, pk):
                 if quizz.is_pentest:
                     UserDatas.objects.create(
                         flag=flag, for_team=request.user.team.name, quizz_id=quizz.pk
-                    )
-                elif quizz.is_morse:
-                    morse_to_mp3(flag)
-                    File.objects.create(
-                        file=f'morse_sounds/{flag.replace("{", "").replace("}", "")}.mp3',
-                        quizz_id=quizz.pk,
-                        for_team=request.user.team.name,
                     )
 
         context = {
