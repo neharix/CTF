@@ -18,6 +18,16 @@ class TeamResults:
         self.points = data["points"]
 
 
+class UserResults:
+    def __init__(self, place, data):
+        self.place = place
+        self.user = data["user"]
+        self.first_name = data["first_name"]
+        self.last_name = data["last_name"]
+        self.team = data["team"]
+        self.points = data["points"]
+
+
 def register_tools(request):
     form = XlsxForm()
 
@@ -162,6 +172,50 @@ def challenge_result(request, challenge_id):
         return render(
             request,
             "challenge_result.html",
+            {"results": results, "challenge": challenge},
+        )
+    else:
+        return redirect("home")
+
+
+def personal_result_nav(request):
+    if request.user.is_superuser or request.user.is_staff:
+        challenges = Challenge.objects.all()
+        return render(request, "personal_res_nav.html", {"challenges": challenges})
+    else:
+        return redirect("home")
+
+
+def personal_result(request, challenge_id):
+    if request.user.is_superuser or request.user.is_staff:
+        by_score_sort = lambda e: e["points"]
+        users = User.objects.filter(is_superuser=False, is_staff=False)
+        challenge = Challenge.objects.get(pk=challenge_id)
+        results_list = []
+        for user in users:
+            points = []
+            answers = Answer.objects.filter(
+                challenge_id=challenge.pk, username=user.username
+            )
+            for answer in answers:
+                points.append(answer.point)
+            results_list.append(
+                {
+                    "user": user.username,
+                    "first_name": user.name,
+                    "last_name": user.surname,
+                    "team": user.team.name,
+                    "points": sum(points),
+                }
+            )
+        results_list.sort(key=by_score_sort, reverse=True)
+        results = [
+            UserResults(results_list.index(result) + 1, result)
+            for result in results_list
+        ]
+        return render(
+            request,
+            "personal_result.html",
             {"results": results, "challenge": challenge},
         )
     else:

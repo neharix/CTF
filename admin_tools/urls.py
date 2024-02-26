@@ -8,4 +8,6 @@ urlpatterns = [
     path("add_team_form/", views.add_team, name="add_team_form"),
     path("challenges_results/", views.challenge_results, name="challenge_results"),
     path("challenges_results/challenge/<int:challenge_id>/", views.challenge_result),
+    path("personal_results/", views.personal_result_nav, name="personal_results"),
+    path("personal_results/challenge/<int:challenge_id>/", views.personal_result),
 ]

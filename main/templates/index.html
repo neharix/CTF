@@ -1,110 +1,111 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'main/style.css' %}?{% now " U" %}">
-  <link rel="shortcut icon" type="image/png" href="{% static 'main/logo-black.png' %}" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-</head>
-
-<body class="d-flex flex-column min-vh-100">
-  {% include 'navbar.html' %}
-  {% load main_extras %}
-  {% block content %}
-
-  <!-- Tabs -->
-  <div class="container col-4 text-center" style="margin-top: 100px!important;">
-    <div class="col-6 mx-auto">
-      <nav class="nav nav-pills nav-fill">
-        <a class="nav-link active" aria-current="page" href="{% url 'running' %}" style="background-color: #3f4156;">Işjeň Wakalar</a>
-        <a class="nav-link text-light" aria-current="page" href="{% url 'upcoming' %}">Ýetip Gelýän Wakalar</a>
-        <a class="nav-link text-light" aria-current="page" href="{% url 'expired' %}">Bolup Geçen Wakalar</a>
-      </nav>
-    </div>
-   
-  </div>
-  <!-- End Tabs -->
-
-  <!-- Start of Events -->
-  <section class="text-light p-5 bg-dark" id="section-event">
-
-    <div class="container p-4">
-      <div class="row text-center">
-        {% for challenge in objects %}
-        <div class="col-lg-4 my-2" onclick="location.href='{% url 'join_challenge' challenge.id %}'">
-          <div class="card">
-            <div class="ThumbnailWrapper">
-              <div class="InnerWrapper">
-                {% load static %}
-                <image src="{% static 'main/images/thumb.png' %}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/style.css' %}?{% now " U" %}">
+    <link rel="shortcut icon"
+          type="image/png"
+          href="{% static 'main/logo-black.png' %}" />
+    <link href="{% static 'main/bootstrap.min.css' %}" rel="stylesheet">
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    {% include 'navbar.html' %}
+    {% load main_extras %}
+    {% block content %}
+      <!-- Tabs -->
+      <div class="container col-4 text-center"
+           style="margin-top: 100px!important">
+        <div class="col-6 mx-auto">
+          <nav class="nav nav-pills nav-fill">
+            <a class="nav-link active"
+               aria-current="page"
+               href="{% url 'running' %}"
+               style="background-color: #3f4156">Işjeň Ýaryşlar</a>
+          </nav>
+        </div>
+      </div>
+      <!-- End Tabs -->
+      <!-- Start of Events -->
+      <section class="text-light p-5 bg-dark" id="section-event">
+        <div class="container p-4">
+          <div class="row text-center">
+            {% for challenge in objects %}
+              <div class="col-lg-4 my-2"
+                   onclick="location.href='{% url 'join_challenge' challenge.id %}'">
+                <div class="card">
+                  <div class="ThumbnailWrapper">
+                    <div class="InnerWrapper">
+                      {% load static %}
+                      <image src="{% static 'main/images/thumb.png' %}">
+                    </div>
+                  </div>
+                  <div class="card-text">
+                    <h3 class="card-title">{{ challenge.name }}</h3>
+                    <div>
+                      <p>
+                        <span class="text-bold">Başlamaly wagty:</span> {{ challenge.date_start }}
+                        <br>
+                        <span class="text-bold">Tamamlanmaly wagty:</span> {{ challenge.date_end }}
+                      </p>
+                    </div>
+                    <p class="card-description">{{ challenge.description }}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div class="card-text">
-              <h3 class="card-title">{{ challenge.name }}</h3>
-              <div>
-                <p>
-                  <span class="text-bold">Başlamaly wagty: </span> {{ challenge.date_start }}
-                  <br>
-                  <span class="text-bold">Tamamlanmaly wagty: </span> {{ challenge.date_end }}
-                </p>
-
-              </div>
-              <p class="card-description">{{ challenge.description }}</p>
+            {% endfor %}
+            <div class="pagination_">
+              <span class="step-links">
+                {% if objects.has_previous %}
+                  <a href="{% url "home" %}?page=1">
+                    <button type="button"
+                            class="btn text-light"
+                            style="border: 1px solid #51546e;
+                                   background-color: #3f4156;
+                                   font-size: inherit">Ilkinji</button>
+                  </a>
+                  <a href="{% url "home" %}?page={{ objects.previous_page_number }}">
+                    <button type="button"
+                            class="btn text-light"
+                            style="border: 1px solid #51546e;
+                                   background-color: #3f4156;
+                                   font-size: inherit">Öňki</button>
+                  </a>
+                {% endif %}
+                <button type="button"
+                        class="btn text-light"
+                        style="border: 1px solid #51546e;
+                               background-color: #3f4156;
+                               font-size: inherit">
+                  <span class="current">{{ objects.number }}</span>
+                </button>
+                {% if objects.has_next %}
+                  <a href="{% url "home" %}?page={{ objects.next_page_number }}">
+                    <button type="button"
+                            class="btn text-light"
+                            style="border: 1px solid #51546e;
+                                   background-color: #3f4156;
+                                   font-size: inherit">Indiki</button>
+                  </a>
+                  <a href="{% url "home" %}?page={{ objects.paginator.num_pages }}">
+                    <button type="button"
+                            class="btn text-light"
+                            style="border: 1px solid #51546e;
+                                   background-color: #3f4156;
+                                   font-size: inherit">Soňky</button>
+                  </a>
+                {% endif %}
+              </span>
             </div>
           </div>
         </div>
-        {% endfor %}
-
-        <div class="pagination_">
-          <span class="step-links">
-            {% if objects.has_previous %}
-            <a href="{% url "home" %}?page=1"><button type="button"
-                class="btn text-light" style="border: 1px solid #51546e;
-              background-color: #3f4156;
-              font-size: inherit;">Ilkinji</button></a>
-            <a href="{% url "home" %}?page={{ objects.previous_page_number }}"><button
-                type="button" class="btn text-light" style="border: 1px solid #51546e;
-              background-color: #3f4156;
-              font-size: inherit;">Öňki</button></a>
-            {% endif %}
-
-            <button type="button" class="btn text-light" style="border: 1px solid #51546e;
-              background-color: #3f4156;
-              font-size: inherit;"><span class="current">
-              {{ objects.number }}
-              </span></button>
-
-            {% if objects.has_next %}
-            <a href="{% url "home" %}?page={{ objects.next_page_number }}">
-              <button type="button" class="btn text-light" style="border: 1px solid #51546e;
-              background-color: #3f4156;
-              font-size: inherit;">Indiki</button>
-            </a>
-
-            <a href="{% url "home" %}?page={{ objects.paginator.num_pages }}"><button
-                type="button" class="btn text-light" style="border: 1px solid #51546e;
-              background-color: #3f4156;
-              font-size: inherit;">Soňky</button></a>
-            {% endif %}
-          </span>
-        </div>
-      </div>
+      </section>
+      <!-- End of Events -->
     </div>
-  </section>
-  <!-- End of Events -->
-</div>
-
   {% endblock content %}
   {% include 'footer.html' %}
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-    crossorigin="anonymous"></script>
+  <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
 </body>
-
 </html>

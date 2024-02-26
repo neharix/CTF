@@ -28,7 +28,7 @@ class TeamStatics:
         self.color = color
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="login")
 def chart(request):
     if request.user.is_superuser:
         return redirect("home")

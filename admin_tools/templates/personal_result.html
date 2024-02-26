@@ -25,7 +25,10 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Ýer</th>
-                                    <th scope="col">Topar</th>
+                                    <th scope="col">Ulanyjy</th>
+                                    <th scope="col">Ady</th>
+                                    <th scope="col">Familiýasy</th>
+                                    <th scope="col">Topary</th>
                                     <th scope="col">Ballar</th>
                                 </tr>
                             </thead>
@@ -33,6 +36,9 @@
                                 {% for row in results %}
                                     <tr>
                                         <th scope="row">{{ row.place }}</th>
+                                        <td>{{ row.user }}</td>
+                                        <td>{{ row.first_name }}</td>
+                                        <td>{{ row.last_name }}</td>
                                         <td>{{ row.team }}</td>
                                         <td>{{ row.points }}</td>
                                     </tr>

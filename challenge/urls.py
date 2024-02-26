@@ -22,9 +22,6 @@ urlpatterns = [
         views.register_challenge,
         name="register_challenge",
     ),
-    path(
-        "expired_challenge/<str:pk>/", views.expired_challenge, name="expired_challenge"
-    ),
     path("play_challenge/<str:pk>/", views.play_challenge, name="play_challenge"),
     path(
         "play_challenge/<str:pk>/play_challenge_quizz/<str:pk1>/",
