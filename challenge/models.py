@@ -55,6 +55,7 @@ class Answer(models.Model):
     answer = models.TextField(null=False, blank=False)
     point = models.IntegerField()
     status = models.CharField(max_length=10)
+    answered_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.username

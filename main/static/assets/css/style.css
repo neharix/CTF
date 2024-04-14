@@ -1,0 +1,138 @@
+/*variables*/
+
+:root {
+    --card-color: #ffffff;
+    --brand-color: #ff0f0f;
+    --navbar-color: #c6c6c6;
+    --placeholder-color: #404346;
+    --background-color: whitesmoke;
+    --text-color: #000000;
+    --label: #9b9b9b;
+    --left: 60%;
+    --right: 0%;
+}
+
+[data-theme="dark"] {
+    --card-color: #343a40;
+    --brand-color: #7100c2;
+    --navbar-color: #1f1f1f;
+    --placeholder-color: #cbcbcb;
+    --background-color: rgb(25, 23, 30);
+    --text-color: #ffffff;
+    --label: #111111;
+    --left: 6%;
+    --right: 56%;
+}
+
+.btn-violet {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #7100c2;
+    --bs-btn-border-color: #7100c2;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #4c0181;
+    --bs-btn-hover-border-color: #4c0181;
+    --bs-btn-focus-shadow-rgb: 155, 15, 255;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #5b009c;
+    --bs-btn-active-border-color: #5b009c;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #8734c2;
+    --bs-btn-disabled-border-color: #8734c2;
+}
+
+#main-link {
+    color: var(--brand-color);
+}
+
+nav {
+    background-color: var(--navbar-color);
+    transition: all ease-out 0.7s;
+}
+
+#search::placeholder {
+    color: var(--placeholder-color);
+    opacity: 1;
+}
+
+#search:-ms-input-placeholder {
+    color: var(--placeholder-color);
+}
+
+#search {
+    background-color: var(--label);
+    border: none;
+}
+
+.card {
+    background-color: var(--card-color);
+    color: var(--text-color);
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: all ease-out 0.4s;
+}
+
+
+/*input checkbox*/
+
+input[type='checkbox'] {
+    opacity: 0;
+    display: none;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+/*label*/
+
+.switcher-label {
+    background-color: var(--label);
+    cursor: pointer;
+    width: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 10px;
+    height: auto;
+    min-height: 30px;
+    border-radius: 30px;
+    position: relative;
+}
+
+
+/*toggler*/
+
+.switcher-label .switcher-toggler {
+    background-color: white;
+    width: 23px;
+    height: 23px;
+    z-index: 1;
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+    left: 4%;
+    top: 12%;
+    transition: all 0.4s ease;
+    left: var(--left);
+    right: var(--right);
+}
+
+
+/*sun and moon images*/
+
+.switcher-label i {
+    font-size: 15px;
+}
+
+.switcher-label i:first-child {
+    color: gold;
+}
+
+.switcher-label i:last-child {
+    color: dodgerblue;
+}

@@ -1,20 +1,20 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'main/community.css' %}">
-    <link rel="shortcut icon" type="image/png" href="{% static 'main/logo-black.png' %}" />
-</head>
-
-<body>
-    {% load static %}
-    <header class="header header--loggedIn sticky-top sticky">
-        <div class="container">
-            {% comment %} <a href="{% url 'home' %}" class="header__logo">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'main/community.css' %}">
+        <link rel="shortcut icon"
+              type="image/png"
+              href="{% static 'main/logo-black.png' %}" />
+    </head>
+    <body>
+        {% load static %}
+        <header class="header header--loggedIn sticky-top sticky">
+            <div class="container">
+                {% comment %} <a href="{% url 'home' %}" class="header__logo">
                 <img src="{% static 'main/logo.png' %}" />
             </a>
             <ul>
@@ -33,114 +33,140 @@
                 <li>
                     <a href="{% url 'community' %}">Community</a>
                 </li>
-            </ul> {% endcomment %}
-
-
-            <div class="nav">
-                <input type="checkbox" class='nav__input' name="" id="nav__input">
-                <nav class="nav__pc">
-                    <a href="{% url 'home' %}" class="site__logo">
-                        <img src="{% static 'main/logo.png' %}" />
-                    </a>
-
-                  {% if request.user.is_superuser %}
-                  <ul class="nav__list">
-                    <li><a href="{% url 'admin_tools' %}">Admin gurallary</a></li>
-                  </ul>
-                  {% else %}
-                  <ul class="nav__list">
-                    <li><a href="{% url 'chart' %}" class="nav__link">Diagrammalar</a></li>
-                  </ul>
-                  {% endif %}
-                </nav>
-                <label for="nav__input" class="nav__bar-btn">
-                  <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="svg-inline--fa fa-bars fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path></svg>
-                </label>
-                <label for="nav__input" class="nav__overlay">
-                </label>
-                <nav  class="nav__mobile" style="background-color:#696d97;">
-                    <a href="{% url 'home' %}" class="header__logo" style="margin: 12px;">
-                        <img src="{% static 'main/logo.png' %}" />
-                    </a>
-                  {% if request.user.is_superuser %}
-                  <ul class="nav__mobile-list" style="margin-top: 10px;">
-                    <li><a href="{% url 'admin_tools' %}">Admin gurallary</a></li>
-                  </ul>
-                  {% else %}
-                  <ul class="nav__mobile-list" style="margin-top: 10px;">
-                    <li><a href="{% url 'chart' %}" class="nav__mobile-link">Diagrammalar</a></li>
-                  </ul>
-                  {% endif %}
-                  <label for="nav__input" class="nav__mobile-btn">
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" class="svg-inline--fa fa-times fa-w-11" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg>
-                  </label>
+                </ul> {% endcomment %}
+                <div class="nav">
+                    <input type="checkbox" class='nav__input' name="" id="nav__input">
+                    <nav class="nav__pc">
+                        <a href="{% url 'home' %}" class="site__logo">
+                            <img src="{% static 'main/logo.png' %}" />
+                        </a>
+                        {% if request.user.is_superuser %}
+                            <ul class="nav__list">
+                                <li>
+                                    <a href="{% url 'admin_tools' %}">Admin gurallary</a>
+                                </li>
+                            </ul>
+                        {% else %}
+                            <ul class="nav__list">
+                                <li>
+                                    <a href="{% url 'chart' %}" class="nav__link">Diagrammalar</a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </nav>
+                    <label for="nav__input" class="nav__bar-btn">
+                        <svg aria-hidden="true"
+                             focusable="false"
+                             data-prefix="fas"
+                             data-icon="bars"
+                             class="svg-inline--fa fa-bars fa-w-14"
+                             role="img"
+                             xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 448 512">
+                            <path fill="currentColor" d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z">
+                            </path>
+                        </svg>
+                    </label>
+                    <label for="nav__input" class="nav__overlay"></label>
+                    <nav class="nav__mobile" style="background-color:#696d97;">
+                        <a href="{% url 'home' %}" class="header__logo" style="margin: 12px;">
+                            <img src="{% static 'main/logo.png' %}" />
+                        </a>
+                        {% if request.user.is_superuser %}
+                            <ul class="nav__mobile-list" style="margin-top: 10px;">
+                                <li>
+                                    <a href="{% url 'admin_tools' %}">Admin gurallary</a>
+                                </li>
+                            </ul>
+                        {% else %}
+                            <ul class="nav__mobile-list" style="margin-top: 10px;">
+                                <li>
+                                    <a href="{% url 'chart' %}" class="nav__mobile-link">Diagrammalar</a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                        <label for="nav__input" class="nav__mobile-btn">
+                            <svg aria-hidden="true"
+                                 focusable="false"
+                                 data-prefix="fas"
+                                 data-icon="times"
+                                 class="svg-inline--fa fa-times fa-w-11"
+                                 role="img"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 352 512">
+                                <path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z">
+                                </path>
+                            </svg>
+                        </label>
+                    </nav>
+                </div>
+                <form class="header__search" method="GET" action="{% url 'search' %}">
+                    <label>
+                        <svg version="1.1"
+                             xmlns="http://www.w3.org/2000/svg"
+                             width="32"
+                             height="32"
+                             viewBox="0 0 32 32">
+                            <title>Gözle</title>
+                            <path d="M32 30.586l-10.845-10.845c1.771-2.092 2.845-4.791 2.845-7.741 0-6.617-5.383-12-12-12s-12 5.383-12 12c0 6.617 5.383 12 12 12 2.949 0 5.649-1.074 7.741-2.845l10.845 10.845 1.414-1.414zM12 22c-5.514 0-10-4.486-10-10s4.486-10 10-10c5.514 0 10 4.486 10 10s-4.486 10-10 10z">
+                            </path>
+                        </svg>
+                        <input type="search" name="q" placeholder="Gözle" autocomplete="off" />
+                    </label>
+                </form>
+                <nav class="header__menu">
+                    <!-- Logged In -->
+                    {% if request.user.is_authenticated %}
+                        <div class="header__user">
+                            <div class="avatar avatar--medium active">
+                                <img src="{{ request.user.avatar.url }}" />
+                            </div>
+                            {% if request.user.name == None %}
+                                <p>
+                                    <span>@{{ request.user.username }}</span>
+                                </p>
+                            {% else %}
+                                <p>
+                                    {{ request.user.name }} <span>@{{ request.user.username }}</span>
+                                </p>
+                            {% endif %}
+                            <button class="dropdown-button">
+                                <svg version="1.1"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     width="32"
+                                     height="32"
+                                     viewBox="0 0 32 32">
+                                    <title>chevron-down</title>
+                                    <path d="M16 21l-13-13h-3l16 16 16-16h-3l-13 13z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    {% else %}
+                        <!-- Not Logged In -->
+                        <a href="{% url 'login' %}">
+                            <img src="{% static 'main/images/avatar.svg' %}" />
+                            <p>Girmek</p>
+                        </a>
+                    {% endif %}
+                    <div class="dropdown-menu">
+                        <a href="{% url 'logout' %}" class="dropdown-link">
+                            <svg version="1.1"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 width="32"
+                                 height="32"
+                                 viewBox="0 0 32 32">
+                                <title>sign-out</title>
+                                <path d="M3 0h22c0.553 0 1 0 1 0.553l-0 3.447h-2v-2h-20v28h20v-2h2l0 3.447c0 0.553-0.447 0.553-1 0.553h-22c-0.553 0-1-0.447-1-1v-30c0-0.553 0.447-1 1-1z">
+                                </path>
+                                <path d="M21.879 21.293l1.414 1.414 6.707-6.707-6.707-6.707-1.414 1.414 4.293 4.293h-14.172v2h14.172l-4.293 4.293z">
+                                </path>
+                            </svg>
+                        Çykmak</a>
+                    </div>
                 </nav>
             </div>
-
-
-
-            <form class="header__search" method="GET" action="{% url 'search' %}">
-                <label>
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                        <title>Gözle</title>
-                        <path
-                            d="M32 30.586l-10.845-10.845c1.771-2.092 2.845-4.791 2.845-7.741 0-6.617-5.383-12-12-12s-12 5.383-12 12c0 6.617 5.383 12 12 12 2.949 0 5.649-1.074 7.741-2.845l10.845 10.845 1.414-1.414zM12 22c-5.514 0-10-4.486-10-10s4.486-10 10-10c5.514 0 10 4.486 10 10s-4.486 10-10 10z">
-                        </path>
-                    </svg>
-                    <input type="search" name="q" placeholder="Gözle" autocomplete="off" />
-                </label>
-            </form>
-            <nav class="header__menu">
-
-
-                <!-- Logged In -->
-                {% if request.user.is_authenticated %}
-                <div class="header__user">
-                    <div class="avatar avatar--medium active">
-                        <img src="{{request.user.avatar.url}}" />
-                    </div>
-                    {% if request.user.name == None %}
-                    <p><span>@{{request.user.username}}</span></p>
-                    {% else %}
-                    <p>{{request.user.name}} <span>@{{request.user.username}}</span></p>
-                    {% endif %}
-                    <button class="dropdown-button">
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                            viewBox="0 0 32 32">
-                            <title>chevron-down</title>
-                            <path d="M16 21l-13-13h-3l16 16 16-16h-3l-13 13z"></path>
-                        </svg>
-                    </button>
-                </div>
-                {% else %}
-
-                <!-- Not Logged In -->
-                <a href="{% url 'login' %}">
-                    <img src="{% static 'main/images/avatar.svg' %}" />
-                    <p>Girmek</p>
-                </a>
-                {% endif %}
-
-                <div class="dropdown-menu">
-                    <a href="{% url 'logout' %}" class="dropdown-link"><svg version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                            <title>sign-out</title>
-                            <path
-                                d="M3 0h22c0.553 0 1 0 1 0.553l-0 3.447h-2v-2h-20v28h20v-2h2l0 3.447c0 0.553-0.447 0.553-1 0.553h-22c-0.553 0-1-0.447-1-1v-30c0-0.553 0.447-1 1-1z">
-                            </path>
-                            <path
-                                d="M21.879 21.293l1.414 1.414 6.707-6.707-6.707-6.707-1.414 1.414 4.293 4.293h-14.172v2h14.172l-4.293 4.293z">
-                            </path>
-                        </svg>
-                        Çykmak</a>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    {% load static %}
-    <script src="{% static 'main/navbar.js' %}"></script>
-
-</body>
-
+        </header>
+        {% load static %}
+        <script src="{% static 'main/navbar.js' %}"></script>
+    </body>
 </html>

@@ -10,4 +10,5 @@ urlpatterns = [
     path("challenges_results/challenge/<int:challenge_id>/", views.challenge_result),
     path("personal_results/", views.personal_result_nav, name="personal_results"),
     path("personal_results/challenge/<int:challenge_id>/", views.personal_result),
+    path("get_challenge_xlsx/", views.get_xlsx_of_challenge, name="get_challenge_xlsx"),
 ]

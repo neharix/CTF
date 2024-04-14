@@ -12,7 +12,7 @@ class siteAdmin(admin.ModelAdmin):
 admin.site.register(Challenge, siteAdmin)
 admin.site.register(Hint, siteAdmin)
 admin.site.register(Quizz, siteAdmin)
-admin.site.register(Answer, siteAdmin)
+admin.site.register(Answer)
 admin.site.register(TrueAnswers)
 # class NoteAdmin(admin.ModelAdmin):
 #     list_filter = ('day_created',)
