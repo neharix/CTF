@@ -11,6 +11,8 @@
               type="image/png"
               href="{% static 'main/logo-black.png' %}" />
         <link href="{% static 'main/bootstrap.min.css' %}" rel="stylesheet">
+        <link rel="stylesheet"
+              href="{% static 'assets/bootstrap-icons/font/bootstrap-icons.min.css' %}">
     </head>
     <body>
         {% include 'navbar.html' %}
@@ -20,6 +22,20 @@
                 <h2 class="card-header pt-4 text-center"
                     style="background-color: #696d97!important">"{{ challenge.name }}" ýaryşynyň netijeleri</h2>
                 <div class="card-body mt-4" style="height: 40vh; overflow-y: scroll;">
+                    <div class="btn-group"
+                         role="group"
+                         style="box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15)">
+                        <a href="{{ xlsx_path }}"
+                           class="btn btn-success"
+                           style="box-shadow: none">
+                            <i style="font-size: 2rem;" class="bi bi-filetype-xls"></i>
+                        </a>
+                        <a href="{{ pdf_path }}"
+                           class="btn btn-danger"
+                           style="box-shadow: none">
+                            <i style="font-size: 2rem;" class="bi bi-filetype-pdf"></i>
+                        </a>
+                    </div>
                     <div class="row p-5">
                         <table class="table text-light">
                             <thead>

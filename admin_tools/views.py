@@ -1,6 +1,20 @@
 import random
+from pathlib import Path
 
 import pandas as pd
+from borb.io.read.types import Decimal
+from borb.pdf.canvas.color.color import X11Color
+from borb.pdf.canvas.font.simple_font.true_type_font import TrueTypeFont
+from borb.pdf.canvas.layout.page_layout.single_column_layout_with_overflow import (
+    SingleColumnLayout,
+)
+from borb.pdf.canvas.layout.table.fixed_column_width_table import FixedColumnWidthTable
+from borb.pdf.canvas.layout.table.table import TableCell
+from borb.pdf.canvas.layout.text.paragraph import Paragraph
+from borb.pdf.document.document import Document
+from borb.pdf.page.page import Page
+from borb.pdf.pdf import PDF
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 
@@ -139,6 +153,13 @@ def admin_tools(request):
         return redirect("home")
 
 
+def export_page(request):
+    if request.user.is_superuser:
+        return render(request, "export_page.html")
+    else:
+        return redirect("home")
+
+
 def add_team(request):
     if request.user.is_superuser:
         if request.method == "POST":
@@ -223,6 +244,7 @@ def challenge_result(request, challenge_id):
         teams = Team.objects.all()
         challenge = Challenge.objects.get(pk=challenge_id)
         results_list = []
+        dataframe_dict = {"Topar": [], "Bal": []}
         for team in teams:
             points = []
             answers = Answer.objects.filter(challenge_id=challenge.pk, team=team.name)
@@ -234,10 +256,99 @@ def challenge_result(request, challenge_id):
             TeamResults(results_list.index(result) + 1, result)
             for result in results_list
         ]
+
+        for result in results_list:
+            dataframe_dict["Topar"].append(result["team"])
+            dataframe_dict["Bal"].append(result["points"])
+
+        challenge_slug = challenge.name.lower().replace(" ", "_") + str(
+            random.randint(1, 100000)
+        )
+        pd.DataFrame(dataframe_dict).to_excel(
+            f"./media/exported_xlsx/{challenge_slug}_teams.xlsx"
+        )
+
+        path = str(settings.BASE_DIR).replace("\\", "/")
+        font = TrueTypeFont().true_type_font_from_file(
+            Path(path + "/admin_tools/static/fonts/VelaSans-Regular.ttf")
+        )
+        document = Document()
+        page = Page()
+        layout = SingleColumnLayout(page)
+        layout.add(
+            Paragraph(
+                f'Toparlaryň "{challenge.name}" ýarysy boýunca netijeleri',
+                font=font,
+                font_size=Decimal(20),
+            )
+        )
+        if len(results_list) > 20:
+            row_count = 21
+        else:
+            row_count = len(results_list) + 1
+        layout.add(
+            Paragraph(
+                f"Top-20" if row_count == 21 else f"",
+                font=font,
+                font_size=Decimal(14),
+            )
+        )
+        table = (
+            FixedColumnWidthTable(
+                number_of_columns=3,
+                number_of_rows=row_count,
+                column_widths=[Decimal(1), Decimal(2), Decimal(1)],
+            )
+            .add(
+                Paragraph(
+                    "Ýer",
+                    font=font,
+                )
+            )
+            .add(
+                Paragraph(
+                    "Topar",
+                    font=font,
+                )
+            )
+            .add(
+                Paragraph(
+                    "Bal",
+                    font=font,
+                )
+            )
+        )
+        sh = 0
+        for result in results_list:
+            if sh == 20:
+                break
+            sh += 1
+            table.add(Paragraph(str(sh), font=font))
+            table.add(Paragraph(result["team"], font=font))
+            table.add(Paragraph(str(result["points"]), font=font))
+
+        layout.add(
+            table.set_padding_on_all_cells(
+                Decimal(3), Decimal(3), Decimal(3), Decimal(3)
+            )
+        )
+
+        document.add_page(page)
+
+        with open(
+            path + f"/media/exported_pdf/{challenge_slug}_team.pdf", "wb"
+        ) as pdf_file_handle:
+            PDF.dumps(pdf_file_handle, document)
+
         return render(
             request,
             "challenge_result.html",
-            {"results": results, "challenge": challenge},
+            {
+                "results": results,
+                "challenge": challenge,
+                "xlsx_path": f"/media/exported_xlsx/{challenge_slug}_teams.xlsx",
+                "pdf_path": f"/media/exported_pdf/{challenge_slug}_team.pdf",
+            },
         )
     else:
         return redirect("home")
@@ -257,6 +368,7 @@ def personal_result(request, challenge_id):
         users = User.objects.filter(is_superuser=False, is_staff=False)
         challenge = Challenge.objects.get(pk=challenge_id)
         results_list = []
+        dataframe_dict = {"Ady": [], "Familiýasy": [], "Topary": [], "Bal": []}
         for user in users:
             points = []
             answers = Answer.objects.filter(
@@ -278,10 +390,119 @@ def personal_result(request, challenge_id):
             UserResults(results_list.index(result) + 1, result)
             for result in results_list
         ]
+        for result in results_list:
+            dataframe_dict["Ady"].append(result["first_name"])
+            dataframe_dict["Familiýasy"].append(result["last_name"])
+            dataframe_dict["Topary"].append(result["team"])
+            dataframe_dict["Bal"].append(result["points"])
+
+        challenge_slug = challenge.name.lower().replace(" ", "_") + str(
+            random.randint(1, 100000)
+        )
+        pd.DataFrame(dataframe_dict).to_excel(
+            f"./media/exported_xlsx/{challenge_slug}_users.xlsx"
+        )
+        path = str(settings.BASE_DIR).replace("\\", "/")
+        font = TrueTypeFont().true_type_font_from_file(
+            Path(path + "/admin_tools/static/fonts/VelaSans-Regular.ttf")
+        )
+        document = Document()
+        page = Page()
+        layout = SingleColumnLayout(page)
+        layout.add(
+            Paragraph(
+                f'Toparlaryň "{challenge.name}" ýarysy boýunca netijeleri',
+                font=font,
+                font_size=Decimal(20),
+            )
+        )
+        if len(results_list) > 10:
+            row_count = 11
+        else:
+            row_count = len(results_list) + 1
+        layout.add(
+            Paragraph(
+                f"Top-10" if row_count == 11 else f"",
+                font=font,
+                font_size=Decimal(14),
+            )
+        )
+        table = (
+            FixedColumnWidthTable(
+                number_of_columns=5,
+                number_of_rows=row_count,
+                column_widths=[
+                    Decimal(1),
+                    Decimal(1),
+                    Decimal(1),
+                    Decimal(1),
+                    Decimal(1),
+                ],
+            )
+            .add(
+                Paragraph(
+                    "Ýer",
+                    font=font,
+                )
+            )
+            .add(
+                Paragraph(
+                    "Ady",
+                    font=font,
+                )
+            )
+            .add(
+                Paragraph(
+                    "Familiýasy",
+                    font=font,
+                )
+            )
+            .add(
+                Paragraph(
+                    "Topar",
+                    font=font,
+                )
+            )
+            .add(
+                Paragraph(
+                    "Bal",
+                    font=font,
+                )
+            )
+        )
+        sh = 0
+        for result in results_list:
+            if sh == 10:
+                break
+            sh += 1
+            table.add(Paragraph(str(sh), font=font))
+            table.add(Paragraph(result["first_name"], font=font))
+            table.add(Paragraph(result["last_name"], font=font))
+            table.add(Paragraph(result["team"], font=font))
+            table.add(Paragraph(str(result["points"]), font=font))
+
+        layout.add(
+            table.set_padding_on_all_cells(
+                Decimal(3), Decimal(3), Decimal(3), Decimal(3)
+            )
+        )
+
+        document.add_page(page)
+
+        with open(
+            path + f"/media/exported_pdf/{challenge_slug}_users.pdf", "wb"
+        ) as pdf_file_handle:
+            PDF.dumps(pdf_file_handle, document)
+
         return render(
             request,
             "personal_result.html",
-            {"results": results, "challenge": challenge},
+            {
+                "results": results,
+                "challenge": challenge,
+                "xlsx_path": f"/media/exported_xlsx/{challenge_slug}_users.xlsx",
+                "pdf_path": f"/media/exported_pdf/{challenge_slug}_users.pdf",
+            },
         )
     else:
         return redirect("home")

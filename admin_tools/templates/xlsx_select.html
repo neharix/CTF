@@ -25,7 +25,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Ýaryş</th>
-                                    <th scope="col">Xlsx</th>
+                                    <th scope="col">Excel</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,7 +33,7 @@
                                     <tr>
                                         <th scope="row">{{ row.challenge }}</th>
                                         <td>
-                                            <a href="{{ row.path }}"><i class="bi bi-download"></i></a>
+                                            <a href="{{ row.path }}" class="btn btn-primary"><i class="bi bi-download"></i></a>
                                         </td>
                                     </tr>
                                 {% endfor %}

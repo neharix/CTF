@@ -11,6 +11,8 @@
               type="image/png"
               href="{% static 'main/logo-black.png' %}" />
         <link href="{% static 'main/bootstrap.min.css' %}" rel="stylesheet">
+        <link rel="stylesheet"
+              href="{% static 'assets/bootstrap-icons/font/bootstrap-icons.min.css' %}">
     </head>
     <body>
         {% include 'navbar.html' %}
@@ -19,26 +21,44 @@
                  style="background-color: #3f4156!important">
                 <h2 class="card-header pt-4 text-center"
                     style="background-color: #696d97!important">"{{ challenge.name }}" ýaryşynyň netijeleri</h2>
+                <div class="p-4 pb-2 px-5">
+                    <div class="btn-group"
+                         role="group"
+                         style="box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15)">
+                        <a class="btn btn-success"
+                           href="{{ xlsx_path }}"
+                           style="box-shadow: none">
+                            <i style="font-size: 2rem;" class="bi bi-filetype-xls"></i>
+                        </a>
+                        <a class="btn btn-danger"
+                           href="{{ pdf_path }}"
+                           style="box-shadow: none">
+                            <i style="font-size: 2rem;" class="bi bi-filetype-pdf"></i>
+                        </a>
+                    </div>
+                </div>
                 <div class="card-body mt-4" style="height: 40vh; overflow-y: scroll;">
-                    <div class="row p-5">
-                        <table class="table text-light">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Ýer</th>
-                                    <th scope="col">Topar</th>
-                                    <th scope="col">Ballar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for row in results %}
+                    <div>
+                        <div class="row p-1 px-5">
+                            <table class="table text-light">
+                                <thead>
                                     <tr>
-                                        <th scope="row">{{ row.place }}</th>
-                                        <td>{{ row.team }}</td>
-                                        <td>{{ row.points }}</td>
+                                        <th scope="col">Ýer</th>
+                                        <th scope="col">Topar</th>
+                                        <th scope="col">Ballar</th>
                                     </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {% for row in results %}
+                                        <tr>
+                                            <th scope="row">{{ row.place }}</th>
+                                            <td>{{ row.team }}</td>
+                                            <td>{{ row.points }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
