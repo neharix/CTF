@@ -84,7 +84,7 @@
                                        type="checkbox">
                                 <label for="sql-injection-check" class="ms-3">SQL injection</label>
                             </div>
-                            <div class="form-check col-2" style="pointer-events: none;">
+                            <div class="form-check col-3" style="pointer-events: none;">
                                 <input onclick="steganography(event)"
                                        class="form-check-input"
                                        id="steganography-check"
@@ -92,6 +92,15 @@
                                        style="pointer-events:all"
                                        type="checkbox">
                                 <label for="steganography-check" class="ms-3">Steganografiýa</label>
+                            </div>
+                            <div class="form-check col-2" style="pointer-events: none;">
+                                <input onclick="matreshka(event)"
+                                       class="form-check-input"
+                                       id="matreshka-check"
+                                       name="mathreshka-field"
+                                       style="pointer-events:all"
+                                       type="checkbox">
+                                <label for="steganography-check" class="ms-3">Matreşka</label>
                             </div>
                         </div>
                         <div style="width: 100%;" id="file-container"></div>
@@ -162,6 +171,7 @@
         let answer_label = document.querySelector("#answer-label");
         let answer_field = document.querySelector("#answer");
 
+        let matreshka_check = document.querySelector("#matreshka-check");
         let pentest_checkbox = document.querySelector("#pentest-check");
         let sql_injection_check = document.querySelector("#sql-injection-check");
         let steganography_check = document.querySelector("#steganography-check");
@@ -189,6 +199,9 @@
             if (steganography_check.checked == true){
                 steganography_check.checked = false;               
             }
+            if (matreshka_check.checked == true){
+                matreshka_check.checked = false;
+            }
             if (event.target.checked == true) {
                 let element = document.querySelector("#ctf_data");
                 const container = event.target.parentElement.parentElement;
@@ -212,6 +225,9 @@
             }
             if (steganography_check.checked == true){
                 steganography_check.checked = false;
+            }
+            if (matreshka_check.checked == true){
+                matreshka_check.checked = false;
             }
             if (event.target.checked == true) {
                 const container = event.target.parentElement.parentElement;
@@ -239,6 +255,9 @@
             if (pentest_checkbox.checked == true){
                 pentest_checkbox.checked = false;
             }
+            if (matreshka_check.checked == true){
+                matreshka_check.checked = false;
+            }
             if (event.target.checked == true) {
                 answer_label.style = "display: none;";
                 answer_field.style = "display: none;";
@@ -256,6 +275,34 @@
             }
 
         }
+        function matreshka(event) {
+            if (sql_injection_check.checked == true){
+                sql_injection_check.checked = false;
+            }
+            if (pentest_checkbox.checked == true){
+                pentest_checkbox.checked = false;
+            }
+            if (steganography_check.checked == true){
+                steganography_check.checked = false;
+            }
+            if (event.target.checked == true) {
+                answer_label.style = "display: none;";
+                answer_field.style = "display: none;";
+                type_of_quizz.value = "Matreshka";
+                let element = document.querySelector("#ctf_data");
+                const container = event.target.parentElement.parentElement;
+                if (element != null) {
+                    container.removeChild(element);
+                }
+            }
+            else {
+                type_of_quizz.value = "Default";
+                answer_label.style = "";
+                answer_field.style = "";
+            }
+
+        }
+        
 
 
         function addFile(event) {

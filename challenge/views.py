@@ -1,5 +1,7 @@
 import datetime
+import os
 import random
+import zipfile
 import zoneinfo
 from datetime import date, datetime
 
@@ -337,11 +339,12 @@ def play_challenge(request, pk):
                             quizz_id=quizz.pk,
                         )
 
+                    files_directory = base_dir + "/media/"
+                    team = Team.objects.get(name=request.user.team.name)
                     if quizz.type_of_quizz == "Steganography":
-                        team = Team.objects.get(name=request.user.team.name)
                         pict_id = random.randint(1, 1000000)
                         file = File.objects.get(quizz_id=quizz.pk)
-                        files_directory = base_dir + "/media/"
+
                         s = stegano.lsb.hide(files_directory + str(file.file), flag)
                         s.save(
                             files_directory
@@ -351,6 +354,52 @@ def play_challenge(request, pk):
                             file=f"files/team{team.name.lower()}{pict_id}.png",
                             quizz_id=quizz.pk,
                             for_team=team.name,
+                        )
+                    if quizz.type_of_quizz == "Matreshka":
+                        txt_id = random.randint(1, 1000000)
+                        lines_count = random.randint(75, 500)
+                        flag_line = random.randint(75, lines_count)
+                        text = ""
+                        for line_id in range(lines_count):
+                            text += (
+                                "".join(
+                                    [
+                                        chr(random.randint(97, 122))
+                                        for i in range(random.randint(50, 150))
+                                    ]
+                                )
+                                + "\n"
+                            )
+                            if line_id == flag_line:
+                                text += flag + "\n"
+                        path = (
+                            files_directory
+                            + f"files/team{''.join(team.name.lower().split())}{txt_id}"
+                        )
+                        os.mkdir(path)
+                        cwd = os.getcwd()
+                        os.chdir(
+                            f"media/files/team{''.join(team.name.lower().split())}{txt_id}"
+                        )
+                        with open("data.txt", "w+") as file:
+                            file.write(text)
+                        os.rename("data.txt", "data")
+
+                        with zipfile.ZipFile("data_archive.zip", "w") as zipFile:
+                            zipFile.write("data")
+                        os.remove("data")
+                        os.rename("data_archive.zip", "data")
+                        nested_zip = random.randint(3, 10)
+                        for i in range(nested_zip):
+                            with zipfile.ZipFile("data_archive.zip", "w") as zipFile:
+                                zipFile.write("data")
+                            os.remove("data")
+                            os.rename("data_archive.zip", "data")
+                        os.chdir(cwd)
+                        File.objects.create(
+                            file=f"files/team{''.join(team.name.lower().split())}{txt_id}/data",
+                            for_team=team.name,
+                            quizz_id=quizz.pk,
                         )
 
             context = {
