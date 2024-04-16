@@ -3,15 +3,19 @@ import random
 import zoneinfo
 from datetime import date, datetime
 
+import stegano
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.utils import timezone
 
 from bookstore.models import CtfTaskObjects, UserDatas
-from main.models import File, Team, User
+from main.models import File, FlagsFromUnsafety, Team, User
 
 from .forms import ChallengeForm, Hint, QuizzForm
 from .models import Answer, Challenge, Hint, Quizz, TrueAnswers
+
+base_dir = str(settings.BASE_DIR).replace("\\", "/")
 
 
 @login_required(login_url="login")
@@ -79,9 +83,9 @@ def create_challenge_quizz(request, pk):
             bookstore_username = request.POST.get("ctf_username")
             bookstore_password = request.POST.get("ctf_password")
 
-            files_count = int(request.POST.get("files_count"))
+            type_of_quizz = request.POST.get("type-of-quizz")
 
-            is_pentest = True if bookstore_username and bookstore_password else False
+            files_count = int(request.POST.get("files_count"))
 
             hints = request.POST.getlist("hint")
             hint_points = request.POST.getlist("hint_point")
@@ -91,7 +95,7 @@ def create_challenge_quizz(request, pk):
                 name=_name,
                 question=_question,
                 point=_point,
-                is_pentest=is_pentest,
+                type_of_quizz=type_of_quizz,
             )
 
             if bookstore_username and bookstore_password:
@@ -102,13 +106,21 @@ def create_challenge_quizz(request, pk):
                 )
 
             if files_count:
-                for index in range(1, files_count + 1):
-                    File.objects.create(
-                        file=request.FILES[f"file{index}"],
-                        quizz_id=quizz.pk,
-                    )
+                if type_of_quizz != "Steganography":
+                    for index in range(1, files_count + 1):
+                        File.objects.create(
+                            file=request.FILES[f"file{index}"],
+                            quizz_id=quizz.pk,
+                        )
+                else:
+                    for index in range(1, files_count + 1):
+                        File.objects.create(
+                            file=request.FILES[f"file{index}"],
+                            quizz_id=quizz.pk,
+                            for_team="status:stegano_pub",
+                        )
 
-            if _answer and is_pentest == False:
+            if _answer and type_of_quizz == "Default":
                 TrueAnswers.objects.create(
                     is_public=True, answer=_answer, quizz_id=quizz.pk
                 )
@@ -318,11 +330,27 @@ def play_challenge(request, pk):
                     TrueAnswers.objects.create(
                         answer=flag, for_team=request.user.team.name, quizz_id=quizz.pk
                     )
-                    if quizz.is_pentest:
+                    if quizz.type_of_quizz == "Pentest":
                         UserDatas.objects.create(
                             flag=flag,
                             for_team=request.user.team.name,
                             quizz_id=quizz.pk,
+                        )
+
+                    if quizz.type_of_quizz == "Steganography":
+                        team = Team.objects.get(name=request.user.team.name)
+                        pict_id = random.randint(1, 1000000)
+                        file = File.objects.get(quizz_id=quizz.pk)
+                        files_directory = base_dir + "/media/"
+                        s = stegano.lsb.hide(files_directory + str(file.file), flag)
+                        s.save(
+                            files_directory
+                            + f"files/team{team.name.lower()}{pict_id}.png"
+                        )
+                        File.objects.create(
+                            file=f"files/team{team.name.lower()}{pict_id}.png",
+                            quizz_id=quizz.pk,
+                            for_team=team.name,
                         )
 
             context = {
@@ -384,12 +412,24 @@ def play_challenge_quizz(request, pk, pk1):
                 "timer_timeout_month": timer_timeout_month,
                 "timer_timeout_hours": timer_timeout_hours,
             }
+
+            unsafety_flags = [flag.flag for flag in FlagsFromUnsafety.objects.all()]
+
             if request.method == "POST":
                 _answer = request.POST.get("answer")
                 minus_point = request.POST.get("minus-point")
                 # print('begin')
                 # print(minus_point)
-                if _answer == true_answer.answer:
+
+                if (
+                    _answer == true_answer.answer
+                    and quizz.type_of_quizz != "SQL Injection"
+                ):
+                    _point = quizz.point - int(minus_point)
+                    _status = "True"
+                elif (
+                    quizz.type_of_quizz == "SQL Injection" and _answer in unsafety_flags
+                ):
                     _point = quizz.point - int(minus_point)
                     _status = "True"
                 else:

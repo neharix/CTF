@@ -70,10 +70,28 @@
                             <div class="form-check col-2" style="pointer-events: none;">
                                 <input onclick="add_ctf_user(event)"
                                        class="form-check-input"
-                                       id="url-check"
+                                       id="pentest-check"
                                        style="pointer-events:all"
                                        type="checkbox">
-                                <label for="url-check" class="ms-3">Pentest saýt</label>
+                                <label for="pentest-check" class="ms-3">Pentest saýt</label>
+                            </div>
+                            <div class="form-check col-2" style="pointer-events: none;">
+                                <input onclick="sql_injection(event)"
+                                       class="form-check-input"
+                                       id="sql-injection-check"
+                                       name="sql-injection-field"
+                                       style="pointer-events:all"
+                                       type="checkbox">
+                                <label for="sql-injection-check" class="ms-3">SQL injection</label>
+                            </div>
+                            <div class="form-check col-2" style="pointer-events: none;">
+                                <input onclick="steganography(event)"
+                                       class="form-check-input"
+                                       id="steganography-check"
+                                       name="steganography-field"
+                                       style="pointer-events:all"
+                                       type="checkbox">
+                                <label for="steganography-check" class="ms-3">Steganografiýa</label>
                             </div>
                         </div>
                         <div style="width: 100%;" id="file-container"></div>
@@ -107,6 +125,11 @@
                                 </svg>
                                 Maslahat goşuň
                             </button>
+                            <input name="type-of-quizz"
+                                   id="type-of-quizz"
+                                   value="Default"
+                                   type="text"
+                                   style="display: none">
                         </div>
                     </div>
                 </div>
@@ -139,7 +162,11 @@
         let answer_label = document.querySelector("#answer-label");
         let answer_field = document.querySelector("#answer");
 
-        let pentest_checkbox = document.querySelector("#url-check");
+        let pentest_checkbox = document.querySelector("#pentest-check");
+        let sql_injection_check = document.querySelector("#sql-injection-check");
+        let steganography_check = document.querySelector("#steganography-check");
+    
+        let type_of_quizz = document.querySelector("#type-of-quizz");
 
         function addQuizz() {
             num += 1;
@@ -155,10 +182,36 @@
         function delQuizz(event) {
             event.target.parentElement.parentElement.remove();
         }
+        function sql_injection(event) {
+            if (pentest_checkbox.checked == true){
+                pentest_checkbox.checked = false;               
+            }
+            if (steganography_check.checked == true){
+                steganography_check.checked = false;               
+            }
+            if (event.target.checked == true) {
+                let element = document.querySelector("#ctf_data");
+                const container = event.target.parentElement.parentElement;
+                answer_label.style = "display: none;";
+                answer_field.style = "display: none;";
+                if (element != null) {
+                    container.removeChild(element);
+                }
+                type_of_quizz.value = "SQL Injection";
+            }
+            else
+            {
+                type_of_quizz.value = "Default";
+                answer_label.style = "";
+                answer_field.style = "";
+            }
+        }
         function add_ctf_user(event) {
-            if (morse_checkbox.checked == true){
-                morse_checkbox.checked = false;
-                hidden_morse.value = "";
+            if (sql_injection_check.checked == true){
+                sql_injection_check.checked = false;
+            }
+            if (steganography_check.checked == true){
+                steganography_check.checked = false;
             }
             if (event.target.checked == true) {
                 const container = event.target.parentElement.parentElement;
@@ -169,13 +222,41 @@
                 container.appendChild(newElement);
                 answer_label.style = "display: none;";
                 answer_field.style = "display: none;";
+                type_of_quizz.value = "Pentest";
             }
             else {
+                type_of_quizz.value = "Default";
                 event.target.parentElement.parentElement.parentElement.querySelector('#ctf_data').remove();
                 answer_label.style = "";
                 answer_field.style = "";
             }
         }
+        
+        function steganography(event){
+            if (sql_injection_check.checked == true){
+                sql_injection_check.checked = false;
+            }
+            if (pentest_checkbox.checked == true){
+                pentest_checkbox.checked = false;
+            }
+            if (event.target.checked == true) {
+                answer_label.style = "display: none;";
+                answer_field.style = "display: none;";
+                type_of_quizz.value = "Steganography";
+                let element = document.querySelector("#ctf_data");
+                const container = event.target.parentElement.parentElement;
+                if (element != null) {
+                    container.removeChild(element);
+                }
+            }
+            else {
+                type_of_quizz.value = "Default";
+                answer_label.style = "";
+                answer_field.style = "";
+            }
+
+        }
+
 
         function addFile(event) {
             const container = event.target.parentElement.parentElement.querySelector('#file-container');

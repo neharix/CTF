@@ -91,24 +91,16 @@
         <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
         <script type="text/javascript">
         var num = 0;
+        let answer_input = document.querySelector("#id_answer");
+        answer_input.value = "flag{}";
         function showHint(event) {
             container = event.target;
             container.innerHTML = '{{hint.content}}';
         }
-
         function getPoint() {
             event.target.onclick = false;
             document.getElementById('minus-point').value = num;
             console.log(num)
-        }
-        function redirect_to_view(url) {
-            a = document.createElement("a");
-            a.href = url;
-            a.target = "_blank";
-            a.style = "display: none;"
-            document.body.appendChild(a);
-            a.click()
-            document.body.removeChild(a);
         }
         
         function timer() {

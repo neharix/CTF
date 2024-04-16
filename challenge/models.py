@@ -31,8 +31,7 @@ class Quizz(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     question = models.TextField(null=False, blank=False)
     point = models.IntegerField()
-    is_pentest = models.BooleanField(default=False)
-    is_morse = models.BooleanField(default=False)
+    type_of_quizz = models.CharField(max_length=200)
 
     def __str__(self):
         return str(self.challenge_id)

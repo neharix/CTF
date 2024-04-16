@@ -9,10 +9,14 @@ from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 
 from challenge.models import Challenge
+
+from .models import FlagsFromUnsafety
 
 User = get_user_model()
 
@@ -125,3 +129,9 @@ def challenge_list_view_searching(request):
         objects = paginator.page(paginator.num_pages)
 
     return render(request, "search.html", {"objects": objects})
+
+
+@csrf_exempt
+def save_flags(request):
+    FlagsFromUnsafety.objects.create(flag="flag{" + request.POST["flag"] + "}")
+    return HttpResponse(status=200)
