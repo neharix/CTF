@@ -23,13 +23,6 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
 
-class Topic(models.Model):
-    name = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.name
-
-
 class File(models.Model):
     file = models.FileField(upload_to="files/")
     quizz_id = models.IntegerField()

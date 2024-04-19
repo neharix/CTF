@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
 from challenge.models import Answer, Challenge
-from main.models import Team, Topic, User
+from main.models import User
 
 
 # Create your views here.
