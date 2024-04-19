@@ -9,12 +9,12 @@ from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
-from challenge.models import Challenge
+from challenge.models import Challenge, HashResponse
 
 from .models import FlagsFromUnsafety
 
@@ -135,3 +135,10 @@ def challenge_list_view_searching(request):
 def save_flags(request):
     FlagsFromUnsafety.objects.create(flag="flag{" + request.POST["flag"] + "}")
     return HttpResponse(status=200)
+
+
+def return_flag(request, key_words):
+    flag = HashResponse.objects.get(
+        key_words=key_words, team=request.user.team.name
+    ).flag
+    return JsonResponse({"what_am_i": flag})

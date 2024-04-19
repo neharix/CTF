@@ -66,42 +66,14 @@
                                    id="point"
                                    required>
                         </div>
-                        <div class="row ms-3">
-                            <div class="form-check col-2" style="pointer-events: none;">
-                                <input onclick="add_ctf_user(event)"
-                                       class="form-check-input"
-                                       id="pentest-check"
-                                       style="pointer-events:all"
-                                       type="checkbox">
-                                <label for="pentest-check" class="ms-3">Pentest saýt</label>
-                            </div>
-                            <div class="form-check col-2" style="pointer-events: none;">
-                                <input onclick="sql_injection(event)"
-                                       class="form-check-input"
-                                       id="sql-injection-check"
-                                       name="sql-injection-field"
-                                       style="pointer-events:all"
-                                       type="checkbox">
-                                <label for="sql-injection-check" class="ms-3">SQL injection</label>
-                            </div>
-                            <div class="form-check col-3" style="pointer-events: none;">
-                                <input onclick="steganography(event)"
-                                       class="form-check-input"
-                                       id="steganography-check"
-                                       name="steganography-field"
-                                       style="pointer-events:all"
-                                       type="checkbox">
-                                <label for="steganography-check" class="ms-3">Steganografiýa</label>
-                            </div>
-                            <div class="form-check col-2" style="pointer-events: none;">
-                                <input onclick="matreshka(event)"
-                                       class="form-check-input"
-                                       id="matreshka-check"
-                                       name="mathreshka-field"
-                                       style="pointer-events:all"
-                                       type="checkbox">
-                                <label for="steganography-check" class="ms-3">Matreşka</label>
-                            </div>
+                        <label for="type-of-quizz" class="text-capitalize ms-3">Görnüşi</label>
+                        <div class="form-control bg-transparent border-0">
+                            <input type="text"
+                                   class="form-control bg-transparent border-2 text-light fs-4"
+                                   style="border-color: #696d97"
+                                   name="type-of-quizz"
+                                   id="type-of-quizz"
+                                   required>
                         </div>
                         <div style="width: 100%;" id="file-container"></div>
                         <div style="width: 100%;" id="hint-container"></div>
@@ -134,11 +106,6 @@
                                 </svg>
                                 Maslahat goşuň
                             </button>
-                            <input name="type-of-quizz"
-                                   id="type-of-quizz"
-                                   value="Default"
-                                   type="text"
-                                   style="display: none">
                         </div>
                     </div>
                 </div>
@@ -192,117 +159,6 @@
         function delQuizz(event) {
             event.target.parentElement.parentElement.remove();
         }
-        function sql_injection(event) {
-            if (pentest_checkbox.checked == true){
-                pentest_checkbox.checked = false;               
-            }
-            if (steganography_check.checked == true){
-                steganography_check.checked = false;               
-            }
-            if (matreshka_check.checked == true){
-                matreshka_check.checked = false;
-            }
-            if (event.target.checked == true) {
-                let element = document.querySelector("#ctf_data");
-                const container = event.target.parentElement.parentElement;
-                answer_label.style = "display: none;";
-                answer_field.style = "display: none;";
-                if (element != null) {
-                    container.removeChild(element);
-                }
-                type_of_quizz.value = "SQL Injection";
-            }
-            else
-            {
-                type_of_quizz.value = "Default";
-                answer_label.style = "";
-                answer_field.style = "";
-            }
-        }
-        function add_ctf_user(event) {
-            if (sql_injection_check.checked == true){
-                sql_injection_check.checked = false;
-            }
-            if (steganography_check.checked == true){
-                steganography_check.checked = false;
-            }
-            if (matreshka_check.checked == true){
-                matreshka_check.checked = false;
-            }
-            if (event.target.checked == true) {
-                const container = event.target.parentElement.parentElement;
-                const newElement = document.createElement('DIV');
-                newElement.className = 'form-control bg-transparent border-0';
-                newElement.id = 'ctf_data';
-                newElement.innerHTML = '<div class="px-4"><label style="color: white;" class="m-2 fs-5">Kitaphana ulanyjysy</label><input type="text" class="form-control bg-transparent border-2 text-light fs-4" name="ctf_username" required><br><label style="color:white;" class="m-2 fs-5">Açar sözi</label><input type="text" class="form-control bg-transparent border-2 text-light fs-4" name="ctf_password" required></div>';
-                container.appendChild(newElement);
-                answer_label.style = "display: none;";
-                answer_field.style = "display: none;";
-                type_of_quizz.value = "Pentest";
-            }
-            else {
-                type_of_quizz.value = "Default";
-                event.target.parentElement.parentElement.parentElement.querySelector('#ctf_data').remove();
-                answer_label.style = "";
-                answer_field.style = "";
-            }
-        }
-        
-        function steganography(event){
-            if (sql_injection_check.checked == true){
-                sql_injection_check.checked = false;
-            }
-            if (pentest_checkbox.checked == true){
-                pentest_checkbox.checked = false;
-            }
-            if (matreshka_check.checked == true){
-                matreshka_check.checked = false;
-            }
-            if (event.target.checked == true) {
-                answer_label.style = "display: none;";
-                answer_field.style = "display: none;";
-                type_of_quizz.value = "Steganography";
-                let element = document.querySelector("#ctf_data");
-                const container = event.target.parentElement.parentElement;
-                if (element != null) {
-                    container.removeChild(element);
-                }
-            }
-            else {
-                type_of_quizz.value = "Default";
-                answer_label.style = "";
-                answer_field.style = "";
-            }
-
-        }
-        function matreshka(event) {
-            if (sql_injection_check.checked == true){
-                sql_injection_check.checked = false;
-            }
-            if (pentest_checkbox.checked == true){
-                pentest_checkbox.checked = false;
-            }
-            if (steganography_check.checked == true){
-                steganography_check.checked = false;
-            }
-            if (event.target.checked == true) {
-                answer_label.style = "display: none;";
-                answer_field.style = "display: none;";
-                type_of_quizz.value = "Matreshka";
-                let element = document.querySelector("#ctf_data");
-                const container = event.target.parentElement.parentElement;
-                if (element != null) {
-                    container.removeChild(element);
-                }
-            }
-            else {
-                type_of_quizz.value = "Default";
-                answer_label.style = "";
-                answer_field.style = "";
-            }
-
-        }
-        
 
 
         function addFile(event) {

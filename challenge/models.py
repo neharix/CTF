@@ -16,6 +16,13 @@ class Challenge(models.Model):
         return self.name
 
 
+class HashResponse(models.Model):
+    url = models.CharField(max_length=200)
+    team = models.CharField(max_length=200)
+    flag = models.CharField(max_length=200)
+    key_words = models.CharField(max_length=200)
+
+
 class TrueAnswers(models.Model):
     is_public = models.BooleanField(default=False)
     answer = models.CharField(max_length=200)
@@ -41,6 +48,7 @@ class Hint(models.Model):
     quizz_id = models.IntegerField()
     content = models.TextField(null=False, blank=False)
     point = models.IntegerField()
+    for_team = models.CharField(max_length=200, default="status:public")
 
     def __str__(self):
         return str(self.quizz_id)

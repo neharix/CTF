@@ -1,8 +1,10 @@
 import datetime
+import hashlib
 import os
 import random
 import zipfile
 import zoneinfo
+from ast import literal_eval
 from datetime import date, datetime
 
 import stegano
@@ -15,7 +17,7 @@ from bookstore.models import CtfTaskObjects, UserDatas
 from main.models import File, FlagsFromUnsafety, Team, User
 
 from .forms import ChallengeForm, Hint, QuizzForm
-from .models import Answer, Challenge, Hint, Quizz, TrueAnswers
+from .models import Answer, Challenge, HashResponse, Hint, Quizz, TrueAnswers
 
 base_dir = str(settings.BASE_DIR).replace("\\", "/")
 
@@ -343,7 +345,9 @@ def play_challenge(request, pk):
                     team = Team.objects.get(name=request.user.team.name)
                     if quizz.type_of_quizz == "Steganography":
                         pict_id = random.randint(1, 1000000)
-                        file = File.objects.get(quizz_id=quizz.pk)
+                        file = File.objects.get(
+                            quizz_id=quizz.pk, for_team="status:stegano_pub"
+                        )
 
                         s = stegano.lsb.hide(files_directory + str(file.file), flag)
                         s.save(
@@ -355,6 +359,93 @@ def play_challenge(request, pk):
                             quizz_id=quizz.pk,
                             for_team=team.name,
                         )
+                    if quizz.type_of_quizz == "Hash":
+                        hash_type = (
+                            "md5",
+                            "sha1",
+                            "sha224",
+                            "sha256",
+                            "sha384",
+                            "sha512",
+                        )
+                        words_tuple = (
+                            "query",
+                            "wet",
+                            "require",
+                            "trouble",
+                            "gun",
+                            "young",
+                            "ufo",
+                            "include",
+                            "opposite",
+                            "aproach",
+                            "select",
+                            "destroy",
+                            "fear",
+                            "huge",
+                            "jade",
+                            "key",
+                            "liar",
+                            "zero",
+                            "xor",
+                            "crush",
+                            "verbose",
+                            "box",
+                            "nearby",
+                            "mix",
+                        )
+                        link = "127.0.0.1:8000/hash/decode/"
+                        words = ""
+                        words_range = random.randint(2, 4)
+                        for i in range(words_range):
+                            word = random.choice(words_tuple)
+                            if words_range - 1 == i:
+                                words += word
+                            else:
+                                words += word + "-"
+
+                        link += words
+
+                        hash_response = HashResponse.objects.create(
+                            key_words=words,
+                            url=link,
+                            team=request.user.team.name,
+                            flag=flag,
+                        )
+                        byte_link = literal_eval(f"b'{link}'")
+                        current_type = random.choice(hash_type)
+
+                        if current_type == "md5":
+                            hash_link = hashlib.md5(byte_link).hexdigest()
+                        elif current_type == "sha1":
+                            hash_link = hashlib.sha1(byte_link).hexdigest()
+                        elif current_type == "sha224":
+                            hash_link = hashlib.sha224(byte_link).hexdigest()
+                        elif current_type == "sha256":
+                            hash_link = hashlib.sha256(byte_link).hexdigest()
+                        elif current_type == "sha384":
+                            hash_link = hashlib.sha384(byte_link).hexdigest()
+                        elif current_type == "sha512":
+                            hash_link = hashlib.sha512(byte_link).hexdigest()
+
+                        with open(
+                            base_dir + f"/media/txt/{request.user.username}.txt",
+                            "w+",
+                        ) as file:
+                            file.write(hash_link)
+
+                        File.objects.create(
+                            file=f"txt/{request.user.username}.txt",
+                            for_team=team.name,
+                            quizz_id=quizz.pk,
+                        )
+                        Hint.objects.create(
+                            quizz_id=quizz.pk,
+                            content=current_type.upper(),
+                            point=5,
+                            for_team=request.user.team.name,
+                        )
+
                     if quizz.type_of_quizz == "Matreshka":
                         txt_id = random.randint(1, 1000000)
                         lines_count = random.randint(75, 500)
@@ -436,7 +527,9 @@ def play_challenge_quizz(request, pk, pk1):
                 f"{int(challenge.date_end.month) - 1}, {challenge.date_end.day}"
             )
             timer_timeout_hours = f"{int(challenge.date_end.hour) + 5}, {challenge.date_end.minute}, {challenge.date_end.second}, 0"
-            hints = Hint.objects.filter(quizz_id=quizz.id)
+            hints = Hint.objects.filter(
+                quizz_id=quizz.id, for_team=request.user.team.name
+            ) | Hint.objects.filter(quizz_id=quizz.id, for_team="status:public")
             files = File.objects.filter(
                 quizz_id=pk1, for_team=request.user.team.name
             ) | File.objects.filter(quizz_id=pk1, for_team="status:public")
