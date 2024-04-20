@@ -2,6 +2,7 @@ import datetime
 import hashlib
 import os
 import random
+import string
 import zipfile
 import zoneinfo
 from ast import literal_eval
@@ -12,14 +13,39 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.utils import timezone
+from PIL import Image, ImageDraw, ImageFont
 
 from bookstore.models import CtfTaskObjects, UserDatas
 from main.models import File, FlagsFromUnsafety, Team, User
 
 from .forms import ChallengeForm, Hint, QuizzForm
 from .models import Answer, Challenge, HashResponse, Hint, Quizz, TrueAnswers
+from .tools import Encryptor, affine, morse_run, one_time_pad
 
 base_dir = str(settings.BASE_DIR).replace("\\", "/")
+
+
+def generate_caesar_cypher(offset):
+    letters = string.ascii_letters
+    offset = offset
+    totalLetters = 26
+    keys = {" ": " "}  # Caesar Cypher
+    invKeys = {" ": " "}  # Inverse Caesar Cypher
+    for index, letter in enumerate(letters):
+        if index < totalLetters:  # lowercase
+            keys[letter] = letters[(index + offset) % 26]
+        else:  # uppercase
+            keys[letter] = letters[(index + offset) % 26 + 26]
+        invKeys[keys[letter]] = letter
+    return keys, invKeys
+
+
+def encrypt_caesar(message, keys):
+    encryptedMessage = []
+    for letter in message:
+        encryptedMessage.append(keys[letter])
+    encryptedMessage = "".join(encryptedMessage)
+    return encryptedMessage
 
 
 @login_required(login_url="login")
@@ -331,7 +357,7 @@ def play_challenge(request, pk):
                             [chr(random.randint(97, 122)), chr(random.randint(65, 90))]
                         )
                         flag = "flag{" + inflag + "}"
-                    TrueAnswers.objects.create(
+                    true_answer = TrueAnswers.objects.create(
                         answer=flag, for_team=request.user.team.name, quizz_id=quizz.pk
                     )
                     if quizz.type_of_quizz == "Pentest":
@@ -443,6 +469,151 @@ def play_challenge(request, pk):
                             quizz_id=quizz.pk,
                             content=current_type.upper(),
                             point=5,
+                            for_team=request.user.team.name,
+                        )
+
+                    if quizz.type_of_quizz == "One Time Pad":
+                        inflag = ""
+                        for i in range(30):
+                            inflag += random.choice(
+                                [
+                                    chr(random.randint(97, 122)),
+                                    chr(random.randint(65, 90)),
+                                ]
+                            )
+                        flag = "flag{" + inflag + "}"
+                        true_answer.answer = flag
+                        true_answer.save()
+
+                        a_cipher, b_cipher = one_time_pad(flag)
+
+                        txt_id = random.randint(10000, 1000000)
+                        with open(
+                            base_dir
+                            + f"/media/one_time_pad/{request.user.username}{txt_id}.txt",
+                            "w+",
+                        ) as file:
+                            file.write("A: " + a_cipher + "\n")
+                            file.write("B: " + b_cipher + "\n")
+
+                        File.objects.create(
+                            file=f"one_time_pad/{request.user.username}{txt_id}.txt",
+                            quizz_id=quizz.pk,
+                            for_team=request.user.team.name,
+                        )
+
+                    if quizz.type_of_quizz == "Format Game":
+                        picture_path = (
+                            base_dir
+                            + "/main/static/challenge_files/format_challenge.png"
+                        )
+                        media_path = f"format_challenge/{request.user.username}{random.randint(10000, 1000000)}"
+                        new_picture_path = base_dir + f"/media/" + media_path
+                        image = Image.open(picture_path)
+                        font = ImageFont.truetype("arial.ttf", 48)
+                        drawer = ImageDraw.Draw(image)
+                        drawer.text((50, 100), flag)
+
+                        image.save(new_picture_path + ".png")
+
+                        os.rename(new_picture_path + ".png", new_picture_path + ".txt")
+
+                        File.objects.create(
+                            file=media_path + ".txt",
+                            quizz_id=quizz.pk,
+                            for_team=request.user.team.name,
+                        )
+
+                    if quizz.type_of_quizz == "Caesar":
+                        cycle = random.randint(10, 30)
+                        inflag = ""
+                        for i in range(cycle):
+                            inflag += chr(random.randint(97, 122))
+                            flag = "flag{" + inflag + "}"
+                        true_answer.answer = flag
+                        true_answer.save()
+
+                        offset = random.randint(3, 9)
+                        keys, invKeys = generate_caesar_cypher(offset)
+                        encrypted = encrypt_caesar(inflag, keys)
+
+                        txt_id = random.randint(10000, 1000000)
+                        with open(
+                            base_dir
+                            + f"/media/caesar/{request.user.username}{txt_id}.txt",
+                            "w+",
+                        ) as file:
+                            file.write(encrypted)
+
+                        File.objects.create(
+                            file=f"caesar/{request.user.username}{txt_id}.txt",
+                            quizz_id=quizz.pk,
+                            for_team=request.user.team.name,
+                        )
+
+                    if quizz.type_of_quizz == "Affine":
+
+                        txt_id = random.randint(10000, 1000000)
+                        cipher = affine(flag)
+                        with open(
+                            base_dir
+                            + f"/media/affine/{request.user.username}{txt_id}.txt",
+                            "w+",
+                        ) as file:
+                            file.write(cipher)
+
+                        File.objects.create(
+                            file=f"affine/{request.user.username}{txt_id}.txt",
+                            quizz_id=quizz.pk,
+                            for_team=request.user.team.name,
+                        )
+
+                    if quizz.type_of_quizz == "Morse":
+                        cycle = random.randint(10, 30)
+                        inflag = ""
+                        for i in range(cycle):
+                            inflag += chr(random.randint(97, 122))
+                        inflag = inflag.lower()
+                        flag = "flag{" + inflag + "}"
+                        true_answer.answer = flag
+                        true_answer.save()
+
+                        file_id = random.randint(10000, 1000000)
+
+                        morse_run(
+                            inflag,
+                            base_dir
+                            + f"/media/morse_sounds/{request.user.username}{file_id}.mp3",
+                        )
+
+                        File.objects.create(
+                            file=f"morse_sounds/{request.user.username}{file_id}.mp3",
+                            quizz_id=quizz.pk,
+                            for_team=request.user.team.name,
+                        )
+
+                    if quizz.type_of_quizz == "Enigma":
+                        cycle = random.randint(10, 30)
+                        inflag = ""
+                        for i in range(cycle):
+                            inflag += chr(random.randint(97, 122))
+                        flag = "flag{" + inflag + "}"
+                        true_answer.answer = flag
+                        true_answer.save()
+
+                        enigma = Encryptor().encrypt(inflag)
+
+                        txt_id = random.randint(10000, 1000000)
+                        with open(
+                            base_dir
+                            + f"/media/enigma/{request.user.username}{txt_id}.txt",
+                            "w+",
+                        ) as file:
+                            file.write(enigma)
+
+                        File.objects.create(
+                            file=f"enigma/{request.user.username}{txt_id}.txt",
+                            quizz_id=quizz.pk,
                             for_team=request.user.team.name,
                         )
 
