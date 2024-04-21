@@ -28,4 +28,5 @@ urlpatterns = [
         views.play_challenge_quizz,
         name="play_challenge_quizz",
     ),
+    path("quizz/<int:quizz_id>", views.fake_quizz),
 ]

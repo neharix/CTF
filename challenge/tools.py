@@ -1,7 +1,40 @@
 import random
+import string
 
+import rsa
+from Crypto.Cipher import AES
+from Crypto.Protocol.KDF import PBKDF2
+from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import pad
 from django.conf import settings
 from pydub import AudioSegment
+
+words_tuple = (
+    "query",
+    "wet",
+    "require",
+    "trouble",
+    "gun",
+    "young",
+    "ufo",
+    "include",
+    "opposite",
+    "aproach",
+    "select",
+    "destroy",
+    "fear",
+    "huge",
+    "jade",
+    "key",
+    "liar",
+    "zero",
+    "xor",
+    "crush",
+    "verbose",
+    "box",
+    "nearby",
+    "mix",
+)
 
 
 class Enigma:
@@ -524,3 +557,102 @@ def one_time_pad(flag):
         aCipher.hex(),
         bCipher.hex(),
     )
+
+
+def transposition_cipher(text):
+    key = 10
+    cipher_text = [""] * key
+
+    for column in range(key):
+        pointer = column
+
+        while pointer < len(text):
+            cipher_text[column] += text[pointer]
+
+            pointer += key
+
+    return "".join(cipher_text)
+
+
+def generate_caesar_cypher(offset):
+    letters = string.ascii_letters
+    offset = offset
+    totalLetters = 26
+    keys = {" ": " "}  # Caesar Cypher
+    invKeys = {" ": " "}  # Inverse Caesar Cypher
+    for index, letter in enumerate(letters):
+        if index < totalLetters:  # lowercase
+            keys[letter] = letters[(index + offset) % 26]
+        else:  # uppercase
+            keys[letter] = letters[(index + offset) % 26 + 26]
+        invKeys[keys[letter]] = letter
+    return keys, invKeys
+
+
+def encrypt_caesar(message, keys):
+    encryptedMessage = []
+    for letter in message:
+        encryptedMessage.append(keys[letter])
+    encryptedMessage = "".join(encryptedMessage)
+    return encryptedMessage
+
+
+def rsa_encrypt(text, file_path):
+    public_key, private_key = rsa.newkeys(1024)
+    cipher = rsa.encrypt(text.encode(), public_key)
+
+    with open(file_path + "/i_am.pem", "wb") as file:
+        file.write(private_key.save_pkcs1("PEM"))
+
+    with open(file_path + "/decrypt_me.message", "wb") as file:
+        file.write(cipher)
+
+
+def aes_encrypt(text, file_path):
+    password = ""
+    for i in range(2):
+        word = random.choice(words_tuple)
+        if i == 1:
+            password += word
+        else:
+            password += word + "_"
+
+    salt = get_random_bytes(32)
+    key = PBKDF2(password, salt, dkLen=32)
+
+    cipher = AES.new(key, AES.MODE_CBC)
+    ciphered_data = cipher.encrypt(pad(text.encode(), AES.block_size))
+
+    with open(file_path + "/cipher.bin", "wb") as file:
+        file.write(cipher.iv)
+        file.write(ciphered_data)
+
+    with open(file_path + "/salt", "wb") as file:
+        file.write(salt)
+
+    with open(file_path + "/pointless.txt", "w+") as file:
+        file.write(password)
+
+
+def vigenere_encrypt(text, file_path):
+    key = random.choice(words_tuple)
+
+    alphabet = "abcdefghijklmnopqrstuvwxyz"
+
+    letter_to_index = dict(zip(alphabet, range(len(alphabet))))
+    index_of_letter = dict(zip(range(len(alphabet)), alphabet))
+
+    encrypted = ""
+
+    split_message = [text[i : i + len(key)] for i in range(0, len(text), len(key))]
+
+    for each_split in split_message:
+        i = 0
+        for letter in each_split:
+            number = (letter_to_index[letter] + letter_to_index[key[i]]) % len(alphabet)
+            encrypted += index_of_letter[number]
+
+    with open(file_path + "/cipher.txt", "w+") as file:
+        file.write(encrypted)
+        file.write("\n\n")
+        file.write(f"key: {key}")

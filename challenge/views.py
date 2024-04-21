@@ -2,12 +2,12 @@ import datetime
 import hashlib
 import os
 import random
-import string
 import zipfile
 import zoneinfo
 from ast import literal_eval
 from datetime import date, datetime
 
+import qrcode
 import stegano
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -20,39 +20,16 @@ from main.models import File, FlagsFromUnsafety, Team, User
 
 from .forms import ChallengeForm, Hint, QuizzForm
 from .models import Answer, Challenge, HashResponse, Hint, Quizz, TrueAnswers
-from .tools import Encryptor, affine, morse_run, one_time_pad
+from .tools import *
 
 base_dir = str(settings.BASE_DIR).replace("\\", "/")
-
-
-def generate_caesar_cypher(offset):
-    letters = string.ascii_letters
-    offset = offset
-    totalLetters = 26
-    keys = {" ": " "}  # Caesar Cypher
-    invKeys = {" ": " "}  # Inverse Caesar Cypher
-    for index, letter in enumerate(letters):
-        if index < totalLetters:  # lowercase
-            keys[letter] = letters[(index + offset) % 26]
-        else:  # uppercase
-            keys[letter] = letters[(index + offset) % 26 + 26]
-        invKeys[keys[letter]] = letter
-    return keys, invKeys
-
-
-def encrypt_caesar(message, keys):
-    encryptedMessage = []
-    for letter in message:
-        encryptedMessage.append(keys[letter])
-    encryptedMessage = "".join(encryptedMessage)
-    return encryptedMessage
 
 
 @login_required(login_url="login")
 def viewChallenge(request):
     challenges = {}
-    if request.user.is_superuser:
-        challenges = Challenge.objects.all().filter(owner=request.user)
+    if request.user.is_superuser or request.user.is_stuff:
+        challenges = Challenge.objects.all().filter()
         is_super = "yes"
     else:
         is_super = "no"
@@ -490,14 +467,97 @@ def play_challenge(request, pk):
                         txt_id = random.randint(10000, 1000000)
                         with open(
                             base_dir
-                            + f"/media/one_time_pad/{request.user.username}{txt_id}.txt",
+                            + f"/media/one/{request.user.username}{txt_id}.txt",
                             "w+",
                         ) as file:
                             file.write("A: " + a_cipher + "\n")
                             file.write("B: " + b_cipher + "\n")
 
                         File.objects.create(
-                            file=f"one_time_pad/{request.user.username}{txt_id}.txt",
+                            file=f"one/{request.user.username}{txt_id}.txt",
+                            quizz_id=quizz.pk,
+                            for_team=request.user.team.name,
+                        )
+
+                    if quizz.type_of_quizz == "RSA":
+                        dir_id = random.randint(10000, 1000000)
+                        dir_path = (
+                            files_directory + f"sa/{request.user.username}{dir_id}"
+                        )
+                        media_path = f"sa/{request.user.username}{dir_id}/"
+                        os.mkdir(dir_path)
+                        rsa_encrypt(flag, dir_path)
+
+                        File.objects.create(
+                            file=f"{media_path}i_am.pem",
+                            quizz_id=quizz.pk,
+                            for_team=request.user.team.name,
+                        )
+                        File.objects.create(
+                            file=f"{media_path}decrypt_me.message",
+                            quizz_id=quizz.pk,
+                            for_team=request.user.team.name,
+                        )
+
+                    if quizz.type_of_quizz == "AES":
+                        dir_id = random.randint(10000, 1000000)
+                        dir_path = (
+                            files_directory + f"ae/{request.user.username}{dir_id}"
+                        )
+                        media_path = f"ae/{request.user.username}{dir_id}/"
+                        os.mkdir(dir_path)
+                        aes_encrypt(flag, dir_path)
+
+                        File.objects.create(
+                            file=f"{media_path}pointless.txt",
+                            quizz_id=quizz.pk,
+                            for_team=request.user.team.name,
+                        )
+                        File.objects.create(
+                            file=f"{media_path}cipher.bin",
+                            quizz_id=quizz.pk,
+                            for_team=request.user.team.name,
+                        )
+                        File.objects.create(
+                            file=f"{media_path}salt",
+                            quizz_id=quizz.pk,
+                            for_team=request.user.team.name,
+                        )
+
+                    if quizz.type_of_quizz == "QR":
+                        pict_id = random.randint(1, 1000000)
+
+                        fake_id = random.randint(1, 99)
+                        qr_code = qrcode.make(
+                            f"http://127.0.0.1:8000/challenge/quizz/{fake_id}"
+                        )
+                        qr_code_path = (
+                            files_directory
+                            + f"def_qrs/{request.user.username}{pict_id}.png"
+                        )
+                        qr_code.save(qr_code_path)
+
+                        s = stegano.lsb.hide(qr_code_path, flag)
+                        s.save(
+                            files_directory + f"ol/team{team.name.lower()}{pict_id}.png"
+                        )
+                        File.objects.create(
+                            file=f"ol/team{team.name.lower()}{pict_id}.png",
+                            quizz_id=quizz.pk,
+                            for_team=team.name,
+                        )
+
+                    if quizz.type_of_quizz == "Transposition":
+                        txt_id = random.randint(10000, 1000000)
+                        cipher = transposition_cipher(flag)
+                        with open(
+                            base_dir + f"/media/tr/{request.user.username}{txt_id}.txt",
+                            "w+",
+                        ) as file:
+                            file.write(cipher)
+
+                        File.objects.create(
+                            file=f"tr/{request.user.username}{txt_id}.txt",
                             quizz_id=quizz.pk,
                             for_team=request.user.team.name,
                         )
@@ -507,7 +567,7 @@ def play_challenge(request, pk):
                             base_dir
                             + "/main/static/challenge_files/format_challenge.png"
                         )
-                        media_path = f"format_challenge/{request.user.username}{random.randint(10000, 1000000)}"
+                        media_path = f"for/{request.user.username}{random.randint(10000, 1000000)}"
                         new_picture_path = base_dir + f"/media/" + media_path
                         image = Image.open(picture_path)
                         font = ImageFont.truetype("arial.ttf", 48)
@@ -539,14 +599,13 @@ def play_challenge(request, pk):
 
                         txt_id = random.randint(10000, 1000000)
                         with open(
-                            base_dir
-                            + f"/media/caesar/{request.user.username}{txt_id}.txt",
+                            base_dir + f"/media/ca/{request.user.username}{txt_id}.txt",
                             "w+",
                         ) as file:
                             file.write(encrypted)
 
                         File.objects.create(
-                            file=f"caesar/{request.user.username}{txt_id}.txt",
+                            file=f"ca/{request.user.username}{txt_id}.txt",
                             quizz_id=quizz.pk,
                             for_team=request.user.team.name,
                         )
@@ -556,14 +615,37 @@ def play_challenge(request, pk):
                         txt_id = random.randint(10000, 1000000)
                         cipher = affine(flag)
                         with open(
-                            base_dir
-                            + f"/media/affine/{request.user.username}{txt_id}.txt",
+                            base_dir + f"/media/af/{request.user.username}{txt_id}.txt",
                             "w+",
                         ) as file:
                             file.write(cipher)
 
                         File.objects.create(
-                            file=f"affine/{request.user.username}{txt_id}.txt",
+                            file=f"af/{request.user.username}{txt_id}.txt",
+                            quizz_id=quizz.pk,
+                            for_team=request.user.team.name,
+                        )
+
+                    if quizz.type_of_quizz == "Vigenere":
+                        cycle = random.randint(10, 30)
+                        inflag = ""
+                        for i in range(cycle):
+                            inflag += chr(random.randint(97, 122))
+                        inflag = inflag.lower()
+                        flag = "flag{" + inflag + "}"
+                        true_answer.answer = flag
+                        true_answer.save()
+
+                        dir_id = random.randint(10000, 1000000)
+                        dir_path = (
+                            files_directory + f"vi/{request.user.username}{dir_id}"
+                        )
+                        media_path = f"vi/{request.user.username}{dir_id}/"
+                        os.mkdir(dir_path)
+                        vigenere_encrypt(inflag, dir_path)
+
+                        File.objects.create(
+                            file=f"{media_path}cipher.txt",
                             quizz_id=quizz.pk,
                             for_team=request.user.team.name,
                         )
@@ -583,11 +665,11 @@ def play_challenge(request, pk):
                         morse_run(
                             inflag,
                             base_dir
-                            + f"/media/morse_sounds/{request.user.username}{file_id}.mp3",
+                            + f"/media/mor/{request.user.username}{file_id}.mp3",
                         )
 
                         File.objects.create(
-                            file=f"morse_sounds/{request.user.username}{file_id}.mp3",
+                            file=f"mor/{request.user.username}{file_id}.mp3",
                             quizz_id=quizz.pk,
                             for_team=request.user.team.name,
                         )
@@ -605,14 +687,13 @@ def play_challenge(request, pk):
 
                         txt_id = random.randint(10000, 1000000)
                         with open(
-                            base_dir
-                            + f"/media/enigma/{request.user.username}{txt_id}.txt",
+                            base_dir + f"/media/en/{request.user.username}{txt_id}.txt",
                             "w+",
                         ) as file:
                             file.write(enigma)
 
                         File.objects.create(
-                            file=f"enigma/{request.user.username}{txt_id}.txt",
+                            file=f"en/{request.user.username}{txt_id}.txt",
                             quizz_id=quizz.pk,
                             for_team=request.user.team.name,
                         )
@@ -774,3 +855,7 @@ def play_challenge_quizz(request, pk, pk1):
             return redirect("running")
 
     return render(request, "play_challenge_quizz.html", context)
+
+
+def fake_quizz(request, quizz_id):
+    return render(request, "fake_quizz.html")
