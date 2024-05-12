@@ -1,39 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
-        {% load static %}
         <link rel="stylesheet" href="{% static 'main/community.css' %}">
-        <link rel="shortcut icon"
-              type="image/png"
-              href="{% static 'main/logo-black.png' %}" />
+        {% block head %}
+        {% endblock head %}
     </head>
-    <body>
-        {% load static %}
-        <header class="header header--loggedIn sticky-top sticky">
+    <body class="d-flex flex-column min-vh-100">
+        <header class="header header--loggedIn sticky-top sticky mt-4">
             <div class="container">
-                {% comment %} <a href="{% url 'home' %}" class="header__logo">
-                <img src="{% static 'main/logo.png' %}" />
-            </a>
-            <ul>
-                <li>
-                    <a href="{% url 'challenge' %}">Challenges</a>
-                </li>
-                <li>
-                    <a href="{% url 'calendar' %}">Calendar</a>
-                </li>
-                <li>
-                    <a href="{% url 'chart' %}">Charts</a>
-                </li>
-                <li>
-                    <a href="{% url 'news' %}">News</a>
-                </li>
-                <li>
-                    <a href="{% url 'community' %}">Community</a>
-                </li>
-                </ul> {% endcomment %}
                 <div class="nav">
                     <input type="checkbox" class='nav__input' name="" id="nav__input">
                     <nav class="nav__pc">
@@ -100,20 +78,6 @@
                         </label>
                     </nav>
                 </div>
-                <form class="header__search" method="GET" action="{% url 'search' %}">
-                    <label>
-                        <svg version="1.1"
-                             xmlns="http://www.w3.org/2000/svg"
-                             width="32"
-                             height="32"
-                             viewBox="0 0 32 32">
-                            <title>Gözle</title>
-                            <path d="M32 30.586l-10.845-10.845c1.771-2.092 2.845-4.791 2.845-7.741 0-6.617-5.383-12-12-12s-12 5.383-12 12c0 6.617 5.383 12 12 12 2.949 0 5.649-1.074 7.741-2.845l10.845 10.845 1.414-1.414zM12 22c-5.514 0-10-4.486-10-10s4.486-10 10-10c5.514 0 10 4.486 10 10s-4.486 10-10 10z">
-                            </path>
-                        </svg>
-                        <input type="search" name="q" placeholder="Gözle" autocomplete="off" />
-                    </label>
-                </form>
                 <nav class="header__menu">
                     <!-- Logged In -->
                     {% if request.user.is_authenticated %}
@@ -143,7 +107,7 @@
                         </div>
                     {% else %}
                         <!-- Not Logged In -->
-                        <a href="{% url 'login' %}">
+                        <a href="{% url 'login' %}" style="font-size: 1.4rem;">
                             <img src="{% static 'main/images/avatar.svg' %}" />
                             <p>Girmek</p>
                         </a>
@@ -166,7 +130,9 @@
                 </nav>
             </div>
         </header>
-        {% load static %}
+        {% block body %}
+        {% endblock body %}
         <script src="{% static 'main/navbar.js' %}"></script>
+        <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
     </body>
 </html>

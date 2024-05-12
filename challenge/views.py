@@ -303,19 +303,24 @@ def play_challenge(request, pk):
             timer_timeout_hours = f"{int(challenge.date_end.hour) + 5}, {challenge.date_end.minute}, {challenge.date_end.second}, 0"
 
             for quizz in quizzes:
-                try:
-                    obj = Answer.objects.get(
-                        quizz_id=quizz.pk, team=request.user.team.name
-                    )
-                    completed[quizz.pk] = "yes"
-                    if obj.status == "True":
-                        status[quizz.pk] = "True"
-                    else:
-                        status[quizz.pk] = "False"
-                    score += obj.point
-                except Answer.DoesNotExist:
-                    completed[quizz.pk] = "no"
-                    pass
+                answers = Answer.objects.filter(
+                    quizz_id=quizz.pk, team=request.user.team.name
+                )
+
+                for answer in answers:
+                    score += answer.point
+
+                obj_status = (
+                    True
+                    if Answer.objects.filter(
+                        quizz_id=quizz.pk, team=request.user.team.name, status="True"
+                    ).exists()
+                    else False
+                )
+                if obj_status == True:
+                    status[quizz.pk] = "True"
+                else:
+                    status[quizz.pk] = "False"
 
                 if (
                     TrueAnswers.objects.filter(
@@ -748,7 +753,6 @@ def play_challenge(request, pk):
             context = {
                 "challenge": challenge,
                 "quizzes": quizzes,
-                "completed": completed,
                 "score": score,
                 "status": status,
                 "timer_timeout_year": timer_timeout_year,
@@ -830,25 +834,16 @@ def play_challenge_quizz(request, pk, pk1):
                     _point = 0
                     _status = "False"
 
-                try:
-                    obj = Answer.objects.get(
-                        quizz_id=quizz.id, team=request.user.team.name
-                    )
-                    _point = int(75 * int(_point) / 100)
-                    obj.point = _point
-                    obj.status = _status
-                    obj.save()
-                except Answer.DoesNotExist:
-                    answer_obj = Answer.objects.create(
-                        challenge_id=challenge.id,
-                        username=request.user.username,
-                        team=team,
-                        quizz_id=quizz.id,
-                        answer=_answer,
-                        point=_point,
-                        status=_status,
-                    )
-                    answer_obj.save()
+                answer_obj = Answer.objects.create(
+                    challenge_id=challenge.id,
+                    username=request.user.username,
+                    team=team,
+                    quizz_id=quizz.id,
+                    answer=_answer,
+                    point=_point,
+                    status=_status,
+                )
+                answer_obj.save()
 
                 return redirect(play_challenge, pk=pk)
         else:

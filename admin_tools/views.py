@@ -183,34 +183,35 @@ def get_xlsx_of_challenge(request):
             "Jogap berlen sene": [],
         }
         for answer in Answer.objects.filter(challenge_id=challenge.pk):
-            quizz = Quizz.objects.get(pk=answer.quizz_id)
-            user = User.objects.get(username=answer.username)
-            challenge_answers["Sorag"].append(quizz.name)
-            challenge_answers["Jogap beren"].append(
-                user.surname.capitalize() + " " + user.name.capitalize()
-            )
-            challenge_answers["Topary"].append(answer.team)
-            challenge_answers["Berlen bal"].append(answer.point)
-            hour = (
-                int(answer.answered_at.hour) + 5
-                if answer.answered_at.hour + 5 <= 23
-                else (int(answer.answered_at.hour) + 5) % 24
-            )
-            hour_str = str(hour) if hour >= 10 else f"0{hour}"
-            minute_str = (
-                str(answer.answered_at.minute)
-                if hour >= 10
-                else f"0{answer.answered_at.minute}"
-            )
-            second_str = (
-                str(answer.answered_at.second)
-                if hour >= 10
-                else f"0{answer.answered_at.second}"
-            )
+            if answer.point > 0:
+                quizz = Quizz.objects.get(pk=answer.quizz_id)
+                user = User.objects.get(username=answer.username)
+                challenge_answers["Sorag"].append(quizz.name)
+                challenge_answers["Jogap beren"].append(
+                    user.surname.capitalize() + " " + user.name.capitalize()
+                )
+                challenge_answers["Topary"].append(answer.team)
+                challenge_answers["Berlen bal"].append(answer.point)
+                hour = (
+                    int(answer.answered_at.hour) + 5
+                    if answer.answered_at.hour + 5 <= 23
+                    else (int(answer.answered_at.hour) + 5) % 24
+                )
+                hour_str = str(hour) if hour >= 10 else f"0{hour}"
+                minute_str = (
+                    str(answer.answered_at.minute)
+                    if answer.answered_at.minute >= 10
+                    else f"0{answer.answered_at.minute}"
+                )
+                second_str = (
+                    str(answer.answered_at.second)
+                    if answer.answered_at.second >= 10
+                    else f"0{answer.answered_at.second}"
+                )
 
-            time = f"{hour_str}:{minute_str}:{second_str}"
+                time = f"{hour_str}:{minute_str}:{second_str}"
 
-            challenge_answers["Jogap berlen sene"].append(time)
+                challenge_answers["Jogap berlen sene"].append(time)
 
         dataframe = pd.DataFrame(challenge_answers)
         challenge_slug = challenge.name.lower().replace(" ", "_") + str(

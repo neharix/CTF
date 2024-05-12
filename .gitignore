@@ -138,3 +138,11 @@ GitHub.sublime-settings
 !.vscode/extensions.json 
 .history
 
+# Another files
+*.txt
+*.bin
+*.pdf
+*.pem
+*.message
+data
+salt

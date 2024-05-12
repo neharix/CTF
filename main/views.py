@@ -73,68 +73,11 @@ def challenge_list_view(request):
     now = timezone.now()
     date = now.strftime("%Y-%m-%d %H:%M:%S")
 
-    object_list = Challenge.objects.filter(
+    challenges = Challenge.objects.filter(
         date_end__gte=date, date_start__lte=date, public=True
     ).order_by("date_created")
-    paginator = Paginator(object_list, 6)
 
-    page = request.GET.get("page")
-    try:
-        objects = paginator.page(page)
-    except PageNotAnInteger:
-        objects = paginator.page(1)
-    except EmptyPage:
-        objects = paginator.page(paginator.num_pages)
-
-    return render(request, "index.html", {"objects": objects})
-
-
-def challenge_list_view_running(request):
-    now = timezone.now()
-    date = now.strftime("%Y-%m-%d %H:%M:%S")
-
-    object_list = Challenge.objects.filter(
-        date_end__gte=date, date_start__lte=date, public=True
-    ).order_by("date_created")
-    paginator = Paginator(object_list, 6)
-
-    page = request.GET.get("page")
-    try:
-        objects = paginator.page(page)
-    except PageNotAnInteger:
-        objects = paginator.page(1)
-    except EmptyPage:
-        objects = paginator.page(paginator.num_pages)
-
-    return render(request, "index.html", {"objects": objects})
-
-
-def challenge_list_view_searching(request):
-    try:
-        request.session["q"] = request.GET["q"]
-        q = request.GET["q"]
-    except:
-        q = request.session["q"]
-    object_list = Challenge.objects.filter(name__contains=q, public=True).order_by(
-        "date_created"
-    )
-    paginator = Paginator(object_list, 6)
-
-    page = request.GET.get("page")
-    try:
-        objects = paginator.page(page)
-    except PageNotAnInteger:
-        objects = paginator.page(1)
-    except EmptyPage:
-        objects = paginator.page(paginator.num_pages)
-
-    return render(request, "search.html", {"objects": objects})
-
-
-@csrf_exempt
-def save_flags(request):
-    FlagsFromUnsafety.objects.create(flag="flag{" + request.POST["flag"] + "}")
-    return HttpResponse(status=200)
+    return render(request, "index.html", {"challenges": challenges})
 
 
 def return_flag(request, key_words):
