@@ -3,6 +3,23 @@
     height: 35px;
 }
 
+.unborder {
+    border: none !important;
+}
+
+.text-smoke {
+    color: #a7a3a3 !important;
+    font-size: 1.8rem;
+}
+
+.btn-text-size {
+    padding-left: 4rem;
+    padding-right: 4rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgb(33, 37, 41);
+}
+
 .login-wrapper>* {
     box-sizing: border-box;
 }

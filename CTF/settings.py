@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-gte39m!pnxhrdz4a3@xl5v(n-%t!q(u94+*zm-(r%lyk$$$99#"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", 'ctf.skill', '172.16.11.121']
+ALLOWED_HOSTS = ["127.0.0.1", "ctf.skill", "172.16.11.63"]
 
 
 # Application definition
@@ -82,15 +82,8 @@ WSGI_APPLICATION = "CTF.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "OPTIONS": {
-            "sql_mode": "traditional",
-        },
-        "NAME": "ctf",
-        "USER": "afych",
-        "PASSWORD": "useradmin",
-        "HOST": "skill",
-        "PORT": "3306",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
