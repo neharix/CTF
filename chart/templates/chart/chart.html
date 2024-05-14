@@ -1,76 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CTFGames - Cybersecurity Competition</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'main/style.css' %}" />
-    <link rel="shortcut icon"
-          type="image/png"
-          href="{% static 'main/logo-black.png' %}" />
-  </head>
-  <body>
-    {% include 'navbar.html' %}
-    {% block content %}
-      <div style="min-height: 100vh">
-        <div class="chart-container" style="padding:10rem 0;">
-          <div>
-            <div class="center-title">
-              <h1 id="upcoming">Toparyň işjeň oýunçylary</h1>
-              <p class="h2-title-description"></p>
-            </div>
-            <div class="radar-container">
-              <canvas id="tryhardUser"></canvas>
-            </div>
-          </div>
-          <div>
-            <div class="center-title">
-              <h1 id="upcoming">Toparyň ýetişigi</h1>
-            </div>
-            <div class="radar-container">
-              <canvas id="userTeam"></canvas>
-            </div>
-          </div>
+{% extends "layout.html" %}
+{% load static %}
+{% block head %}
+  <link rel="stylesheet" href="{% static 'main/style.css' %}" />
+{% endblock head %}
+{% block body %}
+  <div style="min-height: 100vh">
+    <div class="chart-container" style="padding:10rem 0;">
+      <div>
+        <div class="center-title">
+          <h1 id="upcoming" class="text-white">Toparyň işjeň oýunçylary</h1>
+          <p class="h2-title-description"></p>
+        </div>
+        <div class="radar-container">
+          <canvas id="tryhardUser"></canvas>
         </div>
       </div>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-      <script>
-      Chart.defaults.font.family = "Poppins";
+      <div>
+        <div class="center-title">
+          <h1 id="upcoming" class="text-white">Toparyň ýetişigi</h1>
+        </div>
+        <div class="radar-container">
+          <canvas id="userTeam"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <script>
+  Chart.defaults.font.family = "Poppins";
 
-      //Polar Area Chart - Most Try-hard Users
-      new Chart(document.getElementById('tryhardUser').getContext('2d'), {
-          type: 'polarArea',
-          data: {
-            labels: [{% for data in team_players_data %}'{{ data.user }}', {% endfor %}],
-            datasets: [{
-              label: 'Most Try-hard Users',
-              data: [{% for data in team_players_data %} {{ data.points }}, {% endfor %}],
-              backgroundColor: [{% for data in team_players_data %} '{{ data.color }}', {% endfor %}]
-            }]
-          },
-          options: {}
-      }
-      );
-      
-      new Chart(document.getElementById('userTeam').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: [{% for data in user_team_chart %}'{{ data.challenge.name }}',{% endfor %}],
-            datasets: [
-            {
-              label: '{{ user_team.name }}',
-              data: [{% for data in user_team_chart %}{{ data.points }},{% endfor %}],
-              fill: false,
-              borderColor: 'rgb(75, 192, 192)',
-              tension: 0.1
-            },
-        ]
+  //Polar Area Chart - Most Try-hard Users
+  new Chart(document.getElementById('tryhardUser').getContext('2d'), {
+      type: 'polarArea',
+      data: {
+        labels: [{% for data in team_players_data %}'{{ data.user }}', {% endfor %}],
+        datasets: [{
+          label: 'Most Try-hard Users',
+          data: [{% for data in team_players_data %} {{ data.points }}, {% endfor %}],
+          backgroundColor: [{% for data in team_players_data %} '{{ data.color }}', {% endfor %}]
+        }]
+      },
+      options: {}
+  }
+  );
+  
+  new Chart(document.getElementById('userTeam').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: [{% for data in user_team_chart %}'{{ data.challenge.name }}',{% endfor %}],
+        datasets: [
+        {
+          label: '{{ user_team.name }}',
+          data: [{% for data in user_team_chart %}{{ data.points }},{% endfor %}],
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
         },
-    }
-    );
-      </script>
-    {% endblock content %}
-    {% include 'footer.html' %}
-  </body>
-</html>
+    ]
+    },
+}
+);
+  </script>
+{% endblock body %}

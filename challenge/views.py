@@ -11,6 +11,7 @@ import qrcode
 import stegano
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from PIL import Image, ImageDraw, ImageFont
@@ -854,3 +855,39 @@ def play_challenge_quizz(request, pk, pk1):
 
 def fake_quizz(request, quizz_id):
     return render(request, "fake_quizz.html")
+
+
+def check_answer(request):
+    is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    if request.method == "POST" and is_ajax:
+        quizz = Quizz.objects.get(pk=request.POST.get("quizz_id"))
+        answer = request.POST.get("answer")
+        unsafety_flags = [flag.flag for flag in FlagsFromUnsafety.objects.all()]
+
+        try:
+            true_answer = TrueAnswers.objects.get(
+                quizz_id=quizz.pk, for_team=request.user.team.name
+            )
+        except:
+            true_answer = TrueAnswers.objects.get(quizz_id=quizz.pk, is_public=True)
+
+        if answer == true_answer.answer and quizz.type_of_quizz != "SQL Injection":
+            status = True
+        elif quizz.type_of_quizz == "SQL Injection" and answer in unsafety_flags:
+            status = True
+        else:
+            status = False
+
+        if status == False:
+            challenge = Challenge.objects.get(pk=quizz.challenge_id)
+            answer_obj = Answer.objects.create(
+                challenge_id=challenge.id,
+                username=request.user.username,
+                team=request.user.team,
+                quizz_id=quizz.id,
+                answer=answer,
+                point=0,
+                status=False,
+            )
+
+        return JsonResponse({"status": status})

@@ -1,97 +1,104 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
-        {% load static %}
-        <link rel="stylesheet"
-              href="{% static 'main/challenge.css' %}?{% now " U" %}">
-        <link rel="shortcut icon"
-              type="image/png"
-              href="{% static 'main/logo-black.png' %}" />
-        <link href="{% static 'main/bootstrap.min.css' %}" rel="stylesheet">
-    </head>
-    <body class="d-flex flex-column min-vh-100">
-        {% include 'navbar.html' %}
-        {% block content %}
-            <div class="h3 mx-auto my-5" id="timer"></div>
-            <form action="" method="POST">
-                {% csrf_token %}
-                <div class="container text-center mb-4">
-                    <div class="card w-50 mx-auto text-center">
-                        <div class="card-title border-bottom">{{ quizz.name }}</div>
-                        <div class="card-body text-start">
-                            <div class="ms-3">
-                                Sorag: {{ quizz.question|safe }}
+{% extends "layout.html" %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'main/challenge.css' %}?{% now " U" %}">
+    <style>
+        label {
+            color: white;
+            font-size: 1.4rem;
+        }
+    </style>
+{% endblock head %}
+{% block body %}
+    <div class="h3 mx-auto my-5" id="timer"></div>
+    <form id="answer-form" action="" method="POST">
+        {% csrf_token %}
+        <div class="container text-center mb-4">
+            <div id="popup" class="modal">
+                <div class="content">
+                    <span class="close">&times;</span>
+                    <p>Текст сообщения...</p>
+                </div>
+            </div>
+            <div class="card w-50 mx-auto text-center" id="quizz-block">
+                <div class="card-title border-bottom">{{ quizz.name }}</div>
+                <div class="card-body text-start">
+                    <div class="ms-3 text-1 text-white">
+                        Sorag: {{ quizz.question|safe }}
+                        <br>
+                    </div>
+                    <div class="ms-3 text-1 text-white">
+                        Bal: {{ quizz.point }}
+                        <br>
+                    </div>
+                    <div class="ms-3 text-1 text-white">
+                        {% for hint in hints %}
+                            <div class="text-1 text-white">
+                                Maslahat {{ forloop.counter }}:
+                                <span style="color: #71c6dd"
+                                      class="clickable-element"
+                                      onclick="event.target.innerHTML='{{ hint.content }}'; num+=parseInt('{{ hint.point }}'); getPoint();">
+                                    Maslahaty görmek üçin basyň
+                                </span>
+                                (-{{ hint.point }} bal)
                                 <br>
                             </div>
-                            <div class="ms-3">
-                                Bal: {{ quizz.point }}
-                                <br>
-                            </div>
-                            <div class="ms-3">
-                                {% for hint in hints %}
-                                    <div>
-                                        Maslahat {{ forloop.counter }}:
-                                        <span style="color: #71c6dd"
-                                              class="clickable-element"
-                                              onclick="event.target.innerHTML='{{ hint.content }}'; num+=parseInt('{{ hint.point }}'); getPoint();">
-                                            Maslahaty görmek üçin basyň
-                                        </span>
-                                        (-{{ hint.point }} bal)
-                                        <br>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            {% for file in files %}
-                                <div class="ms-3 my-1">
-                                    Faýl:
-                                    <a href="/media/{{ file.file }}"
-                                       class="btn btn-lg btn-primary px-3 py-2"
-                                       style="background-color: #696d97!important">Ýükle</a>
-                                </div>
-                            {% empty %}
-                                <div></div>
-                            {% endfor %}
-                            <label for="answer" class="text-capitalize ms-3">Jogaby:</label>
-                            <div class="form-control bg-transparent border-0">
-                                <textarea class="form-control bg-transparent border-2 text-light fs-4"
-                                          style="border-color: #696d97"
-                                          name="answer"
-                                          id="id_answer"
-                                          required></textarea>
-                            </div>
-                            <input type="text"
-                                   class="d-none"
-                                   id="minus-point"
-                                   name="minus-point"
-                                   value="0">
+                        {% endfor %}
+                    </div>
+                    {% for file in files %}
+                        <div class="ms-3 my-1 text-1 text-white">
+                            Faýl:
+                            <a href="/media/{{ file.file }}"
+                               class="btn btn-lg btn-primary px-3 py-2 unborder"
+                               style="background-color: #696d97!important">Ýükle</a>
                         </div>
+                    {% empty %}
+                        <div></div>
+                    {% endfor %}
+                    <label for="answer" class="text-capitalize ms-3">Jogaby:</label>
+                    <div class="form-control bg-transparent border-0">
+                        <textarea class="form-control bg-transparent border-2 text-light fs-4"
+                                  style="border-color: #696d97"
+                                  name="answer"
+                                  id="answer"
+                                  required></textarea>
                     </div>
+                    <input type="text"
+                           class="d-none"
+                           id="minus-point"
+                           name="minus-point"
+                           value="0">
                 </div>
-                <div class="container row mt-0">
-                    <!-- Button Cancel -->
-                    <div class="text-end col-8">
-                        <button type="button"
-                                onclick="location.href='{% url 'play_challenge' challenge.id %}'"
-                                class="btn btn-lg btn-danger me-1 my-auto"
-                                style="background-color: #c93232!important">Çykmak</button>
-                    </div>
-                    <!-- Button Submit -->
-                    <div class="text-end col-1">
-                        <button type="submit"
-                                class="btn btn-lg btn-light my-auto"
-                                style="background-color: #696d97!important">Tassyklamak</button>
-                    </div>
-                </div>
-            </form>
-        {% endblock content %}
-        {% include 'footer.html' %}
-        <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
-        <script type="text/javascript">
+            </div>
+        </div>
+        <div id="quizz-id">{{ quizz.pk }}</div>
+    </form>
+    <div class="container row mt-0">
+        <!-- Button Cancel -->
+        <div class="text-end col-8">
+            <button type="button"
+                    onclick="location.href='{% url 'play_challenge' challenge.id %}'"
+                    class="btn btn-lg btn-danger me-1 my-auto unborder btn-text-size"
+                    style="background-color: #c93232!important;
+                           color: rgb(33, 37, 41) !important">Çykmak</button>
+        </div>
+        <!-- Button Submit -->
+        <div class="text-end col-1">
+            <button id="check-btn"
+                    class="btn btn-lg btn-light my-auto unborder btn-text-size"
+                    style="background-color: #696d97 !important;
+                           color: rgb(33, 37, 41) !important">Tassyklamak</button>
+            {% comment %} <!--<button type="submit" class="btn btn-lg btn-light my-auto unborder btn-text-size" style="background-color: #696d97 !important; color: rgb(33, 37, 41) !important">Tassyklamak</button>--> {% endcomment %}
+        </div>
+    </div>
+    <script src="{% static 'main/jquery.js' %}"></script>
+    <script src="{% static 'main/play_quizz.js' %}"></script>
+    <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
+    <script type="text/javascript">
         var num = 0;
-        let answer_input = document.querySelector("#id_answer");
+        let answer_input = document.querySelector("#answer");
         answer_input.value = "flag{}";
         function showHint(event) {
             container = event.target;
@@ -129,6 +136,5 @@
         window.onload = function() {
             timer();
         }
-        </script>
-    </body>
-</html>
+    </script>
+{% endblock body %}
