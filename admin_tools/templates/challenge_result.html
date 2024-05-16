@@ -1,69 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
-        {% load static %}
-        <link rel="stylesheet"
-              href="{% static 'main/challenge.css' %}?{% now " U" %}">
-        <link rel="shortcut icon"
-              type="image/png"
-              href="{% static 'main/logo-black.png' %}" />
-        <link href="{% static 'main/bootstrap.min.css' %}" rel="stylesheet">
-        <link rel="stylesheet"
-              href="{% static 'assets/bootstrap-icons/font/bootstrap-icons.min.css' %}">
-    </head>
-    <body>
-        {% include 'navbar.html' %}
-        {% block content %}
-            <div class="card col-sm-5 mx-auto pt-0 w-50 rounded-4 my-5"
-                 style="background-color: #3f4156!important">
-                <h2 class="card-header pt-4 text-center"
-                    style="background-color: #696d97!important">"{{ challenge.name }}" ýaryşynyň netijeleri</h2>
-                <div class="p-4 pb-2 px-5">
-                    <div class="btn-group"
-                         role="group"
-                         style="box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15)">
-                        <a class="btn btn-success"
-                           href="{{ xlsx_path }}"
-                           style="box-shadow: none">
-                            <i style="font-size: 2rem;" class="bi bi-filetype-xls"></i>
-                        </a>
-                        <a class="btn btn-danger"
-                           href="{{ pdf_path }}"
-                           style="box-shadow: none">
-                            <i style="font-size: 2rem;" class="bi bi-filetype-pdf"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body mt-4" style="height: 40vh; overflow-y: scroll;">
-                    <div>
-                        <div class="row p-1 px-5">
-                            <table class="table text-light">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Ýer</th>
-                                        <th scope="col">Topar</th>
-                                        <th scope="col">Ballar</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for row in results %}
-                                        <tr>
-                                            <th scope="row">{{ row.place }}</th>
-                                            <td>{{ row.team }}</td>
-                                            <td>{{ row.points }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+{% extends "layout.html" %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet"
+          href="{% static 'main/challenge.css' %}?{% now " U" %}">
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'assets/bootstrap-icons/font/bootstrap-icons.min.css' %}">
+    <style>
+        table {
+            font-size: 1.4rem;
+        }
+        body {
+            overflow-x: hidden;
+        }
+    </style>
+{% endblock head %}
+{% block body %}
+    <h2 class="pt-4 text-center text-white">"{{ challenge.name }}" ýaryşynyň netijeleri</h2>
+    <div class="p-4 pb-2 px-5">
+        <div class="btn-group"
+             role="group"
+             style="box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15)">
+            <a class="btn btn-success"
+               href="{{ xlsx_path }}"
+               style="box-shadow: none">
+                <i style="font-size: 2rem;" class="bi bi-filetype-xls"></i>
+            </a>
+            <a class="btn btn-danger" href="{{ pdf_path }}" style="box-shadow: none">
+                <i style="font-size: 2rem;" class="bi bi-filetype-pdf"></i>
+            </a>
+        </div>
+    </div>
+    <div class="mt-4">
+        <div>
+            <div class="row p-1 px-5">
+                <table class="table text-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">Ýer</th>
+                            <th scope="col">Topar</th>
+                            <th scope="col">Ballar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in results %}
+                            <tr>
+                                <th scope="row">{{ row.place }}</th>
+                                <td>{{ row.team }}</td>
+                                <td>{{ row.points }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-        {% endblock content %}
-        {% include 'footer.html' %}
-        <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
-    </body>
-</html>
+        </div>
+    </div>
+    <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
+{% endblock body %}

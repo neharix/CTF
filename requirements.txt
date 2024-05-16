@@ -12,3 +12,4 @@ mysqlx-connector-python==8.3.0
 rsa==4.9
 qrcode==7.4.2
 pycryptodome==3.20.0
+django-jazzmin==2.6.0

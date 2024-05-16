@@ -9,6 +9,9 @@ from borb.pdf.canvas.layout.page_layout.single_column_layout_with_overflow impor
     SingleColumnLayout,
 )
 from borb.pdf.canvas.layout.table.fixed_column_width_table import FixedColumnWidthTable
+from borb.pdf.canvas.layout.table.flexible_column_width_table import (
+    FlexibleColumnWidthTable,
+)
 from borb.pdf.canvas.layout.table.table import TableCell
 from borb.pdf.canvas.layout.text.paragraph import Paragraph
 from borb.pdf.document.document import Document
@@ -271,7 +274,7 @@ def challenge_result(request, challenge_id):
 
         path = str(settings.BASE_DIR).replace("\\", "/")
         font = TrueTypeFont().true_type_font_from_file(
-            Path(path + "/admin_tools/static/fonts/VelaSans-Regular.ttf")
+            Path(path + "/main/static/fonts/VelaSans-Regular.ttf")
         )
         document = Document()
         page = Page()
