@@ -1,50 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
-        {% load static %}
-        <link rel="stylesheet"
-              href="{% static 'main/challenge.css' %}?{% now " U" %}">
-        <link rel="shortcut icon"
-              type="image/png"
-              href="{% static 'main/logo-black.png' %}" />
-        <link href="{% static 'main/bootstrap.min.css' %}" rel="stylesheet">
-        <link rel="stylesheet"
-              href="{% static 'assets/bootstrap-icons/font/bootstrap-icons.min.css' %}">
-    </head>
-    <body>
-        {% include 'navbar.html' %}
-        {% block content %}
-            <div class="card col-sm-5 mx-auto pt-0 w-50 rounded-4 my-5"
-                 style="background-color: #3f4156!important">
-                <div class="card-body mt-4" style="height: 40vh; overflow-y: scroll;">
-                    <div class="row p-5">
-                        <table class="table text-light">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Ýaryş</th>
-                                    <th scope="col">Excel</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for row in data %}
-                                    <tr>
-                                        <th scope="row">{{ row.challenge }}</th>
-                                        <td>
-                                            <a href="{{ row.path }}" class="btn btn-primary"><i class="bi bi-download"></i></a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+{% extends "layout.html" %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet"
+          href="{% static 'main/challenge.css' %}?{% now " U" %}">
+    <link rel="stylesheet"
+          href="{% static 'assets/bootstrap-icons/font/bootstrap-icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
+    <style>
+        body {
+            font-size: 1.4rem;
+        }
+    </style>
+{% endblock head %}
+{% block body %}
+    <div class="card col-sm-5 mx-auto pt-0 w-50 rounded-4 my-5"
+         style="background-color: #3f4156!important">
+        <div class="card-body mt-4" style="height: 40vh; overflow-y: scroll;">
+            <div class="row p-5">
+                <table class="table text-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">Ýaryş</th>
+                            <th scope="col">Excel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in data %}
+                            <tr>
+                                <th scope="row">{{ row.challenge }}</th>
+                                <td>
+                                    <a href="{{ row.path }}" class="btn btn-primary"><i class="bi bi-download"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-        {% endblock content %}
-        {% include 'footer.html' %}
-        <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
-        <script src="{% static 'main/bootstrap.min.js' %}"></script>
-    </body>
-</html>
+        </div>
+    </div>
+    <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'main/bootstrap.min.js' %}"></script>
+{% endblock body %}

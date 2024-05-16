@@ -1,37 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
-        {% load static %}
-        <link rel="stylesheet"
-              href="{% static 'main/challenge.css' %}?{% now " U" %}">
-        <link rel="shortcut icon"
-              type="image/png"
-              href="{% static 'main/logo-black.png' %}" />
-        <link href="{% static 'main/bootstrap.min.css' %}" rel="stylesheet">
-    </head>
-    <body>
-        {% include 'navbar.html' %}
-        {% block content %}
-            <div class="card col-sm-5 mx-auto pt-0 rounded-4 my-5"
-                 style="background-color: #3f4156!important">
-                <h2 class="card-header pt-4 text-center"
-                    style="background-color: #696d97!important">Ýaryşlar</h2>
-                <div class="card-body mt-4" style="height: 40vh;">
-                    <div class="row">
-                        {% for challenge in challenges %}
-                            <div class="col">
-                                <a class="btn btn-lg justify-content-center w-100 btn-primary"
-                                   href="/admin_tools/personal_results/challenge/{{ challenge.pk }}">{{ challenge.name }}</a>
-                            </div>
-                        {% endfor %}
+{% extends "layout.html" %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet"
+          href="{% static 'main/challenge.css' %}?{% now " U" %}">
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
+{% endblock head %}
+{% block body %}
+    <div class="card col-sm-5 mx-auto pt-0 rounded-4 my-5"
+         style="background-color: #3f4156!important">
+        <h2 class="card-header pt-4 text-center text-white"
+            style="background-color: #696d97!important">Ýaryşlar</h2>
+        <div class="card-body mt-4" style="height: 40vh;">
+            <div class="row">
+                {% for challenge in challenges %}
+                    <div class="col">
+                        <a class="btn btn-lg justify-content-center w-100 unborder btn-text-size w-100 mt-3 mb-3 btn-blue text-white"
+                           href="/admin_tools/personal_results/challenge/{{ challenge.pk }}">{{ challenge.name }}</a>
                     </div>
-                </div>
+                {% endfor %}
             </div>
-        {% endblock content %}
-        {% include 'footer.html' %}
-        <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
-    </body>
-</html>
+        </div>
+    </div>
+    <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
+{% endblock body %}
