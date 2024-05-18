@@ -6,7 +6,6 @@ __pycache__
 *.xlsx
 *.jpg
 *.mp3
-*.png
 *.zip
 # Backup files # 
 *.bak 
