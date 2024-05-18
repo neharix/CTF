@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-gte39m!pnxhrdz4a3@xl5v(n-%t!q(u94+*zm-(r%lyk$$$99#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "ctf.skill", "172.16.11.63"]
+ALLOWED_HOSTS = ["127.0.0.1", "ctf.local", "172.16.11.63"]
 
 
 # Application definition
@@ -82,8 +82,15 @@ WSGI_APPLICATION = "CTF.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.mysql",
+        "OPTIONS": {
+            "sql_mode": "traditional",
+        },
+        "NAME": "ctf",
+        "USER": "afych",
+        "PASSWORD": "useradmin",
+        "HOST": "localhost",
+        "PORT": "3306",
     }
 }
 
@@ -122,7 +129,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "/main/static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Default primary key field type
@@ -130,6 +137,18 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "level": "ERROR",
+            "class": "logging.FileHandler",
+            "filename": "/home/afych/CTF/logs/error.log",
+        },
+    },
+    "loggers": {"django": {"handlers": ["file"], "level": "ERROR", "propogate": True}},
+}
 
 try:
     from django.contrib.messages import constants as messages
