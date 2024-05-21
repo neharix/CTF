@@ -1,4 +1,5 @@
 from django.contrib import admin
+from xlsxdocument import export_selected
 
 from .models import Answer, Challenge, HashResponse, Hint, Quizz, TrueAnswers
 
@@ -9,14 +10,21 @@ class siteAdmin(admin.ModelAdmin):
     readonly_fields = ("id",)
 
 
+@admin.register(Quizz)
+class quizzAdmin(admin.ModelAdmin):
+    readonly_fields = ("id",)
+    list_display = ["id", "challenge_id", "name", "question", "point", "type_of_quizz"]
+    actions = [export_selected]
+
+
+@admin.register(Answer)
 class answerAdmin(admin.ModelAdmin):
     readonly_fields = ("answered_at",)
+    actions = [export_selected]
 
 
 admin.site.register(Challenge, siteAdmin)
 admin.site.register(Hint, siteAdmin)
-admin.site.register(Quizz, siteAdmin)
-admin.site.register(Answer, answerAdmin)
 admin.site.register(TrueAnswers)
 admin.site.register(HashResponse)
 # class NoteAdmin(admin.ModelAdmin):

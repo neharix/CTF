@@ -1,9 +1,3 @@
-from datetime import date, datetime
-from json import dumps
-from telnetlib import LOGOUT
-from tkinter.tix import CheckList
-from urllib import request
-
 from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
@@ -15,8 +9,6 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
 from challenge.models import Challenge, HashResponse
-
-from .models import FlagsFromUnsafety
 
 User = get_user_model()
 

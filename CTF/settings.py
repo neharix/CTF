@@ -80,17 +80,12 @@ WSGI_APPLICATION = "CTF.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+from openpyxl.writer.excel import save_workbook
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "OPTIONS": {
-            "sql_mode": "traditional",
-        },
-        "NAME": "ctf",
-        "USER": "afych",
-        "PASSWORD": "useradmin",
-        "HOST": "localhost",
-        "PORT": "3306",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -136,19 +131,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "file": {
-            "level": "ERROR",
-            "class": "logging.FileHandler",
-            "filename": "/home/afych/CTF/logs/error.log",
-        },
-    },
-    "loggers": {"django": {"handlers": ["file"], "level": "ERROR", "propogate": True}},
-}
 
 try:
     from django.contrib.messages import constants as messages
