@@ -17,11 +17,11 @@ from borb.pdf.canvas.layout.text.paragraph import Paragraph
 from borb.pdf.document.document import Document
 from borb.pdf.page.page import Page
 from borb.pdf.pdf import PDF
+from challenge.models import Answer, Challenge, Quizz
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 
-from challenge.models import Answer, Challenge, Quizz
 from main.models import Team, User
 
 from .forms import XlsxForm
