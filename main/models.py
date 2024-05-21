@@ -10,8 +10,6 @@ class Team(models.Model):
 
 
 class User(AbstractUser):
-    name = models.CharField(max_length=50, null=True)
-    surname = models.CharField(max_length=50, null=True)
     username = models.CharField(max_length=200, unique=True)
     email = models.EmailField(null=True)
     bio = models.TextField(null=True)

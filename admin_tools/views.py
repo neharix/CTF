@@ -17,11 +17,11 @@ from borb.pdf.canvas.layout.text.paragraph import Paragraph
 from borb.pdf.document.document import Document
 from borb.pdf.page.page import Page
 from borb.pdf.pdf import PDF
-from challenge.models import Answer, Challenge, Quizz
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 
+from challenge.models import Answer, Challenge, Quizz
 from main.models import Team, User
 
 from .forms import XlsxForm
@@ -77,7 +77,9 @@ def register_tools(request):
                     team = dataframe["Topar"][i]
                     already_in_db = True
                     try:
-                        user_object = User.objects.get(name=name, surname=surname)
+                        user_object = User.objects.get(
+                            first_name=name, last_name=surname
+                        )
                     except:
                         already_in_db = False
 
@@ -114,9 +116,9 @@ def register_tools(request):
                         User.objects.create_user(
                             username=username,
                             password=password,
-                            name=name,
+                            first_name=name,
                             password_for_usage=password,
-                            surname=surname,
+                            last_name=surname,
                             email=email,
                             team=team,
                         )
@@ -191,7 +193,7 @@ def get_xlsx_of_challenge(request):
                 user = User.objects.get(username=answer.username)
                 challenge_answers["Sorag"].append(quizz.name)
                 challenge_answers["Jogap beren"].append(
-                    user.surname.capitalize() + " " + user.name.capitalize()
+                    user.last_name.capitalize() + " " + user.first_name.capitalize()
                 )
                 challenge_answers["Topary"].append(answer.team)
                 challenge_answers["Berlen bal"].append(answer.point)
@@ -383,8 +385,8 @@ def personal_result(request, challenge_id):
             results_list.append(
                 {
                     "user": user.username,
-                    "first_name": user.name,
-                    "last_name": user.surname,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
                     "team": user.team.name,
                     "points": sum(points),
                 }

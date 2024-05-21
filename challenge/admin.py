@@ -23,9 +23,14 @@ class answerAdmin(admin.ModelAdmin):
     actions = [export_selected]
 
 
+@admin.register(TrueAnswers)
+class trueAnswersAdmin(admin.ModelAdmin):
+    list_display = ["id", "is_public", "answer", "for_team", "quizz_id"]
+    actions = [export_selected]
+
+
 admin.site.register(Challenge, siteAdmin)
 admin.site.register(Hint, siteAdmin)
-admin.site.register(TrueAnswers)
 admin.site.register(HashResponse)
 # class NoteAdmin(admin.ModelAdmin):
 #     list_filter = ('day_created',)
