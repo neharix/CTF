@@ -28,7 +28,3 @@ class File(models.Model):
 
     def __str__(self):
         return f"Quizz {self.quizz_id} file"
-
-
-class FlagsFromUnsafety(models.Model):
-    flag = models.CharField(max_length=200)

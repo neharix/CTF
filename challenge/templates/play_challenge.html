@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% load static %}
+{% load i18n %}
 {% block head %}
   <link rel="stylesheet" href="{% static 'main/style.css' %}">
   <script src="{% static 'main/jquery.js' %}"></script>
@@ -11,7 +12,7 @@
   <div class="container text-center text-white mb-4">
     <div class="h1 mx-auto">{{ challenge.name }}</div>
     <div class="h3 mx-auto" id="timer"></div>
-    <div class="h3 mx-auto">Ballaryň jemi: {{ score }}</div>
+    <div class="h3 mx-auto">{% trans "Sum of points" %}: {{ score }}</div>
   </div>
   <div class="container mb-5">
     <div class="row justify-content-center">
@@ -23,7 +24,7 @@
                  class="card true-status clickable-element"
                  onclick="_id={{ quizz.id }}">
               <div class="card-title border-bottom height-append">{{ quizz.name }}</div>
-              <div class="card-body text-smoke">Bal: {{ quizz.point }}</div>
+              <div class="card-body text-smoke">{% trans "Point" %}: {{ quizz.point }}</div>
             </div>
           {% elif status|index:quizz.id == "False" %}
             <div data-toggle="modal"
@@ -31,23 +32,14 @@
                  class="card clickable-element"
                  onclick="location.href='{% url 'play_challenge_quizz' challenge.id quizz.id %}'">
               <div class="card-title border-bottom height-append">{{ quizz.name }}</div>
-              <div class="card-body text-smoke">Bal: {{ quizz.point }}</div>
+              <div class="card-body text-smoke">{% trans "Point" %}: {{ quizz.point }}</div>
             </div>
           {% else %}
             <div style="background-color: #2c2c2c !important"
                  onclick="location.href='{% url 'play_challenge_quizz' challenge.id quizz.id %}'"
                  class="card clickable-element">
               <div class="card-title border-bottom height-append">{{ quizz.name }}</div>
-              <div class="card-body text-smoke">Bal: {{ quizz.point }}</div>
-            </div>
-          {% endif %}
-          {% if completed|index:quizz.id == "yes" %}
-            <div style="color: yellow;" id="check">
-              Tamamlandy <span class="glyphicon glyphicon-ok"></span>
-            </div>
-          {% else %}
-            <div>
-              <br>
+              <div class="card-body text-smoke">{% trans "Point" %}: {{ quizz.point }}</div>
             </div>
           {% endif %}
         </div>
@@ -82,10 +74,10 @@
           if (hours < 10) hours = '0' + hours;
           var elmnt = document.getElementById('timer');
           if (days == 0) {
-            elmnt.innerHTML = 'Galan wagt: ' + hours + ':' + minutes + ':' + seconds;
+            elmnt.innerHTML = "{% trans 'Remaining time' %}: " + hours + ':' + minutes + ':' + seconds;
           }
           else {
-            elmnt.innerHTML = 'Galan wagt: ' + days + ' gün ' + hours + ':' + minutes + ':' + seconds;
+            elmnt.innerHTML = "{% trans 'Remaining time' %}: " + days + ":" + hours + ':' + minutes + ':' + seconds;
           }
           
           setTimeout(timer, 1000);

@@ -1,0 +1,156 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-23 00:01+0500\n"
+"PO-Revision-Date: 2024-05-23 00:02+0500\n"
+"Last-Translator:   <>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
+
+#: .\CTF\settings.py:132
+msgid "English"
+msgstr "English"
+
+#: .\CTF\settings.py:133
+msgid "Russian"
+msgstr "Russian"
+
+#: .\CTF\settings.py:134
+msgid "Turkmen"
+msgstr "Turkmen"
+
+#: .\challenge\templates\join_challenge.html:20 .\main\templates\index.html:38
+msgid "Starts at"
+msgstr "Starts at"
+
+#: .\challenge\templates\join_challenge.html:22 .\main\templates\index.html:40
+msgid "Finishes at"
+msgstr "Finishes at"
+
+#: .\challenge\templates\join_challenge.html:24
+msgid "Description"
+msgstr "Description"
+
+#: .\challenge\templates\join_challenge.html:35
+msgid "Come back"
+msgstr "Come back"
+
+#: .\challenge\templates\join_challenge.html:41
+msgid "Join"
+msgstr "Join"
+
+#: .\challenge\templates\play_challenge.html:15
+msgid "Sum of points"
+msgstr "Sum of points"
+
+#: .\challenge\templates\play_challenge.html:27
+#: .\challenge\templates\play_challenge.html:35
+#: .\challenge\templates\play_challenge.html:42
+#: .\challenge\templates\play_challenge_quizz.html:28
+msgid "Point"
+msgstr "Point"
+
+#: .\challenge\templates\play_challenge.html:77
+#: .\challenge\templates\play_challenge.html:80
+#: .\challenge\templates\play_challenge_quizz.html:129
+msgid "Remaining time"
+msgstr "Remaining time"
+
+#: .\challenge\templates\play_challenge_quizz.html:24
+#, fuzzy
+#| msgid "Description"
+msgid "Question"
+msgstr "Description"
+
+#: .\challenge\templates\play_challenge_quizz.html:34
+msgid "Hint"
+msgstr "Hint"
+
+#: .\challenge\templates\play_challenge_quizz.html:38
+msgid "Click to see hint"
+msgstr "Click to see hint"
+
+#: .\challenge\templates\play_challenge_quizz.html:40
+#, fuzzy
+#| msgid "Point"
+msgid "point"
+msgstr "Point"
+
+#: .\challenge\templates\play_challenge_quizz.html:47
+msgid "File"
+msgstr "File"
+
+#: .\challenge\templates\play_challenge_quizz.html:50
+msgid "Download"
+msgstr "Download"
+
+#: .\challenge\templates\play_challenge_quizz.html:55
+msgid "Answer"
+msgstr "Answer"
+
+#: .\challenge\templates\play_challenge_quizz.html:80
+msgid "Exit"
+msgstr "Exit"
+
+#: .\challenge\templates\play_challenge_quizz.html:87
+msgid "Accept"
+msgstr "Accept"
+
+#: .\main\templates\index.html:18
+msgid "Active events"
+msgstr "Active events"
+
+#: .\main\templates\layout.html:8
+msgid "CTF Games - Cybersecurity Challenge"
+msgstr "CTF Games - Cybersecurity Challenge"
+
+#: .\main\templates\layout.html:31 .\main\templates\layout.html:63
+msgid "Admin tools"
+msgstr "Admin tools"
+
+#: .\main\templates\layout.html:37 .\main\templates\layout.html:69
+msgid "Charts"
+msgstr "Charts"
+
+#: .\main\templates\layout.html:121
+#: .\main\templates\menu\login_register.html:25
+msgid "Sign in"
+msgstr "Sign in"
+
+#: .\main\templates\layout.html:137
+msgid "Log out"
+msgstr "Log out"
+
+#: .\main\templates\menu\login_register.html:22
+#, fuzzy
+#| msgid "Log out"
+msgid "Log in"
+msgstr "Log out"
+
+#: .\main\templates\menu\login_register.html:23
+msgid "Username"
+msgstr "Username"
+
+#: .\main\templates\menu\login_register.html:24
+msgid "Password"
+msgstr "Password"
+
+#: .\main\views.py:44
+msgid "Username is not in the database"
+msgstr "Username is not in the database"
+
+#: .\main\views.py:52
+msgid "Incorrect username or password"
+msgstr "Incorrect username or password"

@@ -1,10 +1,14 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>CTF Oýunlary - Kiberhowpsuzlyk ýaryşy</title>
+        <title>{% trans "CTF Games - Cybersecurity Challenge" %}</title>
         <link rel="shortcut icon"
               type="image/png"
               href="{% static 'main/logo.png' %}" />
@@ -27,13 +31,13 @@
                         {% if request.user.is_superuser %}
                             <ul class="nav__list">
                                 <li>
-                                    <a href="{% url 'admin_tools' %}">Admin gurallary</a>
+                                    <a href="{% url 'admin_tools' %}">{% trans "Admin tools" %}</a>
                                 </li>
                             </ul>
                         {% else %}
                             <ul class="nav__list">
                                 <li>
-                                    <a href="{% url 'chart' %}" class="nav__link">Diagrammalar</a>
+                                    <a href="{% url 'chart' %}" class="nav__link">{% trans "Charts" %}</a>
                                 </li>
                             </ul>
                         {% endif %}
@@ -59,13 +63,13 @@
                         {% if request.user.is_superuser %}
                             <ul class="nav__mobile-list" style="margin-top: 10px;">
                                 <li>
-                                    <a href="{% url 'admin_tools' %}">Admin gurallary</a>
+                                    <a href="{% url 'admin_tools' %}">{% trans "Admin tools" %}</a>
                                 </li>
                             </ul>
                         {% else %}
                             <ul class="nav__mobile-list" style="margin-top: 10px;">
                                 <li>
-                                    <a href="{% url 'chart' %}" class="nav__mobile-link">Diagrammalar</a>
+                                    <a href="{% url 'chart' %}" class="nav__mobile-link">{% trans "Charts" %}</a>
                                 </li>
                             </ul>
                         {% endif %}
@@ -84,8 +88,32 @@
                         </label>
                     </nav>
                 </div>
-                <nav class="header__menu">
+                <nav class="header__menu d-flex align-items-center">
                     <!-- Logged In -->
+                    <div class="d-flex mx-5">
+                        <div>
+                            <p class="text-white"
+                               style="font-size: 1.4rem !important;
+                                      font-weight: 600">
+                                <span class="text-white mx-2">{{ LANGUAGE_CODE.upper }}</span>
+                            </p>
+                        </div>
+                        <button class="language-button mx-2">
+                            <svg version="1.1"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 width="32"
+                                 height="32"
+                                 viewBox="0 0 32 32">
+                                <title>chevron-down</title>
+                                <path d="M16 21l-13-13h-3l16 16 16-16h-3l-13 13z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="language-menu" id="language-dropdown">
+                        {% for language in languages %}
+                            {% if language.code != LANGUAGE_CODE %}<a href="" class="dropdown-link">{{ language.code.upper }}</a>{% endif %}
+                        {% endfor %}
+                    </div>
                     {% if request.user.is_authenticated %}
                         <div class="header__user">
                             <div class="avatar avatar--medium active">
@@ -117,10 +145,10 @@
                         <!-- Not Logged In -->
                         <a href="{% url 'login' %}" style="font-size: 1.4rem;">
                             <img src="{% static 'main/images/avatar.svg' %}" />
-                            <p>Girmek</p>
+                            <p>{% trans "Sign in" %}</p>
                         </a>
                     {% endif %}
-                    <div class="dropdown-menu">
+                    <div class="dropdown-menu" id="logout-dropdown">
                         <a href="{% url 'logout' %}" class="dropdown-link">
                             <svg version="1.1"
                                  xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +161,7 @@
                                 <path d="M21.879 21.293l1.414 1.414 6.707-6.707-6.707-6.707-1.414 1.414 4.293 4.293h-14.172v2h14.172l-4.293 4.293z">
                                 </path>
                             </svg>
-                        Çykmak</a>
+                        {% trans "Log out" %}</a>
                     </div>
                 </nav>
             </div>

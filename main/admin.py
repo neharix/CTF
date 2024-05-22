@@ -1,7 +1,7 @@
 from django.contrib import admin
 from xlsxdocument import export_selected
 
-from .models import File, FlagsFromUnsafety, Team, User
+from .models import File, Team, User
 
 
 @admin.register(File)
@@ -16,4 +16,3 @@ class fileAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Team)
-admin.site.register(FlagsFromUnsafety)

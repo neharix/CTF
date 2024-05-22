@@ -1,19 +1,19 @@
 from django.db import models
+from parler.models import TranslatableModel, TranslatedFields
 
 # Create your models here.
 
 
-class Challenge(models.Model):
-    name = models.CharField(max_length=200, null=False, blank=False)
+class Challenge(TranslatableModel):
+    translations = TranslatedFields(
+        name=models.CharField(max_length=200, null=False, blank=False),
+        description=models.TextField(null=True, blank=True),
+    )
     owner = models.CharField(max_length=200, null=False, blank=False)
     public = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     date_start = models.DateTimeField()
     date_end = models.DateTimeField()
-    description = models.TextField(null=True, blank=True)
-
-    def __str__(self):
-        return self.name
 
 
 class HashResponse(models.Model):
@@ -33,10 +33,12 @@ class TrueAnswers(models.Model):
         return self.answer
 
 
-class Quizz(models.Model):
+class Quizz(TranslatableModel):
+    translations = TranslatedFields(
+        name=models.CharField(max_length=200, null=True, blank=True),
+        question=models.TextField(null=False, blank=False),
+    )
     challenge_id = models.IntegerField()
-    name = models.CharField(max_length=200, null=True, blank=True)
-    question = models.TextField(null=False, blank=False)
     point = models.IntegerField()
     type_of_quizz = models.CharField(max_length=200)
 
@@ -44,9 +46,9 @@ class Quizz(models.Model):
         return str(self.challenge_id)
 
 
-class Hint(models.Model):
+class Hint(TranslatableModel):
+    translations = TranslatedFields(content=models.TextField(null=False, blank=False))
     quizz_id = models.IntegerField()
-    content = models.TextField(null=False, blank=False)
     point = models.IntegerField()
     for_team = models.CharField(max_length=200, default="status:public")
 

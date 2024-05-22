@@ -1,22 +1,10 @@
 {% extends "layout.html" %}
 {% load static %}
+{% load i18n %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'main/style.css' %}">
 {% endblock head %}
 {% block body %}
-    <div class="login-wrapper" id="login-wrapper">
-        <div class="login-container" id="login-container">
-            <div class="form-container">
-                <form method="POST" action="#">
-                    {% csrf_token %}
-                    <h1>Hasabyňyza giriň</h1>
-                    <input type="text" name="username"  placeholder="Ulanyjy ady" />
-                    <input type="password" name="password"  placeholder="Açar sözi" />
-                    <button type="submit">Hasaba gir</button>
-                </form>
-            </div>
-        </div>
-    </div>
     <div class="mess-container">
         {% if messages %}
             <ul class="messages">
@@ -25,5 +13,18 @@
                 {% endfor %}
             </ul>
         {% endif %}
+    </div>
+    <div class="login-wrapper" id="login-wrapper">
+        <div class="login-container" id="login-container">
+            <div class="form-container">
+                <form method="POST" action="#">
+                    {% csrf_token %}
+                    <h1>{% trans "Log in" %}</h1>
+                    <input type="text" name="username"  placeholder="{% trans 'Username' %}" />
+                    <input type="password" name="password"  placeholder="{% trans 'Password' %}" />
+                    <button type="submit">{% trans "Sign in" %}</button>
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock body %}

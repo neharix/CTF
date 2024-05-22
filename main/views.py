@@ -2,11 +2,10 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
-from django.views.decorators.csrf import csrf_exempt
+from django.utils.translation import gettext_lazy as _
 
 from challenge.models import Challenge, HashResponse
 
@@ -42,7 +41,7 @@ def userLogin(request):
         try:
             user = User.objects.get(username=username)
         except:
-            messages.error(request, "Ulanyjy ady ulanyjylar hasabynda ýok")
+            messages.error(request, _("Username is not in the database"))
 
         user = authenticate(request, username=username, password=password)
 
@@ -50,7 +49,7 @@ def userLogin(request):
             login(request, user)
             return redirect("home")
         else:
-            messages.error(request, "Nädogry ulanyjy ady ýa-da açar sözi")
+            messages.error(request, _("Incorrect username or password"))
 
     context = {}
     return render(request, "menu/login_register.html", context)

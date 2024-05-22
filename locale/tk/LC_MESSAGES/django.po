@@ -1,0 +1,152 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-23 00:01+0500\n"
+"PO-Revision-Date: 2024-05-23 00:07+0500\n"
+"Last-Translator:   <>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
+
+#: .\CTF\settings.py:132
+msgid "English"
+msgstr "Iňlis dili"
+
+#: .\CTF\settings.py:133
+msgid "Russian"
+msgstr "Rus dili"
+
+#: .\CTF\settings.py:134
+msgid "Turkmen"
+msgstr "Türkmen dili"
+
+#: .\challenge\templates\join_challenge.html:20 .\main\templates\index.html:38
+msgid "Starts at"
+msgstr "Başlamaly"
+
+#: .\challenge\templates\join_challenge.html:22 .\main\templates\index.html:40
+msgid "Finishes at"
+msgstr "Tamamlanmaly"
+
+#: .\challenge\templates\join_challenge.html:24
+msgid "Description"
+msgstr "Düşündiriş"
+
+#: .\challenge\templates\join_challenge.html:35
+msgid "Come back"
+msgstr "Yzyňa dolanmak"
+
+#: .\challenge\templates\join_challenge.html:41
+msgid "Join"
+msgstr "Goşulmak"
+
+#: .\challenge\templates\play_challenge.html:15
+msgid "Sum of points"
+msgstr "Utuklaryň jemi"
+
+#: .\challenge\templates\play_challenge.html:27
+#: .\challenge\templates\play_challenge.html:35
+#: .\challenge\templates\play_challenge.html:42
+#: .\challenge\templates\play_challenge_quizz.html:28
+msgid "Point"
+msgstr "Utuk"
+
+#: .\challenge\templates\play_challenge.html:77
+#: .\challenge\templates\play_challenge.html:80
+#: .\challenge\templates\play_challenge_quizz.html:129
+msgid "Remaining time"
+msgstr "Galan wagt"
+
+#: .\challenge\templates\play_challenge_quizz.html:24
+#| msgid "Description"
+msgid "Question"
+msgstr "Sorag"
+
+#: .\challenge\templates\play_challenge_quizz.html:34
+msgid "Hint"
+msgstr "Maslahat"
+
+#: .\challenge\templates\play_challenge_quizz.html:38
+msgid "Click to see hint"
+msgstr "Maslahaty görmek üçin basyň"
+
+#: .\challenge\templates\play_challenge_quizz.html:40
+#| msgid "Point"
+msgid "point"
+msgstr "utuk"
+
+#: .\challenge\templates\play_challenge_quizz.html:47
+msgid "File"
+msgstr "Faýl"
+
+#: .\challenge\templates\play_challenge_quizz.html:50
+msgid "Download"
+msgstr "Ýükle"
+
+#: .\challenge\templates\play_challenge_quizz.html:55
+msgid "Answer"
+msgstr "Jogap"
+
+#: .\challenge\templates\play_challenge_quizz.html:80
+msgid "Exit"
+msgstr "Çykmak"
+
+#: .\challenge\templates\play_challenge_quizz.html:87
+msgid "Accept"
+msgstr "Tassyklamak"
+
+#: .\main\templates\index.html:18
+msgid "Active events"
+msgstr "Işjeň ýaryşlar"
+
+#: .\main\templates\layout.html:8
+msgid "CTF Games - Cybersecurity Challenge"
+msgstr "CTF Oýunlary - Kiberhowpsuzlyk ýaryşy"
+
+#: .\main\templates\layout.html:31 .\main\templates\layout.html:63
+msgid "Admin tools"
+msgstr "Admin gurallary"
+
+#: .\main\templates\layout.html:37 .\main\templates\layout.html:69
+msgid "Charts"
+msgstr "Diagrammalar"
+
+#: .\main\templates\layout.html:121
+#: .\main\templates\menu\login_register.html:25
+msgid "Sign in"
+msgstr "Girmek"
+
+#: .\main\templates\layout.html:137
+msgid "Log out"
+msgstr "Çykmak"
+
+#: .\main\templates\menu\login_register.html:22
+msgid "Log in"
+msgstr "Ulgama giriş"
+
+#: .\main\templates\menu\login_register.html:23
+msgid "Username"
+msgstr "Ulanyjy ady"
+
+#: .\main\templates\menu\login_register.html:24
+msgid "Password"
+msgstr "Açar sözi"
+
+#: .\main\views.py:44
+msgid "Username is not in the database"
+msgstr "Ulanyjy ady ulanyjylar hasabynda ýok"
+
+#: .\main\views.py:52
+msgid "Incorrect username or password"
+msgstr "Nädogry ulanyjy ady ýa-da açar sözi"

@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.http import HttpRequest
+from parler.admin import TranslatableAdmin
 from xlsxdocument import export_selected
 
 from .models import Answer, Challenge, HashResponse, Hint, Quizz, TrueAnswers
@@ -11,10 +13,15 @@ class siteAdmin(admin.ModelAdmin):
 
 
 @admin.register(Quizz)
-class quizzAdmin(admin.ModelAdmin):
+class quizzAdmin(TranslatableAdmin):
     readonly_fields = ("id",)
     list_display = ["id", "challenge_id", "name", "question", "point", "type_of_quizz"]
     actions = [export_selected]
+
+    def get_prepopulated_fields(
+        self, request: HttpRequest, obj=None
+    ) -> dict[str, tuple[str]]:
+        return {"name": ("name",)}
 
 
 @admin.register(Answer)
@@ -29,7 +36,18 @@ class trueAnswersAdmin(admin.ModelAdmin):
     actions = [export_selected]
 
 
-admin.site.register(Challenge, siteAdmin)
+@admin.register(Challenge)
+class challengeAdmin(TranslatableAdmin):
+    list_display = ["id"]
+    readonly_fields = ("id",)
+    actions = [export_selected]
+
+    def get_prepopulated_fields(
+        self, request: HttpRequest, obj=None
+    ) -> dict[str, tuple[str]]:
+        return {"name": ("name",)}
+
+
 admin.site.register(Hint, siteAdmin)
 admin.site.register(HashResponse)
 # class NoteAdmin(admin.ModelAdmin):

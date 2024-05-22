@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
+from django.utils.translation import gettext_lazy as _
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -44,10 +46,13 @@ INSTALLED_APPS = [
     "chart.apps.ChartConfig",
     "admin_tools.apps.AdminToolsConfig",
     "bookstore.apps.BookstoreConfig",
+    "rosetta",
+    "parler",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -74,13 +79,24 @@ TEMPLATES = [
     },
 ]
 
+LOCALE_PATHS = [
+    BASE_DIR / "locale",
+]
+
+PARLER_LANGUAGES = {
+    None: (
+        {"code": "en"},
+        {"code": "ru"},
+        {"code": "tk"},
+    ),
+    "default": {
+        "fallback": "en",
+        "hide_untranslated": False,
+    },
+}
+
 WSGI_APPLICATION = "CTF.wsgi.application"
 
-
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-from openpyxl.writer.excel import save_workbook
 
 DATABASES = {
     "default": {
@@ -112,7 +128,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = "ru"
+LANGUAGES = [
+    ("en", _("English")),
+    ("ru", _("Russian")),
+    ("tk", _("Turkmen")),
+]
+
+LANGUAGE_CODE = "en"
 
 TIME_ZONE = "Asia/Tashkent"
 

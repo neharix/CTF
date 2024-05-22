@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% load static %}
+{% load i18n %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'main/style.css' %}">
     <link rel="stylesheet"
@@ -16,48 +17,42 @@
     <form id="answer-form" action="" method="POST">
         {% csrf_token %}
         <div class="container text-center mb-4">
-            <div id="popup" class="modal">
-                <div class="content">
-                    <span class="close">&times;</span>
-                    <p>Текст сообщения...</p>
-                </div>
-            </div>
             <div class="card w-50 mx-auto text-center" id="quizz-block">
                 <div class="card-title border-bottom">{{ quizz.name }}</div>
                 <div class="card-body text-start">
                     <div class="ms-3 text-1 text-white">
-                        Sorag: {{ quizz.question|safe }}
+                        {% trans "Question" %}: {{ quizz.question|safe }}
                         <br>
                     </div>
                     <div class="ms-3 text-1 text-white">
-                        Bal: {{ quizz.point }}
+                        {% trans "Point" %}: {{ quizz.point }}
                         <br>
                     </div>
                     <div class="ms-3 text-1 text-white">
                         {% for hint in hints %}
                             <div class="text-1 text-white">
-                                Maslahat {{ forloop.counter }}:
+                                {% trans "Hint" %} {{ forloop.counter }}:
                                 <span style="color: #71c6dd"
                                       class="clickable-element"
                                       onclick="event.target.innerHTML='{{ hint.content }}'; num+=parseInt('{{ hint.point }}'); getPoint();">
-                                    Maslahaty görmek üçin basyň
+                                    {% trans "Click to see hint" %}
                                 </span>
-                                (-{{ hint.point }} bal)
+                                (-{{ hint.point }} {% trans "point" %})
                                 <br>
                             </div>
                         {% endfor %}
                     </div>
                     {% for file in files %}
                         <div class="ms-3 my-1 text-1 text-white">
-                            Faýl:
+                            {% trans "File" %}:
                             <a href="/media/{{ file.file }}"
                                class="btn btn-lg btn-primary px-3 py-2 unborder"
-                               style="background-color: #696d97!important">Ýükle</a>
+                               style="background-color: #696d97!important">{% trans "Download" %}</a>
                         </div>
                     {% empty %}
                         <div></div>
                     {% endfor %}
-                    <label for="answer" class="text-capitalize ms-3">Jogaby:</label>
+                    <label for="answer" class="text-capitalize ms-3">{% trans "Answer" %}:</label>
                     <div class="form-control bg-transparent border-0">
                         <textarea class="form-control bg-transparent border-2 text-light fs-4"
                                   style="border-color: #696d97"
@@ -82,14 +77,14 @@
                     onclick="location.href='{% url 'play_challenge' challenge.id %}'"
                     class="btn btn-lg btn-danger me-1 my-auto unborder btn-text-size"
                     style="background-color: #c93232!important;
-                           color: rgb(33, 37, 41) !important">Çykmak</button>
+                           color: rgb(33, 37, 41) !important">{% trans "Exit" %}</button>
         </div>
         <!-- Button Submit -->
         <div class="text-end col-1">
             <button id="check-btn"
                     class="btn btn-lg btn-light my-auto unborder btn-text-size"
                     style="background-color: #696d97 !important;
-                           color: rgb(33, 37, 41) !important">Tassyklamak</button>
+                           color: rgb(33, 37, 41) !important">{% trans "Accept" %}</button>
             {% comment %} <!--<button type="submit" class="btn btn-lg btn-light my-auto unborder btn-text-size" style="background-color: #696d97 !important; color: rgb(33, 37, 41) !important">Tassyklamak</button>--> {% endcomment %}
         </div>
     </div>
@@ -130,7 +125,7 @@
             if (minutes < 10) minutes = '0' + minutes;
             if (hours < 10) hours = '0' + hours;
             var elmnt = document.getElementById('timer');
-            elmnt.innerHTML = 'Galan wagt: ' + days + ' gün ' + hours + ':' + minutes + ':' + seconds;
+            elmnt.innerHTML = '{% trans "Remaining time" %}: ' + days + ':' + hours + ':' + minutes + ':' + seconds;
             setTimeout(timer, 1000);
         }
         window.onload = function() {

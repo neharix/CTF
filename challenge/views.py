@@ -17,9 +17,9 @@ from django.utils import timezone
 from PIL import Image, ImageDraw, ImageFont
 
 from bookstore.models import CtfTaskObjects, UserDatas
-from main.models import File, FlagsFromUnsafety, Team, User
+from main.models import File, Team, User
 
-from .forms import ChallengeForm, Hint, QuizzForm
+from .forms import Hint
 from .models import Answer, Challenge, HashResponse, Hint, Quizz, TrueAnswers
 from .tools import *
 
@@ -37,113 +37,6 @@ def viewChallenge(request):
 
     context = {"challenges": challenges, "is_super": is_super}
     return render(request, "challenge.html", context)
-
-
-@login_required(login_url="login")
-def create_challenge(request):
-    if request.user.is_superuser:
-        form = ChallengeForm()
-        if request.method == "POST":
-            form = ChallengeForm(request.POST)
-            if form.is_valid():
-                name = request.POST.get("name")
-                date_start = request.POST.get("date_start")
-                date_end = request.POST.get("date_end")
-                description = request.POST.get("description")
-                public = (
-                    request.POST.get("public")
-                    if request.POST.get("public") != None
-                    else False
-                )
-
-                challenge = Challenge.objects.create(
-                    name=name,
-                    owner=str(request.user),
-                    date_start=date_start,
-                    date_end=date_end,
-                    description=description,
-                    public=public,
-                )
-                challenge.save()
-                # print(form)
-                return redirect(create_challenge_quizz, pk=challenge.id)
-                # return redirect(f'create_challenge_quizz/{challenge.id}/')
-
-        context = {"form": form}
-        return render(request, "create_challenge.html", context)
-    else:
-        return redirect("home")
-
-
-@login_required(login_url="login")
-def create_challenge_quizz(request, pk):
-    if request.user.is_superuser:
-        challenge = Challenge.objects.get(id=pk)
-        name = challenge.name
-        context = {"name": name}
-
-        if request.method == "POST":
-            _name = request.POST.get("name")
-            _question = request.POST.get("question")
-            _answer = request.POST.get("answer")
-            _point = request.POST.get("point")
-
-            bookstore_username = request.POST.get("ctf_username")
-            bookstore_password = request.POST.get("ctf_password")
-
-            type_of_quizz = request.POST.get("type-of-quizz")
-
-            files_count = int(request.POST.get("files_count"))
-
-            hints = request.POST.getlist("hint")
-            hint_points = request.POST.getlist("hint_point")
-
-            quizz = Quizz.objects.create(
-                challenge_id=pk,
-                name=_name,
-                question=_question,
-                point=_point,
-                type_of_quizz=type_of_quizz,
-            )
-
-            if bookstore_username and bookstore_password:
-                CtfTaskObjects.objects.create(
-                    username=bookstore_username,
-                    password=bookstore_password,
-                    for_quizz=quizz.pk,
-                )
-
-            if files_count:
-                if type_of_quizz != "Steganography":
-                    for index in range(1, files_count + 1):
-                        File.objects.create(
-                            file=request.FILES[f"file{index}"],
-                            quizz_id=quizz.pk,
-                        )
-                else:
-                    for index in range(1, files_count + 1):
-                        File.objects.create(
-                            file=request.FILES[f"file{index}"],
-                            quizz_id=quizz.pk,
-                            for_team="status:stegano_pub",
-                        )
-
-            if _answer and type_of_quizz == "Default":
-                TrueAnswers.objects.create(
-                    is_public=True, answer=_answer, quizz_id=quizz.pk
-                )
-            quizz.save()
-
-            for content, hint_point in zip(hints, hint_points):
-                hint = Hint.objects.create(
-                    quizz_id=quizz.id, content=content, point=hint_point
-                )
-                hint.save()
-
-        context = {"challenge": challenge}
-        return render(request, "create_challenge_quizz.html", context)
-    else:
-        return redirect("home")
 
 
 @login_required(login_url="login")
@@ -195,52 +88,6 @@ def display_quizzes(request, pk):
         return render(request, "display_quizzes.html", context)
     else:
         return redirect("home")
-
-
-@login_required(login_url="login")
-def edit_quizz(request, pk, pk1):
-    quizz = Quizz.objects.get(id=pk1)
-
-    form = QuizzForm()
-
-    hints = Hint.objects.filter(quizz_id=pk1).values("content", "point")
-
-    files = File.objects.filter(quizz_id=pk1)
-
-    if request.method == "POST":
-        if "Submit" in request.POST:
-            form = QuizzForm(request.POST, request.FILES, instance=quizz)
-            # print(form)
-            if form.is_valid():
-                Hint.objects.filter(quizz_id=pk1).delete()
-                hints = request.POST.getlist("hint")
-                hint_points = request.POST.getlist("hint_point")
-                # print(hints)
-
-                for content, hint_point in zip(hints, hint_points):
-                    hint = Hint.objects.create(
-                        quizz_id=pk1, content=content, point=hint_point
-                    )
-                    hint.save()
-
-                form.save()
-        else:
-            quizz.delete()
-        return redirect(display_quizzes, pk=pk)
-
-        # form=QuizzForm(request.POST)
-        # hintss = request.POST.getlist('hint')
-        # hint_points = request.POST.getlist('hint_point')
-        # print(hintss)
-
-    context = {
-        "form": form,
-        "quizz": quizz,
-        "challenge_id": pk,
-        "hints": hints,
-        "files": files,
-    }
-    return render(request, "edit_a_quizz.html", context)
 
 
 @login_required(login_url="login")
@@ -812,8 +659,6 @@ def play_challenge_quizz(request, pk, pk1):
                 "timer_timeout_hours": timer_timeout_hours,
             }
 
-            unsafety_flags = [flag.flag for flag in FlagsFromUnsafety.objects.all()]
-
             if request.method == "POST":
                 _answer = request.POST.get("answer")
                 minus_point = request.POST.get("minus-point")
@@ -823,11 +668,6 @@ def play_challenge_quizz(request, pk, pk1):
                 if (
                     _answer == true_answer.answer
                     and quizz.type_of_quizz != "SQL Injection"
-                ):
-                    _point = quizz.point - int(minus_point)
-                    _status = "True"
-                elif (
-                    quizz.type_of_quizz == "SQL Injection" and _answer in unsafety_flags
                 ):
                     _point = quizz.point - int(minus_point)
                     _status = "True"
@@ -862,7 +702,6 @@ def check_answer(request):
     if request.method == "POST" and is_ajax:
         quizz = Quizz.objects.get(pk=request.POST.get("quizz_id"))
         answer = request.POST.get("answer")
-        unsafety_flags = [flag.flag for flag in FlagsFromUnsafety.objects.all()]
 
         try:
             true_answer = TrueAnswers.objects.get(
@@ -872,8 +711,6 @@ def check_answer(request):
             true_answer = TrueAnswers.objects.get(quizz_id=quizz.pk, is_public=True)
 
         if answer == true_answer.answer and quizz.type_of_quizz != "SQL Injection":
-            status = True
-        elif quizz.type_of_quizz == "SQL Injection" and answer in unsafety_flags:
             status = True
         else:
             status = False

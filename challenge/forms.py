@@ -8,21 +8,6 @@ class DateTimeInput(forms.DateTimeInput):
     input_type = "datetime-local"
 
 
-class ChallengeForm(ModelForm):
-    class Meta:
-        model = Challenge
-        fields = "__all__"
-        exclude = ["owner"]
-        widgets = {"date_start": DateTimeInput(), "date_end": DateTimeInput()}
-
-
-class QuizzForm(ModelForm):
-    class Meta:
-        model = Quizz
-        fields = ("challenge_id", "name", "question", "point")
-        exclude = ["challenge_id"]
-
-
 class AnswerForm(ModelForm):
     class Meta:
         model = Answer
