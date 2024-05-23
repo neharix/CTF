@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-23 00:01+0500\n"
-"PO-Revision-Date: 2024-05-23 00:05+0500\n"
+"POT-Creation-Date: 2024-05-24 00:38+0500\n"
+"PO-Revision-Date: 2024-05-24 00:39+0500\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -30,6 +30,73 @@ msgstr "Русский"
 #: .\CTF\settings.py:134
 msgid "Turkmen"
 msgstr "Туркменский"
+
+#: .\admin_tools\templates\admin_tools.html:13
+msgid "Tools panel"
+msgstr "Панель инструментов"
+
+#: .\admin_tools\templates\admin_tools.html:17
+msgid "Register tool"
+msgstr "Инструмент регистрации"
+
+#: .\admin_tools\templates\admin_tools.html:21
+msgid "Team challenge results"
+msgstr "Итоги соревновании команды"
+
+#: .\admin_tools\templates\admin_tools.html:25
+msgid "User challenge results"
+msgstr "Итоги соревновании пользователя"
+
+#: .\admin_tools\templates\admin_tools.html:29
+msgid "Challenge reports"
+msgstr "Отчёт соревновании"
+
+#: .\admin_tools\templates\challenge_result.html:41
+#: .\admin_tools\templates\personal_result.html:35
+msgid "Place"
+msgstr "Место"
+
+#: .\admin_tools\templates\challenge_result.html:42
+#: .\admin_tools\templates\personal_result.html:39
+msgid "Team"
+msgstr "Команда"
+
+#: .\admin_tools\templates\challenge_result.html:43
+#: .\admin_tools\templates\personal_result.html:40
+msgid "Score"
+msgstr "Счёт"
+
+#: .\admin_tools\templates\challenge_results.html:13
+#: .\admin_tools\templates\personal_res_nav.html:13
+msgid "Challenges"
+msgstr "Соревнования"
+
+#: .\admin_tools\templates\personal_result.html:36
+#| msgid "Username"
+msgid "User"
+msgstr "Пользователь"
+
+#: .\admin_tools\templates\personal_result.html:37
+msgid "Name"
+msgstr "Имя"
+
+#: .\admin_tools\templates\personal_result.html:38
+#| msgid "Username"
+msgid "Surname"
+msgstr "Фамилия"
+
+#: .\admin_tools\templates\register_tools.html:30
+msgid "Fill out the form for administrative registration"
+msgstr "Заполните форму для административной регистрации"
+
+#: .\admin_tools\templates\register_tools.html:38
+msgid "Import an Excel file(.xlsx extention)"
+msgstr "Импортируйте Excel файл(в .xlsx расширении)"
+
+#: .\admin_tools\templates\register_tools.html:45
+#: .\challenge\templates\play_challenge_quizz.html:87
+msgid "Accept"
+msgstr "Подтвердить"
 
 #: .\challenge\templates\join_challenge.html:20 .\main\templates\index.html:38
 msgid "Starts at"
@@ -69,7 +136,6 @@ msgid "Remaining time"
 msgstr "Оставшееся время"
 
 #: .\challenge\templates\play_challenge_quizz.html:24
-#| msgid "Description"
 msgid "Question"
 msgstr "Вопрос"
 
@@ -82,7 +148,6 @@ msgid "Click to see hint"
 msgstr "Нажмите чтобы увидеть подсказку"
 
 #: .\challenge\templates\play_challenge_quizz.html:40
-#| msgid "Point"
 msgid "point"
 msgstr "очков"
 
@@ -102,37 +167,40 @@ msgstr "Ответ"
 msgid "Exit"
 msgstr "Выйти"
 
-#: .\challenge\templates\play_challenge_quizz.html:87
-msgid "Accept"
-msgstr "Подтвердить"
+#: .\chart\templates\chart\chart.html:12
+msgid "Active team players"
+msgstr "Активные командные игроки"
+
+#: .\chart\templates\chart\chart.html:21
+msgid "Team statistics"
+msgstr "Успеваемость команды"
 
 #: .\main\templates\index.html:18
 msgid "Active events"
 msgstr "Доступные соревнования"
 
-#: .\main\templates\layout.html:8
+#: .\main\templates\layout.html:11
 msgid "CTF Games - Cybersecurity Challenge"
 msgstr "Игры CTF - Соревнование по кибербезопастности"
 
-#: .\main\templates\layout.html:31 .\main\templates\layout.html:63
+#: .\main\templates\layout.html:34 .\main\templates\layout.html:66
 msgid "Admin tools"
 msgstr "Инструментарий админа"
 
-#: .\main\templates\layout.html:37 .\main\templates\layout.html:69
+#: .\main\templates\layout.html:40 .\main\templates\layout.html:72
 msgid "Charts"
 msgstr "Диаграммы"
 
-#: .\main\templates\layout.html:121
+#: .\main\templates\layout.html:156
 #: .\main\templates\menu\login_register.html:25
 msgid "Sign in"
 msgstr "Войти"
 
-#: .\main\templates\layout.html:137
+#: .\main\templates\layout.html:172
 msgid "Log out"
 msgstr "Выйти"
 
 #: .\main\templates\menu\login_register.html:22
-#| msgid "Log out"
 msgid "Log in"
 msgstr "Вход в систему"
 
@@ -144,10 +212,10 @@ msgstr "Имя пользователя"
 msgid "Password"
 msgstr "Пароль"
 
-#: .\main\views.py:44
+#: .\main\views.py:43
 msgid "Username is not in the database"
 msgstr "Имени пользователя нет в базе данных"
 
-#: .\main\views.py:52
+#: .\main\views.py:51
 msgid "Incorrect username or password"
 msgstr "Неправильное имя пользователя или пароль"

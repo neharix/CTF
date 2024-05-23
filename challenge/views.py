@@ -699,6 +699,8 @@ def fake_quizz(request, quizz_id):
 
 def check_answer(request):
     is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+    print("is ajax?: ", is_ajax)
+    print("is post? ", request.method)
     if request.method == "POST" and is_ajax:
         quizz = Quizz.objects.get(pk=request.POST.get("quizz_id"))
         answer = request.POST.get("answer")
@@ -728,3 +730,4 @@ def check_answer(request):
             )
 
         return JsonResponse({"status": status})
+    return HttpResponse(status=200)

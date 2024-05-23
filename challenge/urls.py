@@ -18,5 +18,4 @@ urlpatterns = [
         name="play_challenge_quizz",
     ),
     path("quizz/<int:quizz_id>", views.fake_quizz),
-    path("check_answer/", views.check_answer),
 ]

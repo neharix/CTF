@@ -21,7 +21,7 @@ function getCookie(name) {
 var csrftoken = getCookie('csrftoken');
 
 function post_answer(answer, quizz_id) {
-    $.post("/challenge/check_answer/", {
+    $.post("/check_answer/", {
         quizz_id: quizz_id,
         answer: answer
     }, function(data) {

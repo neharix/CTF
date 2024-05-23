@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% load static %}
+{% load i18n %}
 {% block head %}
     <link rel="stylesheet"
           href="{% static 'main/challenge.css' %}?{% now " U" %}">
@@ -9,7 +10,7 @@
     <div class="card col-sm-5 mx-auto pt-0 rounded-4 my-5"
          style="background-color: #3f4156!important">
         <h2 class="card-header pt-4 text-center text-white"
-            style="background-color: #696d97!important">Ýaryşlar</h2>
+            style="background-color: #696d97!important">{% trans "Challenges" %}</h2>
         <div class="card-body mt-4" style="height: 40vh;">
             <div class="row">
                 {% for challenge in challenges %}

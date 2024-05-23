@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-23 00:01+0500\n"
-"PO-Revision-Date: 2024-05-23 00:02+0500\n"
+"POT-Creation-Date: 2024-05-24 00:38+0500\n"
+"PO-Revision-Date: 2024-05-24 00:42+0500\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -30,6 +30,73 @@ msgstr "Russian"
 #: .\CTF\settings.py:134
 msgid "Turkmen"
 msgstr "Turkmen"
+
+#: .\admin_tools\templates\admin_tools.html:13
+msgid "Tools panel"
+msgstr "Tools panel"
+
+#: .\admin_tools\templates\admin_tools.html:17
+msgid "Register tool"
+msgstr "Register tool"
+
+#: .\admin_tools\templates\admin_tools.html:21
+msgid "Team challenge results"
+msgstr "Team challenge results"
+
+#: .\admin_tools\templates\admin_tools.html:25
+msgid "User challenge results"
+msgstr "User challenge results"
+
+#: .\admin_tools\templates\admin_tools.html:29
+msgid "Challenge reports"
+msgstr "Challenge reports"
+
+#: .\admin_tools\templates\challenge_result.html:41
+#: .\admin_tools\templates\personal_result.html:35
+msgid "Place"
+msgstr "Place"
+
+#: .\admin_tools\templates\challenge_result.html:42
+#: .\admin_tools\templates\personal_result.html:39
+msgid "Team"
+msgstr "Team"
+
+#: .\admin_tools\templates\challenge_result.html:43
+#: .\admin_tools\templates\personal_result.html:40
+msgid "Score"
+msgstr "Score"
+
+#: .\admin_tools\templates\challenge_results.html:13
+#: .\admin_tools\templates\personal_res_nav.html:13
+msgid "Challenges"
+msgstr "Challenges"
+
+#: .\admin_tools\templates\personal_result.html:36
+#| msgid "Username"
+msgid "User"
+msgstr "User"
+
+#: .\admin_tools\templates\personal_result.html:37
+msgid "Name"
+msgstr "Name"
+
+#: .\admin_tools\templates\personal_result.html:38
+#| msgid "Username"
+msgid "Surname"
+msgstr "Surname"
+
+#: .\admin_tools\templates\register_tools.html:30
+msgid "Fill out the form for administrative registration"
+msgstr "Fill out the form for administrative registration"
+
+#: .\admin_tools\templates\register_tools.html:38
+msgid "Import an Excel file(.xlsx extention)"
+msgstr "Import an Excel file(.xlsx extention)"
+
+#: .\admin_tools\templates\register_tools.html:45
+#: .\challenge\templates\play_challenge_quizz.html:87
+msgid "Accept"
+msgstr "Accept"
 
 #: .\challenge\templates\join_challenge.html:20 .\main\templates\index.html:38
 msgid "Starts at"
@@ -69,10 +136,8 @@ msgid "Remaining time"
 msgstr "Remaining time"
 
 #: .\challenge\templates\play_challenge_quizz.html:24
-#, fuzzy
-#| msgid "Description"
 msgid "Question"
-msgstr "Description"
+msgstr "Question"
 
 #: .\challenge\templates\play_challenge_quizz.html:34
 msgid "Hint"
@@ -83,10 +148,8 @@ msgid "Click to see hint"
 msgstr "Click to see hint"
 
 #: .\challenge\templates\play_challenge_quizz.html:40
-#, fuzzy
-#| msgid "Point"
 msgid "point"
-msgstr "Point"
+msgstr "point"
 
 #: .\challenge\templates\play_challenge_quizz.html:47
 msgid "File"
@@ -104,40 +167,42 @@ msgstr "Answer"
 msgid "Exit"
 msgstr "Exit"
 
-#: .\challenge\templates\play_challenge_quizz.html:87
-msgid "Accept"
-msgstr "Accept"
+#: .\chart\templates\chart\chart.html:12
+msgid "Active team players"
+msgstr "Active team players"
+
+#: .\chart\templates\chart\chart.html:21
+msgid "Team statistics"
+msgstr "Team statistics"
 
 #: .\main\templates\index.html:18
 msgid "Active events"
 msgstr "Active events"
 
-#: .\main\templates\layout.html:8
+#: .\main\templates\layout.html:11
 msgid "CTF Games - Cybersecurity Challenge"
 msgstr "CTF Games - Cybersecurity Challenge"
 
-#: .\main\templates\layout.html:31 .\main\templates\layout.html:63
+#: .\main\templates\layout.html:34 .\main\templates\layout.html:66
 msgid "Admin tools"
 msgstr "Admin tools"
 
-#: .\main\templates\layout.html:37 .\main\templates\layout.html:69
+#: .\main\templates\layout.html:40 .\main\templates\layout.html:72
 msgid "Charts"
 msgstr "Charts"
 
-#: .\main\templates\layout.html:121
+#: .\main\templates\layout.html:156
 #: .\main\templates\menu\login_register.html:25
 msgid "Sign in"
 msgstr "Sign in"
 
-#: .\main\templates\layout.html:137
+#: .\main\templates\layout.html:172
 msgid "Log out"
 msgstr "Log out"
 
 #: .\main\templates\menu\login_register.html:22
-#, fuzzy
-#| msgid "Log out"
 msgid "Log in"
-msgstr "Log out"
+msgstr "Log in"
 
 #: .\main\templates\menu\login_register.html:23
 msgid "Username"
@@ -147,10 +212,10 @@ msgstr "Username"
 msgid "Password"
 msgstr "Password"
 
-#: .\main\views.py:44
+#: .\main\views.py:43
 msgid "Username is not in the database"
 msgstr "Username is not in the database"
 
-#: .\main\views.py:52
+#: .\main\views.py:51
 msgid "Incorrect username or password"
 msgstr "Incorrect username or password"

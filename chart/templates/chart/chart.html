@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% load static %}
+{% load i18n %}
 {% block head %}
   <link rel="stylesheet" href="{% static 'main/style.css' %}" />
 {% endblock head %}
@@ -8,7 +9,7 @@
     <div class="chart-container" style="padding:10rem 0;">
       <div>
         <div class="center-title">
-          <h1 id="upcoming" class="text-white">Toparyň işjeň oýunçylary</h1>
+          <h1 id="upcoming" class="text-white">{% trans "Active team players" %}</h1>
           <p class="h2-title-description"></p>
         </div>
         <div class="radar-container">
@@ -17,7 +18,7 @@
       </div>
       <div>
         <div class="center-title">
-          <h1 id="upcoming" class="text-white">Toparyň ýetişigi</h1>
+          <h1 id="upcoming" class="text-white">{% trans "Team statistics" %}</h1>
         </div>
         <div class="radar-container">
           <canvas id="userTeam"></canvas>
@@ -25,7 +26,7 @@
       </div>
     </div>
   </div>
-  <script src="{% static "assets/js/chart.min.js" %}"></script>
+  <script src="{% static "main/chart.min.js" %}"></script>
   <script>
   Chart.defaults.font.family = "Poppins";
 

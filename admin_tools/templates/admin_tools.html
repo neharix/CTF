@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% load static %}
+{% load i18n %}
 {% block head %}
   <link rel="stylesheet"
         href="{% static 'main/challenge.css' %}?{% now " U" %}">
@@ -9,27 +10,23 @@
   <div class="card col-sm-5 mx-auto pt-0 rounded-4 my-5"
        style="background-color: #3f4156!important">
     <h2 class="card-header pt-4 text-center text-white"
-        style="background-color: #696d97!important">Gurallar paneli</h2>
+        style="background-color: #696d97!important">{% trans "Tools panel" %}</h2>
     <div class="card-body mt-4" style="height: 60vh;">
       <div>
-        <a class="btn btn-lg btn-light my-auto unborder btn-text-size w-100 mt-3 mb-3 btn-blue text-white"
-           href="{% url 'challenge' %}">Ýaryşlar paneli</a>
+        <a class="btn btn-lg btn-light my-auto unborder btn-text-size w-100 mb-3 btn-blue text-white"
+           href="{% url 'register_tools' %}">{% trans "Register tool" %}</a>
       </div>
       <div>
         <a class="btn btn-lg btn-light my-auto unborder btn-text-size w-100 mb-3 btn-blue text-white"
-           href="{% url 'register_tools' %}">Registrasiýa guraly</a>
+           href="{% url 'challenge_results' %}">{% trans "Team challenge results" %}</a>
       </div>
       <div>
         <a class="btn btn-lg btn-light my-auto unborder btn-text-size w-100 mb-3 btn-blue text-white"
-           href="{% url 'challenge_results' %}">Toparlaryň ýaryş netijeleri</a>
+           href="{% url 'personal_results' %}">{% trans "User challenge results" %}</a>
       </div>
       <div>
         <a class="btn btn-lg btn-light my-auto unborder btn-text-size w-100 mb-3 btn-blue text-white"
-           href="{% url 'personal_results' %}">Ulanyjylaryň ýaryş netijeleri</a>
-      </div>
-      <div>
-        <a class="btn btn-lg btn-light my-auto unborder btn-text-size w-100 mb-3 btn-blue text-white"
-           href="{% url 'export_page' %}">Ýaryş hasabatlary</a>
+           href="{% url 'export_page' %}">{% trans "Challenge reports" %}</a>
       </div>
     </div>
   </div>

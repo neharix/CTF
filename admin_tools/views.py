@@ -276,7 +276,7 @@ def challenge_result(request, challenge_id):
 
         path = str(settings.BASE_DIR).replace("\\", "/")
         font = TrueTypeFont().true_type_font_from_file(
-            Path(path + "/main/static/fonts/VelaSans-Regular.ttf")
+            Path(path + "/admin_tools/static/fonts/VelaSans-Regular.ttf")
         )
         document = Document()
         page = Page()

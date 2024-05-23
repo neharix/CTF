@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% load static %}
+{% load i18n %}
 {% block head %}
     <link rel="stylesheet"
           href="{% static 'main/challenge.css' %}?{% now " U" %}">
@@ -16,7 +17,7 @@
     </style>
 {% endblock head %}
 {% block body %}
-    <h2 class="pt-4 text-center text-white">"{{ challenge.name }}" ýaryşynyň netijeleri</h2>
+    <h2 class="pt-4 text-center text-white">{{ challenge.name }}</h2>
     <div class="p-4 pb-2 px-5">
         <div class="btn-group"
              role="group"
@@ -37,9 +38,9 @@
                 <table class="table text-light">
                     <thead>
                         <tr>
-                            <th scope="col">Ýer</th>
-                            <th scope="col">Topar</th>
-                            <th scope="col">Ballar</th>
+                            <th scope="col">{% trans "Place" %}</th>
+                            <th scope="col">{% trans "Team" %}</th>
+                            <th scope="col">{% trans "Score" %}</th>
                         </tr>
                     </thead>
                     <tbody>
