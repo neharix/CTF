@@ -111,7 +111,15 @@
                     </div>
                     <div class="language-menu" id="language-dropdown">
                         {% for language in languages %}
-                            {% if language.code != LANGUAGE_CODE %}<a href="" class="dropdown-link">{{ language.code.upper }}</a>{% endif %}
+                            {% if language.code != LANGUAGE_CODE %}
+                                {% if language.code == "tk" %}
+                                    <a href="/set/tk/" class="dropdown-link">{{ language.code.upper }}</a>
+                                {% elif language.code == "ru" %}
+                                    <a href="/set/ru/" class="dropdown-link">{{ language.code.upper }}</a>
+                                {% elif language.code == "en" %}
+                                    <a href="/set/en/" class="dropdown-link">{{ language.code.upper }}</a>
+                                {% endif %}
+                            {% endif %}
                         {% endfor %}
                     </div>
                     {% if request.user.is_authenticated %}

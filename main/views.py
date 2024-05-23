@@ -31,6 +31,7 @@ def chart(request):
 
 
 def userLogin(request):
+    print(request.META["HTTP_REFERER"])
     if request.user.is_authenticated:
         return redirect("home")
 
@@ -76,3 +77,11 @@ def return_flag(request, key_words):
         key_words=key_words, team=request.user.team.name
     ).flag
     return JsonResponse({"what_am_i": flag})
+
+
+def set_language(request, language):
+    prev_link_list = request.META["HTTP_REFERER"].split("/")
+    prev_link_list[3] = language
+    changed_link = "/".join(prev_link_list)
+    print(changed_link)
+    return redirect(changed_link)
