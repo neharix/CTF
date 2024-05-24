@@ -78,3 +78,7 @@ if (photoInput)
 // Scroll to Bottom
 const conversationThread = document.querySelector(".post__box");
 if (conversationThread) conversationThread.scrollTop = conversationThread.scrollHeight;
+
+function redirecting(url) {
+    location.href = url;
+}

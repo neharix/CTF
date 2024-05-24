@@ -14,7 +14,6 @@
         <div class="row">
             <div class="card col-sm mx-auto pt-1 rounded-4 ms-3"
                  style="background-color: #3f4156!important">
-                {% csrf_token %}
                 <div class="card-title mx-auto mt-3">{{ challenge.name }}</div>
                 <div class="card-body d-inline text-smoke">
                     {% trans "Starts at" %}: {{ challenge.date_start }}

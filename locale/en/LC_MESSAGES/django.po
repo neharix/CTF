@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-24 00:38+0500\n"
-"PO-Revision-Date: 2024-05-24 00:42+0500\n"
+"POT-Creation-Date: 2024-05-25 00:34+0500\n"
+"PO-Revision-Date: 2024-05-25 00:35+0500\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -67,12 +67,12 @@ msgid "Score"
 msgstr "Score"
 
 #: .\admin_tools\templates\challenge_results.html:13
+#: .\admin_tools\templates\export_page.html:13
 #: .\admin_tools\templates\personal_res_nav.html:13
 msgid "Challenges"
 msgstr "Challenges"
 
 #: .\admin_tools\templates\personal_result.html:36
-#| msgid "Username"
 msgid "User"
 msgstr "User"
 
@@ -81,7 +81,6 @@ msgid "Name"
 msgstr "Name"
 
 #: .\admin_tools\templates\personal_result.html:38
-#| msgid "Username"
 msgid "Surname"
 msgstr "Surname"
 
@@ -98,23 +97,23 @@ msgstr "Import an Excel file(.xlsx extention)"
 msgid "Accept"
 msgstr "Accept"
 
-#: .\challenge\templates\join_challenge.html:20 .\main\templates\index.html:38
+#: .\challenge\templates\join_challenge.html:19 .\main\templates\index.html:38
 msgid "Starts at"
 msgstr "Starts at"
 
-#: .\challenge\templates\join_challenge.html:22 .\main\templates\index.html:40
+#: .\challenge\templates\join_challenge.html:21 .\main\templates\index.html:40
 msgid "Finishes at"
 msgstr "Finishes at"
 
-#: .\challenge\templates\join_challenge.html:24
+#: .\challenge\templates\join_challenge.html:23
 msgid "Description"
 msgstr "Description"
 
-#: .\challenge\templates\join_challenge.html:35
+#: .\challenge\templates\join_challenge.html:34
 msgid "Come back"
 msgstr "Come back"
 
-#: .\challenge\templates\join_challenge.html:41
+#: .\challenge\templates\join_challenge.html:40
 msgid "Join"
 msgstr "Join"
 
@@ -136,6 +135,7 @@ msgid "Remaining time"
 msgstr "Remaining time"
 
 #: .\challenge\templates\play_challenge_quizz.html:24
+#: .\main\templates\faq.html:17 .\main\templates\faq.html:26
 msgid "Question"
 msgstr "Question"
 
@@ -160,6 +160,7 @@ msgid "Download"
 msgstr "Download"
 
 #: .\challenge\templates\play_challenge_quizz.html:55
+#: .\main\templates\faq.html:19 .\main\templates\faq.html:28
 msgid "Answer"
 msgstr "Answer"
 
@@ -175,6 +176,18 @@ msgstr "Active team players"
 msgid "Team statistics"
 msgstr "Team statistics"
 
+#: .\main\templates\about_us.html:18
+msgid "Developers"
+msgstr "Developers"
+
+#: .\main\templates\about_us.html:110
+msgid "Web-site"
+msgstr "Web-site"
+
+#: .\main\templates\faq.html:13
+msgid "Frequently asked questions"
+msgstr "Frequently asked questions"
+
 #: .\main\templates\index.html:18
 msgid "Active events"
 msgstr "Active events"
@@ -184,10 +197,12 @@ msgid "CTF Games - Cybersecurity Challenge"
 msgstr "CTF Games - Cybersecurity Challenge"
 
 #: .\main\templates\layout.html:34 .\main\templates\layout.html:66
+#: .\main\templates\layout.html:189
 msgid "Admin tools"
 msgstr "Admin tools"
 
 #: .\main\templates\layout.html:40 .\main\templates\layout.html:72
+#: .\main\templates\layout.html:193
 msgid "Charts"
 msgstr "Charts"
 
@@ -199,6 +214,38 @@ msgstr "Sign in"
 #: .\main\templates\layout.html:172
 msgid "Log out"
 msgstr "Log out"
+
+#: .\main\templates\layout.html:185
+msgid "CTF Games"
+msgstr "CTF Games"
+
+#: .\main\templates\layout.html:197
+msgid "FAQ"
+msgstr "FAQ"
+
+#: .\main\templates\layout.html:200
+msgid "About Us"
+msgstr "About Us"
+
+#: .\main\templates\layout.html:205
+msgid "Contact us"
+msgstr "Contact Us"
+
+#: .\main\templates\layout.html:207
+msgid "E-Mail"
+msgstr "E-Mail"
+
+#: .\main\templates\layout.html:211
+msgid "Phone number"
+msgstr "Phone number"
+
+#: .\main\templates\layout.html:215
+msgid "Address"
+msgstr "Address"
+
+#: .\main\templates\layout.html:216
+msgid "WC57+94V, Oguzkhan street of Ashgabat city"
+msgstr "WC57+94V, Oguzkhan street of Ashgabat city"
 
 #: .\main\templates\menu\login_register.html:22
 msgid "Log in"

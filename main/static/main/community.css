@@ -59,6 +59,10 @@ a {
     text-decoration: none;
 }
 
+.cursor-default {
+    cursor: default;
+}
+
 .community-wrapper {
     height: 100vh;
 }
@@ -228,23 +232,26 @@ a {
     background-color: #3f4156;
 }
 
-.language-menu a {
+.language-menu button {
     padding: 1.2rem 4rem;
     display: block;
     color: var(--color-light) !important;
+    background-color: #3f4156;
+    border: none;
     font-weight: 500;
     font-size: 1.4rem;
+    width: 100%;
 }
 
-.language-menu a:hover {
+.language-menu button:hover {
     background-color: var(--color-dark-medium);
 }
 
-.language-menu>a:not(:last-child) {
+.language-menu>button:not(:last-child) {
     border-bottom: 1px solid var(--color-dark-medium);
 }
 
-.language-menu a svg {
+.language-menu button svg {
     fill: var(--color-light);
 }
 
@@ -1422,13 +1429,19 @@ ul {
     font-weight: 300;
     color: #bbbbbb;
     display: block;
-    transition: all 0.3s ease;
     font-family: "Poppins", sans-serif;
+    background: linear-gradient(to right, rgba(33, 37, 41, 1), rgba(33, 37, 41, 1)), linear-gradient(to right, rgba(109, 131, 242, 1), rgb(67, 93, 220, 1));
+    background-size: 100% 0.1em, 0 0.1em;
+    background-position: 100% 100%, 0 100%;
+    background-repeat: no-repeat;
+    transition: all 400ms;
+    width: max-content;
 }
 
-.footer-col ul li a:hover {
+.footer-col ul li a:hover,
+.footer-col ul li a:focus {
     color: #ffffff;
-    padding-left: 8px;
+    background-size: 0 0.1em, 100% 0.1em;
 }
 
 .footer-col .social-links a {
@@ -1442,6 +1455,37 @@ ul {
     border-radius: 50%;
     color: #ffffff;
     transition: all 0.5s ease;
+}
+
+.footer-a {
+    font-size: 14px;
+    color: #ffffff;
+    text-decoration: none;
+    color: #bbbbbb;
+    font-weight: 300;
+    display: block;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(to right, rgba(33, 37, 41, 1), rgba(33, 37, 41, 1)), linear-gradient(to right, rgba(109, 131, 242, 1), rgb(67, 93, 220, 1));
+    background-size: 100% 0.1em, 0 0.1em;
+    background-position: 100% 100%, 0 100%;
+    background-repeat: no-repeat;
+    transition: all 400ms;
+    width: max-content;
+}
+
+.footer-a:hover,
+.footer-a:focus {
+    color: #ffffff;
+    background-size: 0 0.1em, 100% 0.1em;
+}
+
+.footer-p {
+    cursor: default;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    font-weight: 400;
+    font-size: 18px;
+    color: #9daae8 !important;
 }
 
 .footer-col .social-links a:hover {
@@ -1502,4 +1546,51 @@ ul {
     position: sticky;
     top: 0;
     z-index: 1;
+}
+
+.animated-link {
+    background: linear-gradient(to right, rgba(33, 37, 41, 1), rgba(33, 37, 41, 1)), linear-gradient(to right, rgba(109, 131, 242, 1), rgb(67, 93, 220, 1));
+    background-size: 100% 0.1em, 0 0.1em;
+    background-position: 100% 100%, 0 100%;
+    background-repeat: no-repeat;
+    transition: all 400ms;
+    width: max-content;
+}
+
+.animated-inner-link {
+    background: linear-gradient(to right, rgba(44, 44, 44, 1), rgba(44, 44, 44, 1)), linear-gradient(to right, rgba(109, 131, 242, 1), rgb(67, 93, 220, 1));
+    background-size: 100% 0.1em, 0 0.1em;
+    background-position: 100% 100%, 0 100%;
+    background-repeat: no-repeat;
+    transition: all 400ms;
+    width: max-content;
+}
+
+.animated-link:hover,
+.animated-link:focus {
+    color: #ffffff;
+    background-size: 0 0.1em, 100% 0.1em;
+}
+
+.animated-inner-link:hover,
+.animated-inner-link:focus {
+    color: #ffffff;
+    background-size: 0 0.1em, 100% 0.1em;
+}
+
+.background-size-cover {
+    object-fit: cover !important;
+}
+
+.inner-link {
+    cursor: pointer;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    font-weight: 400;
+    font-size: 14px;
+    color: #9daae8;
+}
+
+.soc-link {
+    text-decoration: none;
 }

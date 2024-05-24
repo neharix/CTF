@@ -83,3 +83,11 @@ def set_language(request, language):
     changed_link = "/".join(prev_link_list)
     print(changed_link)
     return redirect(changed_link)
+
+
+def faq(request):
+    return render(request, "faq.html")
+
+
+def about_us(request):
+    return render(request, "about_us.html")

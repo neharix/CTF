@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% load static %}
+{% load i18n %}
+{% block head %}
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'main/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
+{% endblock head %}
+{% block body %}
+    <div class="container mb-4">
+        <h1 class="text-white my-5 text-center cursor-default"
+            style="font-weight: bold">{% trans "Frequently asked questions" %}</h1>
+        <div class="row">
+            <div class="card col-sm mx-auto pt-1 rounded-4 ms-3"
+                 style="background-color: #3f4156!important">
+                <div class="card-title mx-auto mt-3">{% trans "Question" %}</div>
+                <div class="card-body d-inline text-smoke">word</div>
+                <div class="card-title mx-auto mt-3">{% trans "Answer" %}</div>
+                <div class="card-body d-inline text-smoke">word</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card col-sm mx-auto mt-5 pt-1 rounded-4 ms-3"
+                 style="background-color: #3f4156!important">
+                <div class="card-title mx-auto mt-3">{% trans "Question" %}</div>
+                <div class="card-body d-inline text-smoke">word</div>
+                <div class="card-title mx-auto mt-3">{% trans "Answer" %}</div>
+                <div class="card-body d-inline text-smoke">word</div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
