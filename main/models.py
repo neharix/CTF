@@ -1,5 +1,13 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from parler.models import TranslatableModel, TranslatedFields
+
+
+class Faq(TranslatableModel):
+    translations = TranslatedFields(
+        question=models.TextField(),
+        answer=models.TextField(),
+    )
 
 
 class Team(models.Model):

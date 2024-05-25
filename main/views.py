@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from challenge.models import Challenge, HashResponse
+from main.models import Faq
 
 
 def home(request):
@@ -86,7 +87,8 @@ def set_language(request, language):
 
 
 def faq(request):
-    return render(request, "faq.html")
+    faqs = Faq.objects.all()
+    return render(request, "faq.html", {"faqs": faqs})
 
 
 def about_us(request):

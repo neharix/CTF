@@ -105,14 +105,7 @@ def register_tools(request):
                         try:
                             team = Team.objects.get(name=dataframe["Topar"][i])
                         except ObjectDoesNotExist:
-                            return render(
-                                request,
-                                "register_tools.html",
-                                {
-                                    "error": "Tablisadaky toparlar maglumat bazasyna girizilmedik! Administrasiýa saýtynda toparlary registrirläň!",
-                                    "form": XlsxForm(),
-                                },
-                            )
+                            team = Team.objects.create(name=dataframe["Topar"][i])
                         User.objects.create_user(
                             username=username,
                             password=password,

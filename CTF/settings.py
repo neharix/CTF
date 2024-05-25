@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "bookstore.apps.BookstoreConfig",
     "rosetta",
     "parler",
+    "channels",
 ]
 
 MIDDLEWARE = [
