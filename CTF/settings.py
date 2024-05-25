@@ -46,8 +46,10 @@ INSTALLED_APPS = [
     "chart.apps.ChartConfig",
     "admin_tools.apps.AdminToolsConfig",
     "bookstore.apps.BookstoreConfig",
+    "chat.apps.ChatConfig",
     "rosetta",
     "parler",
+    "channels",
 ]
 
 MIDDLEWARE = [
