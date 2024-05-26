@@ -175,7 +175,7 @@ def play_challenge(request, pk):
                         quizz_id=quizz.pk, for_team=request.user.team.name
                     ).exists()
                     or TrueAnswers.objects.filter(
-                        quizz_id=quizz.pk, for_team=None
+                        quizz_id=quizz.pk, for_team="status:pub"
                     ).exists()
                 ):
                     pass
