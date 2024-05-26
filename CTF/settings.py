@@ -27,7 +27,6 @@ INSTALLED_APPS = [
     "bookstore.apps.BookstoreConfig",
     "rosetta",
     "parler",
-    "channels",
 ]
 
 ASGI_APPLICATION = "CTF.asgi.application"
