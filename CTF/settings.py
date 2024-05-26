@@ -25,12 +25,12 @@ INSTALLED_APPS = [
     "chart.apps.ChartConfig",
     "admin_tools.apps.AdminToolsConfig",
     "bookstore.apps.BookstoreConfig",
-    "chat.apps.ChatConfig",
     "rosetta",
     "parler",
     "channels",
 ]
 
+ASGI_APPLICATION = "CTF.asgi.application"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
