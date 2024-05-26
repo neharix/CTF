@@ -5,7 +5,6 @@
 __pycache__
 *.xlsx
 *.jpg
-*.mp3
 *.zip
 # Backup files # 
 *.bak 
@@ -147,3 +146,4 @@ salt
 
 media/**/*.txt 
 media/**/**/*
+media/mor/*.mp3
