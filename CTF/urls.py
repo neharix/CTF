@@ -12,6 +12,7 @@ urlpatterns = i18n_patterns(
     path("", include("main.urls")),
     path("challenge/", include("challenge.urls")),
     path("chart/", include("chart.urls")),
+    path("chats/", include("chat.urls", namespace="chat")),
     path("admin_tools/", include("admin_tools.urls")),
     path("set/<str:language>/", set_language),
     path("bookstore/", include("bookstore.urls")),

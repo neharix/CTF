@@ -30,10 +30,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "ctf.local", "172.16.11.63"]
 
-
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "parler",
     "channels",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -129,6 +130,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
+
+
+ASGI_APPLICATION = "CTF.asgi.application"
+
 
 LANGUAGES = [
     ("en", _("English")),
