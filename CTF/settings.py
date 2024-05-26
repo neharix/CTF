@@ -134,6 +134,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 ASGI_APPLICATION = "CTF.asgi.application"
 
+CHANNEL_LAYERS = {
+    "default": {"BACKEND": "channels.layers.InMemoryChannelLayer"},
+}
 
 LANGUAGES = [
     ("en", _("English")),

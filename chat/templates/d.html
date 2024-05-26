@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="chat"></div>
+        <div id="chat-input">
+            <input id="chat-message-input" type="text">
+            <input id="chat-message-submit" type="submit" value="Send">
+        </div>
+        {{ chat.id|json_script:"chat-id" }}
+        <script>
+        const chatId = JSON.parse(document.getElementById('chat-id').textContent);
+        const url = 'ws://' + window.location.host + '/ws/chat/room/' + chatId + '/';
+        const chatSocket = new WebSocket(url);
+        chatSocket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            const chat = document.getElementById('chat');
+            chat.innerHTML += '<div class="message">' + data.message + '</div>';
+            chat.scrollTop = chat.scrollHeight;
+        };
+        chatSocket.onclose = function(event) {
+            console.error('Chat socket closed unexpectedly');
+        };
+        const input = document.getElementById('chat-message-input');
+        const submitButton = document.getElementById('chat-message-submit');
+        submitButton.addEventListener('click', function(event) {
+            const message = input.value;
+            if(message) {
+                chatSocket.send(JSON.stringify({'message': message}));
+                input.innerHTML = '';
+                input.focus();
+            }
+        });
+        </script>
+    </body>
+</html>
