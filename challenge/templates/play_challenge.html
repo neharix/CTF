@@ -2,9 +2,8 @@
 {% load static %}
 {% load i18n %}
 {% block head %}
-  <link rel="stylesheet" href="{% static 'main/style.css' %}">
-  <script src="{% static 'main/jquery.js' %}"></script>
-  <script src="{% static 'main/bootstrap.min.js' %}"></script>
+  <script src="{% static 'main/js/jquery.js' %}"></script>
+  <script src="{% static 'main/js/bootstrap.min.js' %}"></script>
 {% endblock head %}
 {% block body %}
   {% csrf_token %}
@@ -46,7 +45,6 @@
       {% endfor %}
     </div>
   </div>
-  <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
   <script type="text/javascript">
         var _id = 0
         function redirecting() {

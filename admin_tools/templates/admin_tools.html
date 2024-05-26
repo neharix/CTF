@@ -1,11 +1,6 @@
 {% extends "layout.html" %}
 {% load static %}
 {% load i18n %}
-{% block head %}
-  <link rel="stylesheet"
-        href="{% static 'main/challenge.css' %}?{% now " U" %}">
-  <link rel="stylesheet" href="{% static 'main/style.css' %}">
-{% endblock head %}
 {% block body %}
   <div class="card col-sm-5 mx-auto pt-0 rounded-4 my-5"
        style="background-color: #3f4156!important">
@@ -30,5 +25,4 @@
       </div>
     </div>
   </div>
-  <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
 {% endblock body %}

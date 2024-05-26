@@ -2,9 +2,6 @@
 {% load static %}
 {% load i18n %}
 {% block head %}
-    <link rel="stylesheet" href="{% static 'main/style.css' %}">
-    <link rel="stylesheet"
-          href="{% static 'main/challenge.css' %}?{% now " U" %}">
     <style>
         label {
             color: white;
@@ -88,9 +85,8 @@
             {% comment %} <!--<button type="submit" class="btn btn-lg btn-light my-auto unborder btn-text-size" style="background-color: #696d97 !important; color: rgb(33, 37, 41) !important">Tassyklamak</button>--> {% endcomment %}
         </div>
     </div>
-    <script src="{% static 'main/jquery.js' %}"></script>
-    <script src="{% static 'main/play_quizz.js' %}"></script>
-    <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'main/js/jquery.js' %}"></script>
+    <script src="{% static 'main/js/play_quizz.js' %}"></script>
     <script type="text/javascript">
         var num = 0;
         let answer_input = document.querySelector("#answer");

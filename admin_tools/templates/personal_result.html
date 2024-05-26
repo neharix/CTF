@@ -2,11 +2,6 @@
 {% load static %}
 {% load i18n %}
 {% block head %}
-    <link rel="stylesheet"
-          href="{% static 'main/challenge.css' %}?{% now " U" %}">
-    <link rel="stylesheet" href="{% static 'main/style.css' %}">
-    <link rel="stylesheet"
-          href="{% static 'assets/bootstrap-icons/font/bootstrap-icons.min.css' %}">
     <style>
         table {
             font-size: 1.4rem;
@@ -55,5 +50,4 @@
             </table>
         </div>
     </div>
-    <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
 {% endblock body %}

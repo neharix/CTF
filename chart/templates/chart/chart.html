@@ -1,9 +1,6 @@
 {% extends "layout.html" %}
 {% load static %}
 {% load i18n %}
-{% block head %}
-  <link rel="stylesheet" href="{% static 'main/style.css' %}" />
-{% endblock head %}
 {% block body %}
   <div style="min-height: 100vh">
     <div class="chart-container" style="padding:10rem 0;">
@@ -26,7 +23,7 @@
       </div>
     </div>
   </div>
-  <script src="{% static "main/chart.min.js" %}"></script>
+  <script src="{% static "main/js/chart.min.js" %}"></script>
   <script>
   Chart.defaults.font.family = "Poppins";
 

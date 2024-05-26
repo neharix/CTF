@@ -11,11 +11,15 @@
         <title>{% trans "CTF Games - Cybersecurity Challenge" %}</title>
         <link rel="shortcut icon"
               type="image/png"
-              href="{% static 'main/logo.png' %}" />
-        <link rel="stylesheet" href="{% static 'main/community.css' %}">
+              href="{% static 'main/images/logo.png' %}" />
+        <link rel="stylesheet" href="{% static 'main/css/community.css' %}">
         <link rel="stylesheet"
               type="text/css"
-              href="{% static 'main/bootstrap.min.css' %}">
+              href="{% static 'main/css/bootstrap.min.css' %}">
+        <link rel="stylesheet"
+              type="text/css"
+              href="{% static 'main/css/all.min.css' %}">
+        <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
         {% block head %}
         {% endblock head %}
     </head>
@@ -26,7 +30,7 @@
                     <input type="checkbox" class='nav__input' name="" id="nav__input">
                     <nav class="nav__pc">
                         <a href="{% url 'home' %}" class="site__logo">
-                            <img src="{% static 'main/logo.png' %}" />
+                            <img src="{% static 'main/images/logo.png' %}" />
                         </a>
                         {% if request.user.is_superuser %}
                             <ul class="nav__list">
@@ -58,7 +62,7 @@
                     <label for="nav__input" class="nav__overlay"></label>
                     <nav class="nav__mobile" style="background-color:#696d97;">
                         <a href="{% url 'home' %}" class="header__logo" style="margin: 12px;">
-                            <img src="{% static 'main/logo.png' %}" />
+                            <img src="{% static 'main/images/logo.png' %}" />
                         </a>
                         {% if request.user.is_superuser %}
                             <ul class="nav__mobile-list" style="margin-top: 10px;">
@@ -215,7 +219,7 @@
                 </div>
             </footer>
         </div>
-        <script src="{% static 'main/navbar.js' %}"></script>
-        <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'main/js/navbar.js' %}"></script>
+        <script src="{% static 'main/js/bootstrap.bundle.min.js' %}"></script>
     </body>
 </html>

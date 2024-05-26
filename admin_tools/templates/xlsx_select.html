@@ -1,11 +1,6 @@
 {% extends "layout.html" %}
 {% load static %}
 {% block head %}
-    <link rel="stylesheet"
-          href="{% static 'main/challenge.css' %}?{% now " U" %}">
-    <link rel="stylesheet"
-          href="{% static 'assets/bootstrap-icons/font/bootstrap-icons.min.css' %}">
-    <link rel="stylesheet" href="{% static 'main/style.css' %}">
     <style>
         body {
             font-size: 1.4rem;
@@ -38,6 +33,4 @@
             </div>
         </div>
     </div>
-    <script src="{% static 'main/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'main/bootstrap.min.js' %}"></script>
 {% endblock body %}
