@@ -82,7 +82,6 @@ def set_language(request, language):
     prev_link_list = request.META["HTTP_REFERER"].split("/")
     prev_link_list[3] = language
     changed_link = "/".join(prev_link_list)
-    print(changed_link)
     return redirect(changed_link)
 
 

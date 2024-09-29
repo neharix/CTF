@@ -57,7 +57,7 @@ class Hint(TranslatableModel):
 
 
 class Answer(models.Model):
-    username = models.CharField(max_length=20, null=True, blank=True)
+    username = models.CharField(max_length=200, null=True, blank=True)
     team = models.CharField(max_length=20, null=True, blank=True)
     challenge_id = models.IntegerField()
     quizz_id = models.IntegerField()

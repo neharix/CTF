@@ -16,7 +16,6 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 from PIL import Image, ImageDraw, ImageFont
 
-from bookstore.models import CtfTaskObjects, UserDatas
 from main.models import File, Team, User
 
 from .forms import Hint
@@ -190,12 +189,6 @@ def play_challenge(request, pk):
                     true_answer = TrueAnswers.objects.create(
                         answer=flag, for_team=request.user.team.name, quizz_id=quizz.pk
                     )
-                    if quizz.type_of_quizz == "Pentest":
-                        UserDatas.objects.create(
-                            flag=flag,
-                            for_team=request.user.team.name,
-                            quizz_id=quizz.pk,
-                        )
 
                     files_directory = base_dir + "/media/"
                     team = Team.objects.get(name=request.user.team.name)

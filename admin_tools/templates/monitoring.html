@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% load static %}
+{% load i18n %}
+{% block head %}
+    <style>
+        table {
+            font-size: 1.4rem;
+        }
+        body {
+            overflow-x: hidden;
+        }
+    </style>
+{% endblock head %}
+{% block body %}
+    <div class="mt-4">
+        <div>
+            <div class="row p-1 px-5">
+                <table class="table text-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">{% trans "Place" %}</th>
+                            <th scope="col">{% trans "Team" %}</th>
+                            <th scope="col">{% trans "Score" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in results %}
+                            <tr>
+                                <th scope="row">{{ row.place }}</th>
+                                <td>{{ row.team }}</td>
+                                <td>{{ row.points }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+{% block scripts %}
+    {{ challenge_pk|json_script:"challenge-pk" }}
+    <script src="{% static 'js/real_time.js' %}"></script>
+{% endblock scripts %}

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-25 00:34+0500\n"
-"PO-Revision-Date: 2024-05-25 00:36+0500\n"
+"POT-Creation-Date: 2024-09-10 00:18+0500\n"
+"PO-Revision-Date: 2024-09-10 00:19+0500\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,168 +19,169 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Translated-Using: django-rosetta 0.10.0\n"
 
-#: .\CTF\settings.py:132
+#: .\CTF\settings.py:120
 msgid "English"
 msgstr "Iňlis dili"
 
-#: .\CTF\settings.py:133
+#: .\CTF\settings.py:121
 msgid "Russian"
 msgstr "Rus dili"
 
-#: .\CTF\settings.py:134
+#: .\CTF\settings.py:122
 msgid "Turkmen"
 msgstr "Türkmen dili"
 
-#: .\admin_tools\templates\admin_tools.html:13
+#: .\admin_tools\templates\admin_tools.html:8
 msgid "Tools panel"
 msgstr "Gurallar penjiresi"
 
-#: .\admin_tools\templates\admin_tools.html:17
+#: .\admin_tools\templates\admin_tools.html:12
 msgid "Register tool"
 msgstr "Registrasiýa guraly"
 
-#: .\admin_tools\templates\admin_tools.html:21
+#: .\admin_tools\templates\admin_tools.html:16
 msgid "Team challenge results"
 msgstr "Toparyň ýaryş netijeleri"
 
-#: .\admin_tools\templates\admin_tools.html:25
+#: .\admin_tools\templates\admin_tools.html:20
 msgid "User challenge results"
 msgstr "Ulanyjynyň ýaryş netijeleri"
 
-#: .\admin_tools\templates\admin_tools.html:29
+#: .\admin_tools\templates\admin_tools.html:24
 msgid "Challenge reports"
 msgstr "Ýaryş hasabatlary"
 
-#: .\admin_tools\templates\challenge_result.html:41
-#: .\admin_tools\templates\personal_result.html:35
+#: .\admin_tools\templates\challenge_result.html:36
+#: .\admin_tools\templates\personal_result.html:30
 msgid "Place"
 msgstr "Ýeri"
 
-#: .\admin_tools\templates\challenge_result.html:42
-#: .\admin_tools\templates\personal_result.html:39
+#: .\admin_tools\templates\challenge_result.html:37
+#: .\admin_tools\templates\personal_result.html:34
 msgid "Team"
 msgstr "Topary"
 
-#: .\admin_tools\templates\challenge_result.html:43
-#: .\admin_tools\templates\personal_result.html:40
+#: .\admin_tools\templates\challenge_result.html:38
+#: .\admin_tools\templates\personal_result.html:35
 msgid "Score"
 msgstr "Utuklary"
 
-#: .\admin_tools\templates\challenge_results.html:13
-#: .\admin_tools\templates\export_page.html:13
-#: .\admin_tools\templates\personal_res_nav.html:13
+#: .\admin_tools\templates\challenge_results.html:8
+#: .\admin_tools\templates\export_page.html:8
+#: .\admin_tools\templates\monitoring.html:8
+#: .\admin_tools\templates\personal_res_nav.html:8
 msgid "Challenges"
 msgstr "Ýaryşlar"
 
-#: .\admin_tools\templates\personal_result.html:36
+#: .\admin_tools\templates\personal_result.html:31
 msgid "User"
 msgstr "Ulanyjy"
 
-#: .\admin_tools\templates\personal_result.html:37
+#: .\admin_tools\templates\personal_result.html:32
 msgid "Name"
 msgstr "Ady"
 
-#: .\admin_tools\templates\personal_result.html:38
+#: .\admin_tools\templates\personal_result.html:33
 msgid "Surname"
 msgstr "Familiýasy"
 
-#: .\admin_tools\templates\register_tools.html:30
+#: .\admin_tools\templates\register_tools.html:29
 msgid "Fill out the form for administrative registration"
 msgstr "Administratiw registrasiýa üçin formany dolduryň"
 
-#: .\admin_tools\templates\register_tools.html:38
+#: .\admin_tools\templates\register_tools.html:37
 msgid "Import an Excel file(.xlsx extention)"
 msgstr "Excel faýlyny(.xlsx giňeltmede) giriziň"
 
-#: .\admin_tools\templates\register_tools.html:45
-#: .\challenge\templates\play_challenge_quizz.html:87
+#: .\admin_tools\templates\register_tools.html:44
+#: .\challenge\templates\play_challenge_quizz.html:84
 msgid "Accept"
 msgstr "Tassyklamak"
 
-#: .\challenge\templates\join_challenge.html:19 .\main\templates\index.html:38
+#: .\challenge\templates\join_challenge.html:11 .\main\templates\index.html:32
 msgid "Starts at"
 msgstr "Başlamaly"
 
-#: .\challenge\templates\join_challenge.html:21 .\main\templates\index.html:40
+#: .\challenge\templates\join_challenge.html:13 .\main\templates\index.html:34
 msgid "Finishes at"
 msgstr "Tamamlanmaly"
 
-#: .\challenge\templates\join_challenge.html:23
+#: .\challenge\templates\join_challenge.html:15
 msgid "Description"
 msgstr "Düşündiriş"
 
-#: .\challenge\templates\join_challenge.html:34
+#: .\challenge\templates\join_challenge.html:26
 msgid "Come back"
 msgstr "Yzyňa dolanmak"
 
-#: .\challenge\templates\join_challenge.html:40
+#: .\challenge\templates\join_challenge.html:32
 msgid "Join"
 msgstr "Goşulmak"
 
-#: .\challenge\templates\play_challenge.html:15
+#: .\challenge\templates\play_challenge.html:14
 msgid "Sum of points"
 msgstr "Utuklaryň jemi"
 
-#: .\challenge\templates\play_challenge.html:27
-#: .\challenge\templates\play_challenge.html:35
-#: .\challenge\templates\play_challenge.html:42
-#: .\challenge\templates\play_challenge_quizz.html:28
+#: .\challenge\templates\play_challenge.html:26
+#: .\challenge\templates\play_challenge.html:34
+#: .\challenge\templates\play_challenge.html:41
+#: .\challenge\templates\play_challenge_quizz.html:25
 msgid "Point"
 msgstr "Utuk"
 
-#: .\challenge\templates\play_challenge.html:77
-#: .\challenge\templates\play_challenge.html:80
-#: .\challenge\templates\play_challenge_quizz.html:129
+#: .\challenge\templates\play_challenge.html:75
+#: .\challenge\templates\play_challenge.html:78
+#: .\challenge\templates\play_challenge_quizz.html:125
 msgid "Remaining time"
 msgstr "Galan wagt"
 
-#: .\challenge\templates\play_challenge_quizz.html:24
-#: .\main\templates\faq.html:17 .\main\templates\faq.html:26
+#: .\challenge\templates\play_challenge_quizz.html:21
+#: .\main\templates\faq.html:18
 msgid "Question"
 msgstr "Sorag"
 
-#: .\challenge\templates\play_challenge_quizz.html:34
+#: .\challenge\templates\play_challenge_quizz.html:31
 msgid "Hint"
 msgstr "Maslahat"
 
-#: .\challenge\templates\play_challenge_quizz.html:38
+#: .\challenge\templates\play_challenge_quizz.html:35
 msgid "Click to see hint"
 msgstr "Maslahaty görmek üçin basyň"
 
-#: .\challenge\templates\play_challenge_quizz.html:40
+#: .\challenge\templates\play_challenge_quizz.html:37
 msgid "point"
 msgstr "utuk"
 
-#: .\challenge\templates\play_challenge_quizz.html:47
+#: .\challenge\templates\play_challenge_quizz.html:44
 msgid "File"
 msgstr "Faýl"
 
-#: .\challenge\templates\play_challenge_quizz.html:50
+#: .\challenge\templates\play_challenge_quizz.html:47
 msgid "Download"
 msgstr "Ýükle"
 
-#: .\challenge\templates\play_challenge_quizz.html:55
-#: .\main\templates\faq.html:19 .\main\templates\faq.html:28
+#: .\challenge\templates\play_challenge_quizz.html:52
+#: .\main\templates\faq.html:20
 msgid "Answer"
 msgstr "Jogap"
 
-#: .\challenge\templates\play_challenge_quizz.html:80
+#: .\challenge\templates\play_challenge_quizz.html:77
 msgid "Exit"
 msgstr "Çykmak"
 
-#: .\chart\templates\chart\chart.html:12
+#: .\chart\templates\chart\chart.html:9
 msgid "Active team players"
 msgstr "Toparyň işjeň oýunçylary"
 
-#: .\chart\templates\chart\chart.html:21
+#: .\chart\templates\chart\chart.html:18
 msgid "Team statistics"
 msgstr "Toparyň ýetişigi"
 
-#: .\main\templates\about_us.html:18
+#: .\main\templates\about_us.html:12
 msgid "Developers"
 msgstr "Programmistler"
 
-#: .\main\templates\about_us.html:110
+#: .\main\templates\about_us.html:104
 msgid "Web-site"
 msgstr "Web-saýt"
 
@@ -188,7 +189,7 @@ msgstr "Web-saýt"
 msgid "Frequently asked questions"
 msgstr "Ýygy-ýygydan berilýän soraglar"
 
-#: .\main\templates\index.html:18
+#: .\main\templates\index.html:12
 msgid "Active events"
 msgstr "Işjeň ýaryşlar"
 
@@ -196,73 +197,75 @@ msgstr "Işjeň ýaryşlar"
 msgid "CTF Games - Cybersecurity Challenge"
 msgstr "CTF Oýunlary - Kiberhowpsuzlyk ýaryşy"
 
-#: .\main\templates\layout.html:34 .\main\templates\layout.html:66
-#: .\main\templates\layout.html:189
+#: .\main\templates\layout.html:38 .\main\templates\layout.html:73
+#: .\main\templates\layout.html:196
 msgid "Admin tools"
 msgstr "Admin gurallary"
 
-#: .\main\templates\layout.html:40 .\main\templates\layout.html:72
-#: .\main\templates\layout.html:193
+#: .\main\templates\layout.html:41
+msgid "Monitoring"
+msgstr "Monitoring"
+
+#: .\main\templates\layout.html:47 .\main\templates\layout.html:79
+#: .\main\templates\layout.html:200
 msgid "Charts"
 msgstr "Diagrammalar"
 
-#: .\main\templates\layout.html:156
-#: .\main\templates\menu\login_register.html:25
+#: .\main\templates\layout.html:163
+#: .\main\templates\menu\login_register.html:22
 msgid "Sign in"
 msgstr "Girmek"
 
-#: .\main\templates\layout.html:172
+#: .\main\templates\layout.html:179
 msgid "Log out"
 msgstr "Çykmak"
 
-#: .\main\templates\layout.html:185
+#: .\main\templates\layout.html:192
 msgid "CTF Games"
 msgstr "CTF Oýunlary"
 
-#: .\main\templates\layout.html:197
-msgid "FAQ"
-msgstr "FAQ"
-
-#: .\main\templates\layout.html:200
-msgid "About Us"
-msgstr "Biz barada"
-
-#: .\main\templates\layout.html:205
+#: .\main\templates\layout.html:207
 msgid "Contact us"
 msgstr "Biziň maglumatlarymyz"
 
-#: .\main\templates\layout.html:207
+#: .\main\templates\layout.html:209
 msgid "E-Mail"
 msgstr "E-Mail"
 
-#: .\main\templates\layout.html:211
+#: .\main\templates\layout.html:213
 msgid "Phone number"
 msgstr "Telefon nomerimiz"
 
-#: .\main\templates\layout.html:215
+#: .\main\templates\layout.html:217
 msgid "Address"
 msgstr "Salgymyz"
 
-#: .\main\templates\layout.html:216
+#: .\main\templates\layout.html:218
 msgid "WC57+94V, Oguzkhan street of Ashgabat city"
 msgstr "WC57+94V, Aşgabat şäheriniň Oguzhan köçesi"
 
-#: .\main\templates\menu\login_register.html:22
+#: .\main\templates\menu\login_register.html:19
 msgid "Log in"
 msgstr "Ulgama giriş"
 
-#: .\main\templates\menu\login_register.html:23
+#: .\main\templates\menu\login_register.html:20
 msgid "Username"
 msgstr "Ulanyjy ady"
 
-#: .\main\templates\menu\login_register.html:24
+#: .\main\templates\menu\login_register.html:21
 msgid "Password"
 msgstr "Açar sözi"
 
-#: .\main\views.py:43
+#: .\main\views.py:44
 msgid "Username is not in the database"
 msgstr "Ulanyjy ady ulanyjylar hasabynda ýok"
 
-#: .\main\views.py:51
+#: .\main\views.py:52
 msgid "Incorrect username or password"
 msgstr "Nädogry ulanyjy ady ýa-da açar sözi"
+
+#~ msgid "FAQ"
+#~ msgstr "FAQ"
+
+#~ msgid "About Us"
+#~ msgstr "Biz barada"

@@ -14,11 +14,11 @@ urlpatterns = i18n_patterns(
     path("chart/", include("chart.urls")),
     path("admin_tools/", include("admin_tools.urls")),
     path("set/<str:language>/", set_language),
-    path("bookstore/", include("bookstore.urls")),
     path("rosetta/", include("rosetta.urls")),
 )
 
 urlpatterns += (path("check_answer/", check_answer),)
+urlpatterns += (path("api/v1/", include("api.urls")),)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

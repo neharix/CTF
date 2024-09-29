@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-25 00:34+0500\n"
-"PO-Revision-Date: 2024-05-25 00:35+0500\n"
+"POT-Creation-Date: 2024-09-10 00:18+0500\n"
+"PO-Revision-Date: 2024-09-10 00:19+0500\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,168 +19,169 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 "X-Translated-Using: django-rosetta 0.10.0\n"
 
-#: .\CTF\settings.py:132
+#: .\CTF\settings.py:120
 msgid "English"
 msgstr "Английский"
 
-#: .\CTF\settings.py:133
+#: .\CTF\settings.py:121
 msgid "Russian"
 msgstr "Русский"
 
-#: .\CTF\settings.py:134
+#: .\CTF\settings.py:122
 msgid "Turkmen"
 msgstr "Туркменский"
 
-#: .\admin_tools\templates\admin_tools.html:13
+#: .\admin_tools\templates\admin_tools.html:8
 msgid "Tools panel"
 msgstr "Панель инструментов"
 
-#: .\admin_tools\templates\admin_tools.html:17
+#: .\admin_tools\templates\admin_tools.html:12
 msgid "Register tool"
 msgstr "Инструмент регистрации"
 
-#: .\admin_tools\templates\admin_tools.html:21
+#: .\admin_tools\templates\admin_tools.html:16
 msgid "Team challenge results"
 msgstr "Итоги соревновании команды"
 
-#: .\admin_tools\templates\admin_tools.html:25
+#: .\admin_tools\templates\admin_tools.html:20
 msgid "User challenge results"
 msgstr "Итоги соревновании пользователя"
 
-#: .\admin_tools\templates\admin_tools.html:29
+#: .\admin_tools\templates\admin_tools.html:24
 msgid "Challenge reports"
 msgstr "Отчёт соревновании"
 
-#: .\admin_tools\templates\challenge_result.html:41
-#: .\admin_tools\templates\personal_result.html:35
+#: .\admin_tools\templates\challenge_result.html:36
+#: .\admin_tools\templates\personal_result.html:30
 msgid "Place"
 msgstr "Место"
 
-#: .\admin_tools\templates\challenge_result.html:42
-#: .\admin_tools\templates\personal_result.html:39
+#: .\admin_tools\templates\challenge_result.html:37
+#: .\admin_tools\templates\personal_result.html:34
 msgid "Team"
 msgstr "Команда"
 
-#: .\admin_tools\templates\challenge_result.html:43
-#: .\admin_tools\templates\personal_result.html:40
+#: .\admin_tools\templates\challenge_result.html:38
+#: .\admin_tools\templates\personal_result.html:35
 msgid "Score"
 msgstr "Счёт"
 
-#: .\admin_tools\templates\challenge_results.html:13
-#: .\admin_tools\templates\export_page.html:13
-#: .\admin_tools\templates\personal_res_nav.html:13
+#: .\admin_tools\templates\challenge_results.html:8
+#: .\admin_tools\templates\export_page.html:8
+#: .\admin_tools\templates\monitoring.html:8
+#: .\admin_tools\templates\personal_res_nav.html:8
 msgid "Challenges"
 msgstr "Соревнования"
 
-#: .\admin_tools\templates\personal_result.html:36
+#: .\admin_tools\templates\personal_result.html:31
 msgid "User"
 msgstr "Пользователь"
 
-#: .\admin_tools\templates\personal_result.html:37
+#: .\admin_tools\templates\personal_result.html:32
 msgid "Name"
 msgstr "Имя"
 
-#: .\admin_tools\templates\personal_result.html:38
+#: .\admin_tools\templates\personal_result.html:33
 msgid "Surname"
 msgstr "Фамилия"
 
-#: .\admin_tools\templates\register_tools.html:30
+#: .\admin_tools\templates\register_tools.html:29
 msgid "Fill out the form for administrative registration"
 msgstr "Заполните форму для административной регистрации"
 
-#: .\admin_tools\templates\register_tools.html:38
+#: .\admin_tools\templates\register_tools.html:37
 msgid "Import an Excel file(.xlsx extention)"
 msgstr "Импортируйте Excel файл(в .xlsx расширении)"
 
-#: .\admin_tools\templates\register_tools.html:45
-#: .\challenge\templates\play_challenge_quizz.html:87
+#: .\admin_tools\templates\register_tools.html:44
+#: .\challenge\templates\play_challenge_quizz.html:84
 msgid "Accept"
 msgstr "Подтвердить"
 
-#: .\challenge\templates\join_challenge.html:19 .\main\templates\index.html:38
+#: .\challenge\templates\join_challenge.html:11 .\main\templates\index.html:32
 msgid "Starts at"
 msgstr "Начало в"
 
-#: .\challenge\templates\join_challenge.html:21 .\main\templates\index.html:40
+#: .\challenge\templates\join_challenge.html:13 .\main\templates\index.html:34
 msgid "Finishes at"
 msgstr "Конец в"
 
-#: .\challenge\templates\join_challenge.html:23
+#: .\challenge\templates\join_challenge.html:15
 msgid "Description"
 msgstr "Описание"
 
-#: .\challenge\templates\join_challenge.html:34
+#: .\challenge\templates\join_challenge.html:26
 msgid "Come back"
 msgstr "Вернуться"
 
-#: .\challenge\templates\join_challenge.html:40
+#: .\challenge\templates\join_challenge.html:32
 msgid "Join"
 msgstr "Присоединиться"
 
-#: .\challenge\templates\play_challenge.html:15
+#: .\challenge\templates\play_challenge.html:14
 msgid "Sum of points"
 msgstr "Сумма очков"
 
-#: .\challenge\templates\play_challenge.html:27
-#: .\challenge\templates\play_challenge.html:35
-#: .\challenge\templates\play_challenge.html:42
-#: .\challenge\templates\play_challenge_quizz.html:28
+#: .\challenge\templates\play_challenge.html:26
+#: .\challenge\templates\play_challenge.html:34
+#: .\challenge\templates\play_challenge.html:41
+#: .\challenge\templates\play_challenge_quizz.html:25
 msgid "Point"
 msgstr "Очки"
 
-#: .\challenge\templates\play_challenge.html:77
-#: .\challenge\templates\play_challenge.html:80
-#: .\challenge\templates\play_challenge_quizz.html:129
+#: .\challenge\templates\play_challenge.html:75
+#: .\challenge\templates\play_challenge.html:78
+#: .\challenge\templates\play_challenge_quizz.html:125
 msgid "Remaining time"
 msgstr "Оставшееся время"
 
-#: .\challenge\templates\play_challenge_quizz.html:24
-#: .\main\templates\faq.html:17 .\main\templates\faq.html:26
+#: .\challenge\templates\play_challenge_quizz.html:21
+#: .\main\templates\faq.html:18
 msgid "Question"
 msgstr "Вопрос"
 
-#: .\challenge\templates\play_challenge_quizz.html:34
+#: .\challenge\templates\play_challenge_quizz.html:31
 msgid "Hint"
 msgstr "Подсказка"
 
-#: .\challenge\templates\play_challenge_quizz.html:38
+#: .\challenge\templates\play_challenge_quizz.html:35
 msgid "Click to see hint"
 msgstr "Нажмите чтобы увидеть подсказку"
 
-#: .\challenge\templates\play_challenge_quizz.html:40
+#: .\challenge\templates\play_challenge_quizz.html:37
 msgid "point"
 msgstr "очков"
 
-#: .\challenge\templates\play_challenge_quizz.html:47
+#: .\challenge\templates\play_challenge_quizz.html:44
 msgid "File"
 msgstr "Файл"
 
-#: .\challenge\templates\play_challenge_quizz.html:50
+#: .\challenge\templates\play_challenge_quizz.html:47
 msgid "Download"
 msgstr "Скачать"
 
-#: .\challenge\templates\play_challenge_quizz.html:55
-#: .\main\templates\faq.html:19 .\main\templates\faq.html:28
+#: .\challenge\templates\play_challenge_quizz.html:52
+#: .\main\templates\faq.html:20
 msgid "Answer"
 msgstr "Ответ"
 
-#: .\challenge\templates\play_challenge_quizz.html:80
+#: .\challenge\templates\play_challenge_quizz.html:77
 msgid "Exit"
 msgstr "Выйти"
 
-#: .\chart\templates\chart\chart.html:12
+#: .\chart\templates\chart\chart.html:9
 msgid "Active team players"
 msgstr "Активные командные игроки"
 
-#: .\chart\templates\chart\chart.html:21
+#: .\chart\templates\chart\chart.html:18
 msgid "Team statistics"
 msgstr "Успеваемость команды"
 
-#: .\main\templates\about_us.html:18
+#: .\main\templates\about_us.html:12
 msgid "Developers"
 msgstr "Разработчики"
 
-#: .\main\templates\about_us.html:110
+#: .\main\templates\about_us.html:104
 msgid "Web-site"
 msgstr "Веб-сайт"
 
@@ -188,7 +189,7 @@ msgstr "Веб-сайт"
 msgid "Frequently asked questions"
 msgstr "Часто задаваемые вопросы"
 
-#: .\main\templates\index.html:18
+#: .\main\templates\index.html:12
 msgid "Active events"
 msgstr "Доступные соревнования"
 
@@ -196,73 +197,75 @@ msgstr "Доступные соревнования"
 msgid "CTF Games - Cybersecurity Challenge"
 msgstr "Игры CTF - Соревнование по кибербезопастности"
 
-#: .\main\templates\layout.html:34 .\main\templates\layout.html:66
-#: .\main\templates\layout.html:189
+#: .\main\templates\layout.html:38 .\main\templates\layout.html:73
+#: .\main\templates\layout.html:196
 msgid "Admin tools"
 msgstr "Инструментарий админа"
 
-#: .\main\templates\layout.html:40 .\main\templates\layout.html:72
-#: .\main\templates\layout.html:193
+#: .\main\templates\layout.html:41
+msgid "Monitoring"
+msgstr "Мониторинг"
+
+#: .\main\templates\layout.html:47 .\main\templates\layout.html:79
+#: .\main\templates\layout.html:200
 msgid "Charts"
 msgstr "Диаграммы"
 
-#: .\main\templates\layout.html:156
-#: .\main\templates\menu\login_register.html:25
+#: .\main\templates\layout.html:163
+#: .\main\templates\menu\login_register.html:22
 msgid "Sign in"
 msgstr "Войти"
 
-#: .\main\templates\layout.html:172
+#: .\main\templates\layout.html:179
 msgid "Log out"
 msgstr "Выйти"
 
-#: .\main\templates\layout.html:185
+#: .\main\templates\layout.html:192
 msgid "CTF Games"
 msgstr "Игры CTF"
 
-#: .\main\templates\layout.html:197
-msgid "FAQ"
-msgstr "ЧаВо"
-
-#: .\main\templates\layout.html:200
-msgid "About Us"
-msgstr "О нас"
-
-#: .\main\templates\layout.html:205
+#: .\main\templates\layout.html:207
 msgid "Contact us"
 msgstr "Наши контакты"
 
-#: .\main\templates\layout.html:207
+#: .\main\templates\layout.html:209
 msgid "E-Mail"
 msgstr "E-Mail"
 
-#: .\main\templates\layout.html:211
+#: .\main\templates\layout.html:213
 msgid "Phone number"
 msgstr "Телефонный номер"
 
-#: .\main\templates\layout.html:215
+#: .\main\templates\layout.html:217
 msgid "Address"
 msgstr "Адрес"
 
-#: .\main\templates\layout.html:216
+#: .\main\templates\layout.html:218
 msgid "WC57+94V, Oguzkhan street of Ashgabat city"
 msgstr "WC57+94V, г.Ашхабад, ул.Огузхан"
 
-#: .\main\templates\menu\login_register.html:22
+#: .\main\templates\menu\login_register.html:19
 msgid "Log in"
 msgstr "Вход в систему"
 
-#: .\main\templates\menu\login_register.html:23
+#: .\main\templates\menu\login_register.html:20
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: .\main\templates\menu\login_register.html:24
+#: .\main\templates\menu\login_register.html:21
 msgid "Password"
 msgstr "Пароль"
 
-#: .\main\views.py:43
+#: .\main\views.py:44
 msgid "Username is not in the database"
 msgstr "Имени пользователя нет в базе данных"
 
-#: .\main\views.py:51
+#: .\main\views.py:52
 msgid "Incorrect username or password"
 msgstr "Неправильное имя пользователя или пароль"
+
+#~ msgid "FAQ"
+#~ msgstr "ЧаВо"
+
+#~ msgid "About Us"
+#~ msgstr "О нас"

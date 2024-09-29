@@ -1,24 +1,12 @@
+import os
 import random
+from io import BytesIO
 from pathlib import Path
 
 import pandas as pd
-from borb.io.read.types import Decimal
-from borb.pdf.canvas.color.color import X11Color
-from borb.pdf.canvas.font.simple_font.true_type_font import TrueTypeFont
-from borb.pdf.canvas.layout.page_layout.single_column_layout_with_overflow import (
-    SingleColumnLayout,
-)
-from borb.pdf.canvas.layout.table.fixed_column_width_table import FixedColumnWidthTable
-from borb.pdf.canvas.layout.table.flexible_column_width_table import (
-    FlexibleColumnWidthTable,
-)
-from borb.pdf.canvas.layout.table.table import TableCell
-from borb.pdf.canvas.layout.text.paragraph import Paragraph
-from borb.pdf.document.document import Document
-from borb.pdf.page.page import Page
-from borb.pdf.pdf import PDF
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 
 from challenge.models import Answer, Challenge, Quizz
@@ -26,6 +14,7 @@ from main.models import Team, User
 
 from .forms import XlsxForm
 from .models import Xlsxes
+from .utils import export_xlsx
 
 
 class ChallengeXlsxData:
@@ -268,76 +257,6 @@ def challenge_result(request, challenge_id):
         )
 
         path = str(settings.BASE_DIR).replace("\\", "/")
-        font = TrueTypeFont().true_type_font_from_file(
-            Path(path + "/admin_tools/static/fonts/VelaSans-Regular.ttf")
-        )
-        document = Document()
-        page = Page()
-        layout = SingleColumnLayout(page)
-        layout.add(
-            Paragraph(
-                f'Toparlaryň "{challenge.name}" ýarysy boýunca netijeleri',
-                font=font,
-                font_size=Decimal(20),
-            )
-        )
-        if len(results_list) > 20:
-            row_count = 21
-        else:
-            row_count = len(results_list) + 1
-        layout.add(
-            Paragraph(
-                f"Top-20" if row_count == 21 else f"",
-                font=font,
-                font_size=Decimal(14),
-            )
-        )
-        table = (
-            FixedColumnWidthTable(
-                number_of_columns=3,
-                number_of_rows=row_count,
-                column_widths=[Decimal(1), Decimal(2), Decimal(1)],
-            )
-            .add(
-                Paragraph(
-                    "Ýer",
-                    font=font,
-                )
-            )
-            .add(
-                Paragraph(
-                    "Topar",
-                    font=font,
-                )
-            )
-            .add(
-                Paragraph(
-                    "Bal",
-                    font=font,
-                )
-            )
-        )
-        sh = 0
-        for result in results_list:
-            if sh == 20:
-                break
-            sh += 1
-            table.add(Paragraph(str(sh), font=font))
-            table.add(Paragraph(result["team"], font=font))
-            table.add(Paragraph(str(result["points"]), font=font))
-
-        layout.add(
-            table.set_padding_on_all_cells(
-                Decimal(3), Decimal(3), Decimal(3), Decimal(3)
-            )
-        )
-
-        document.add_page(page)
-
-        with open(
-            path + f"/media/exported_pdf/{challenge_slug}_team.pdf", "wb"
-        ) as pdf_file_handle:
-            PDF.dumps(pdf_file_handle, document)
 
         return render(
             request,
@@ -346,7 +265,6 @@ def challenge_result(request, challenge_id):
                 "results": results,
                 "challenge": challenge,
                 "xlsx_path": f"/media/exported_xlsx/{challenge_slug}_teams.xlsx",
-                "pdf_path": f"/media/exported_pdf/{challenge_slug}_team.pdf",
             },
         )
     else:
@@ -362,6 +280,45 @@ def personal_result_nav(request):
 
 
 def personal_result(request, challenge_id):
+    if request.user.is_superuser or request.user.is_staff:
+        by_score_sort = lambda e: e["points"]
+        users = User.objects.filter(is_superuser=False, is_staff=False)
+        challenge = Challenge.objects.get(pk=challenge_id)
+        results_list = []
+        for user in users:
+            points = []
+            answers = Answer.objects.filter(
+                challenge_id=challenge.pk, username=user.username
+            )
+            for answer in answers:
+                points.append(answer.point)
+            results_list.append(
+                {
+                    "user": user.username,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "team": user.team.name,
+                    "points": sum(points),
+                }
+            )
+        results_list.sort(key=by_score_sort, reverse=True)
+        results = [
+            UserResults(results_list.index(result) + 1, result)
+            for result in results_list
+        ]
+        return render(
+            request,
+            "personal_result.html",
+            {
+                "results": results,
+                "challenge": challenge,
+            },
+        )
+    else:
+        return redirect("home")
+
+
+def export_personal_result_as_xlsx(request: HttpRequest, challenge_id: int):
     if request.user.is_superuser or request.user.is_staff:
         by_score_sort = lambda e: e["points"]
         users = User.objects.filter(is_superuser=False, is_staff=False)
@@ -385,123 +342,57 @@ def personal_result(request, challenge_id):
                 }
             )
         results_list.sort(key=by_score_sort, reverse=True)
-        results = [
-            UserResults(results_list.index(result) + 1, result)
-            for result in results_list
-        ]
+
         for result in results_list:
             dataframe_dict["Ady"].append(result["first_name"])
             dataframe_dict["Familiýasy"].append(result["last_name"])
             dataframe_dict["Topary"].append(result["team"])
             dataframe_dict["Bal"].append(result["points"])
-
-        challenge_slug = challenge.name.lower().replace(" ", "_") + str(
-            random.randint(1, 100000)
+        dataframe = pd.DataFrame(dataframe_dict)
+        response = HttpResponse(
+            content_type="application/xlsx",
         )
-        pd.DataFrame(dataframe_dict).to_excel(
-            f"./media/exported_xlsx/{challenge_slug}_users.xlsx"
+        response["Content-Disposition"] = (
+            f'attachment; filename="cybersecurity_team_results.xlsx"'
         )
-        path = str(settings.BASE_DIR).replace("\\", "/")
-        font = TrueTypeFont().true_type_font_from_file(
-            Path(path + "/admin_tools/static/fonts/VelaSans-Regular.ttf")
-        )
-        document = Document()
-        page = Page()
-        layout = SingleColumnLayout(page)
-        layout.add(
-            Paragraph(
-                f'Toparlaryň "{challenge.name}" ýarysy boýunca netijeleri',
-                font=font,
-                font_size=Decimal(20),
-            )
-        )
-        if len(results_list) > 10:
-            row_count = 11
-        else:
-            row_count = len(results_list) + 1
-        layout.add(
-            Paragraph(
-                f"Top-10" if row_count == 11 else f"",
-                font=font,
-                font_size=Decimal(14),
-            )
-        )
-        table = (
-            FixedColumnWidthTable(
-                number_of_columns=5,
-                number_of_rows=row_count,
-                column_widths=[
-                    Decimal(1),
-                    Decimal(1),
-                    Decimal(1),
-                    Decimal(1),
-                    Decimal(1),
-                ],
-            )
-            .add(
-                Paragraph(
-                    "Ýer",
-                    font=font,
-                )
-            )
-            .add(
-                Paragraph(
-                    "Ady",
-                    font=font,
-                )
-            )
-            .add(
-                Paragraph(
-                    "Familiýasy",
-                    font=font,
-                )
-            )
-            .add(
-                Paragraph(
-                    "Topar",
-                    font=font,
-                )
-            )
-            .add(
-                Paragraph(
-                    "Bal",
-                    font=font,
-                )
-            )
-        )
-        sh = 0
-        for result in results_list:
-            if sh == 10:
-                break
-            sh += 1
-            table.add(Paragraph(str(sh), font=font))
-            table.add(Paragraph(result["first_name"], font=font))
-            table.add(Paragraph(result["last_name"], font=font))
-            table.add(Paragraph(result["team"], font=font))
-            table.add(Paragraph(str(result["points"]), font=font))
-
-        layout.add(
-            table.set_padding_on_all_cells(
-                Decimal(3), Decimal(3), Decimal(3), Decimal(3)
-            )
-        )
-
-        document.add_page(page)
-
-        with open(
-            path + f"/media/exported_pdf/{challenge_slug}_users.pdf", "wb"
-        ) as pdf_file_handle:
-            PDF.dumps(pdf_file_handle, document)
-
-        return render(
-            request,
-            "personal_result.html",
-            {
-                "results": results,
-                "challenge": challenge,
-                "xlsx_path": f"/media/exported_xlsx/{challenge_slug}_users.xlsx",
-                "pdf_path": f"/media/exported_pdf/{challenge_slug}_users.pdf",
-            },
-        )
+        with pd.ExcelWriter(response) as writer:
+            dataframe.to_excel(writer, sheet_name="sheet1")
+        return response
     else:
         return redirect("home")
+
+
+def export_challenge_result_as_xlsx(request, challenge_id):
+    if request.user.is_superuser or request.user.is_staff:
+        by_score_sort = lambda e: e["points"]
+        teams = Team.objects.all()
+        challenge = Challenge.objects.get(pk=challenge_id)
+        results_list = []
+        dataframe_dict = {"Topar": [], "Bal": []}
+        for team in teams:
+            points = []
+            answers = Answer.objects.filter(challenge_id=challenge.pk, team=team.name)
+            for answer in answers:
+                points.append(answer.point)
+            results_list.append({"team": team.name, "points": sum(points)})
+        results_list.sort(key=by_score_sort, reverse=True)
+        for result in results_list:
+            dataframe_dict["Topar"].append(result["team"])
+            dataframe_dict["Bal"].append(result["points"])
+
+        dataframe = pd.DataFrame(dataframe_dict)
+        response = HttpResponse(
+            content_type="application/xlsx",
+        )
+        response["Content-Disposition"] = (
+            f'attachment; filename="cybersecurity_team_results.xlsx"'
+        )
+        with pd.ExcelWriter(response) as writer:
+            dataframe.to_excel(writer, sheet_name="sheet1")
+        return response
+    else:
+        return redirect("home")
+
+
+def monitoring(request: HttpRequest):
+    return render(request, "monitoring.html")
