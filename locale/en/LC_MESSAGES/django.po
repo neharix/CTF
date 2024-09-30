@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 00:18+0500\n"
-"PO-Revision-Date: 2024-09-10 00:18+0500\n"
+"POT-Creation-Date: 2024-09-30 23:02+0500\n"
+"PO-Revision-Date: 2024-09-30 23:03+0500\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -51,37 +51,39 @@ msgstr "User challenge results"
 msgid "Challenge reports"
 msgstr "Challenge reports"
 
-#: .\admin_tools\templates\challenge_result.html:36
-#: .\admin_tools\templates\personal_result.html:30
+#: .\admin_tools\templates\challenge_result.html:40
+#: .\admin_tools\templates\monitoring.html:21
+#: .\admin_tools\templates\personal_result.html:34
 msgid "Place"
 msgstr "Place"
 
-#: .\admin_tools\templates\challenge_result.html:37
-#: .\admin_tools\templates\personal_result.html:34
+#: .\admin_tools\templates\challenge_result.html:41
+#: .\admin_tools\templates\monitoring.html:22
+#: .\admin_tools\templates\personal_result.html:38
 msgid "Team"
 msgstr "Team"
 
-#: .\admin_tools\templates\challenge_result.html:38
-#: .\admin_tools\templates\personal_result.html:35
+#: .\admin_tools\templates\challenge_result.html:42
+#: .\admin_tools\templates\monitoring.html:23
+#: .\admin_tools\templates\personal_result.html:39
 msgid "Score"
 msgstr "Score"
 
 #: .\admin_tools\templates\challenge_results.html:8
 #: .\admin_tools\templates\export_page.html:8
-#: .\admin_tools\templates\monitoring.html:8
 #: .\admin_tools\templates\personal_res_nav.html:8
 msgid "Challenges"
 msgstr "Challenges"
 
-#: .\admin_tools\templates\personal_result.html:31
+#: .\admin_tools\templates\personal_result.html:35
 msgid "User"
 msgstr "User"
 
-#: .\admin_tools\templates\personal_result.html:32
+#: .\admin_tools\templates\personal_result.html:36
 msgid "Name"
 msgstr "Name"
 
-#: .\admin_tools\templates\personal_result.html:33
+#: .\admin_tools\templates\personal_result.html:37
 msgid "Surname"
 msgstr "Surname"
 
@@ -97,6 +99,18 @@ msgstr "Import an Excel file(.xlsx extention)"
 #: .\challenge\templates\play_challenge_quizz.html:84
 msgid "Accept"
 msgstr "Accept"
+
+#: .\admin_tools\templates\user_results_pdf.html:111
+msgid "SURNAME & NAME"
+msgstr "SURNAME & NAME"
+
+#: .\admin_tools\templates\user_results_pdf.html:112
+msgid "TEAM"
+msgstr "TEAM"
+
+#: .\admin_tools\templates\user_results_pdf.html:113
+msgid "POINTS"
+msgstr "POINTS"
 
 #: .\challenge\templates\join_challenge.html:11 .\main\templates\index.html:32
 msgid "Starts at"

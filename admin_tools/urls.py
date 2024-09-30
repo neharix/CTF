@@ -18,6 +18,14 @@ urlpatterns = [
         "personal_results/challenge/<int:challenge_id>/to_xlsx/",
         views.export_personal_result_as_xlsx,
     ),
+    path(
+        "personal_results/challenge/<int:challenge_id>/to_pdf/",
+        views.export_personal_result_as_pdf,
+    ),
+    path(
+        "challenges_results/challenge/<int:challenge_id>/to_pdf/",
+        views.export_challenge_result_as_pdf,
+    ),
     path("export/", views.export_page, name="export_page"),
     path("export/as_xlsx/", views.get_xlsx_of_challenge, name="get_challenge_xlsx"),
     path("monitoring/", views.monitoring, name="monitoring"),

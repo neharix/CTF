@@ -1,0 +1,129 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/ico" href="/static/img/favicon.ico">
+        <title>{{ challenge.name }}</title>
+        <style>
+        @page{
+            margin: 37px 50px;
+        }
+        *{
+            padding: 0;
+            margin: 0;
+            font-family: sans-serif;
+        }
+        body{
+            padding: 7% 7%;
+        }
+        nav{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .logo{
+            display: flex;
+        }
+        .header{
+            font-size: 2em;
+            font-weight: 600;
+        }
+        li{
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .col{
+            -ms-flex-preferred-size:0;
+            flex-basis:0;
+            -ms-flex-positive:1;
+            flex-grow:1;
+            max-width:100%
+        }
+        table{
+            margin-top: 0;
+            width: 100%;
+        }
+        .table{
+            margin-top: 25px;
+        }
+        tr{
+            width: 100%;
+        }
+        th{
+            width: 25%;
+            text-align: left;
+            padding: 5px 20px;
+        }
+        td{
+            width: 25%;
+            text-align: left;
+            padding: 5px 15px;
+        }
+        caption{
+            text-align: left;
+            background-color: #a9a9a9;
+            color: white;
+            padding: 8px 15px;
+            font-weight: bold;
+        }
+        .tr-caption{
+            text-align: left;
+            background-color: #a9a9a9;
+            color: white;
+            padding: 0;
+            font-weight: bold;
+            width: 100%;
+            font-size: 1.4em;
+        }
+        .tr-even{
+            background-color: #f0f0f0;
+        }
+        .tr-odd{
+            background-color: white;
+        }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <div class="col logo" style="width: 33%;">
+                <!--<img src="{% static 'img/icon_logo.png' %}" width="45%">-->
+                IT Meýdança
+            </div>
+            <div class="col header" style="width: 33%;">
+                <span style="margin: auto 0 auto auto;">{{ challenge.name }}</span>
+            </div>
+            <div class="col header" style="width: 33%; text-align: right;">
+                <span style="margin: auto 0 auto auto;">{{ challenge.date_start }}</span>
+            </div>
+        </nav>
+        <hr style="height: 3px;
+                   border: 0;
+                   background-color: rgb(92, 145, 244)"
+            noshade>
+        <main style="padding: 10px;">
+            <div class="table-div">
+                <table cellspacing='0'>
+                    <tr class="tr-odd">
+                        <th>No</th>
+                        <th>{% trans 'SURNAME & NAME' %}</th>
+                        <th>{% trans 'TEAM' %}</th>
+                        <th>{% trans 'POINTS' %}</th>
+                    </tr>
+                    {% for result in results %}
+                        <tr class="{% if forloop.counter|divisibleby:2 %}tr-odd{% else %}tr-even{% endif %}">
+                            <td style="width: 20%; padding-left: 20px;">{{ forloop.counter }}</td>
+                            <td style="width: 35%; padding-left: 20px;">{{ result.last_name }} {{ result.first_name }}</td>
+                            <td style="width: 20%; padding-left: 20px;">{{ result.team }}</td>
+                            <td style="width: 25%; padding-left: 20px;">{{ result.points | upper }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </main>
+        <p style="margin: 10px 0; font-size: .8em;">&#169;	 {{ current_year }} IT Meýdança. Ähli hukuklar goralan.</p>
+        <!-- 30 Kgs Check-in, 7 Kgs Cabin-->
+    </body>
+</html>

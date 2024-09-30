@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 00:18+0500\n"
-"PO-Revision-Date: 2024-09-10 00:19+0500\n"
+"POT-Creation-Date: 2024-09-30 23:02+0500\n"
+"PO-Revision-Date: 2024-09-30 23:04+0500\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -51,37 +51,39 @@ msgstr "Итоги соревновании пользователя"
 msgid "Challenge reports"
 msgstr "Отчёт соревновании"
 
-#: .\admin_tools\templates\challenge_result.html:36
-#: .\admin_tools\templates\personal_result.html:30
+#: .\admin_tools\templates\challenge_result.html:40
+#: .\admin_tools\templates\monitoring.html:21
+#: .\admin_tools\templates\personal_result.html:34
 msgid "Place"
 msgstr "Место"
 
-#: .\admin_tools\templates\challenge_result.html:37
-#: .\admin_tools\templates\personal_result.html:34
+#: .\admin_tools\templates\challenge_result.html:41
+#: .\admin_tools\templates\monitoring.html:22
+#: .\admin_tools\templates\personal_result.html:38
 msgid "Team"
 msgstr "Команда"
 
-#: .\admin_tools\templates\challenge_result.html:38
-#: .\admin_tools\templates\personal_result.html:35
+#: .\admin_tools\templates\challenge_result.html:42
+#: .\admin_tools\templates\monitoring.html:23
+#: .\admin_tools\templates\personal_result.html:39
 msgid "Score"
 msgstr "Счёт"
 
 #: .\admin_tools\templates\challenge_results.html:8
 #: .\admin_tools\templates\export_page.html:8
-#: .\admin_tools\templates\monitoring.html:8
 #: .\admin_tools\templates\personal_res_nav.html:8
 msgid "Challenges"
 msgstr "Соревнования"
 
-#: .\admin_tools\templates\personal_result.html:31
+#: .\admin_tools\templates\personal_result.html:35
 msgid "User"
 msgstr "Пользователь"
 
-#: .\admin_tools\templates\personal_result.html:32
+#: .\admin_tools\templates\personal_result.html:36
 msgid "Name"
 msgstr "Имя"
 
-#: .\admin_tools\templates\personal_result.html:33
+#: .\admin_tools\templates\personal_result.html:37
 msgid "Surname"
 msgstr "Фамилия"
 
@@ -97,6 +99,18 @@ msgstr "Импортируйте Excel файл(в .xlsx расширении)"
 #: .\challenge\templates\play_challenge_quizz.html:84
 msgid "Accept"
 msgstr "Подтвердить"
+
+#: .\admin_tools\templates\user_results_pdf.html:111
+msgid "SURNAME & NAME"
+msgstr "ФАМИЛИЯ/ИМЯ"
+
+#: .\admin_tools\templates\user_results_pdf.html:112
+msgid "TEAM"
+msgstr "КОМАНДА"
+
+#: .\admin_tools\templates\user_results_pdf.html:113
+msgid "POINTS"
+msgstr "ОЧКИ"
 
 #: .\challenge\templates\join_challenge.html:11 .\main\templates\index.html:32
 msgid "Starts at"

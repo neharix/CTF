@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-10 00:18+0500\n"
-"PO-Revision-Date: 2024-09-10 00:19+0500\n"
+"POT-Creation-Date: 2024-09-30 23:02+0500\n"
+"PO-Revision-Date: 2024-09-30 23:15+0500\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -51,37 +51,39 @@ msgstr "Ulanyjynyň ýaryş netijeleri"
 msgid "Challenge reports"
 msgstr "Ýaryş hasabatlary"
 
-#: .\admin_tools\templates\challenge_result.html:36
-#: .\admin_tools\templates\personal_result.html:30
+#: .\admin_tools\templates\challenge_result.html:40
+#: .\admin_tools\templates\monitoring.html:21
+#: .\admin_tools\templates\personal_result.html:34
 msgid "Place"
 msgstr "Ýeri"
 
-#: .\admin_tools\templates\challenge_result.html:37
-#: .\admin_tools\templates\personal_result.html:34
+#: .\admin_tools\templates\challenge_result.html:41
+#: .\admin_tools\templates\monitoring.html:22
+#: .\admin_tools\templates\personal_result.html:38
 msgid "Team"
 msgstr "Topary"
 
-#: .\admin_tools\templates\challenge_result.html:38
-#: .\admin_tools\templates\personal_result.html:35
+#: .\admin_tools\templates\challenge_result.html:42
+#: .\admin_tools\templates\monitoring.html:23
+#: .\admin_tools\templates\personal_result.html:39
 msgid "Score"
 msgstr "Utuklary"
 
 #: .\admin_tools\templates\challenge_results.html:8
 #: .\admin_tools\templates\export_page.html:8
-#: .\admin_tools\templates\monitoring.html:8
 #: .\admin_tools\templates\personal_res_nav.html:8
 msgid "Challenges"
 msgstr "Ýaryşlar"
 
-#: .\admin_tools\templates\personal_result.html:31
+#: .\admin_tools\templates\personal_result.html:35
 msgid "User"
 msgstr "Ulanyjy"
 
-#: .\admin_tools\templates\personal_result.html:32
+#: .\admin_tools\templates\personal_result.html:36
 msgid "Name"
 msgstr "Ady"
 
-#: .\admin_tools\templates\personal_result.html:33
+#: .\admin_tools\templates\personal_result.html:37
 msgid "Surname"
 msgstr "Familiýasy"
 
@@ -97,6 +99,18 @@ msgstr "Excel faýlyny(.xlsx giňeltmede) giriziň"
 #: .\challenge\templates\play_challenge_quizz.html:84
 msgid "Accept"
 msgstr "Tassyklamak"
+
+#: .\admin_tools\templates\user_results_pdf.html:111
+msgid "SURNAME & NAME"
+msgstr "FAMILIÝASY WE ADY"
+
+#: .\admin_tools\templates\user_results_pdf.html:112
+msgid "TEAM"
+msgstr "TOPAR"
+
+#: .\admin_tools\templates\user_results_pdf.html:113
+msgid "POINTS"
+msgstr "UTUKLARY"
 
 #: .\challenge\templates\join_challenge.html:11 .\main\templates\index.html:32
 msgid "Starts at"

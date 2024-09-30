@@ -1,3 +1,4 @@
+import datetime
 import os
 import random
 from io import BytesIO
@@ -14,7 +15,7 @@ from main.models import Team, User
 
 from .forms import XlsxForm
 from .models import Xlsxes
-from .utils import export_xlsx
+from .utils import export_xlsx, render_to_pdf
 
 
 class ChallengeXlsxData:
@@ -232,7 +233,6 @@ def challenge_result(request, challenge_id):
         teams = Team.objects.all()
         challenge = Challenge.objects.get(pk=challenge_id)
         results_list = []
-        dataframe_dict = {"Topar": [], "Bal": []}
         for team in teams:
             points = []
             answers = Answer.objects.filter(challenge_id=challenge.pk, team=team.name)
@@ -245,26 +245,12 @@ def challenge_result(request, challenge_id):
             for result in results_list
         ]
 
-        for result in results_list:
-            dataframe_dict["Topar"].append(result["team"])
-            dataframe_dict["Bal"].append(result["points"])
-
-        challenge_slug = challenge.name.lower().replace(" ", "_") + str(
-            random.randint(1, 100000)
-        )
-        pd.DataFrame(dataframe_dict).to_excel(
-            f"./media/exported_xlsx/{challenge_slug}_teams.xlsx"
-        )
-
-        path = str(settings.BASE_DIR).replace("\\", "/")
-
         return render(
             request,
             "challenge_result.html",
             {
                 "results": results,
                 "challenge": challenge,
-                "xlsx_path": f"/media/exported_xlsx/{challenge_slug}_teams.xlsx",
             },
         )
     else:
@@ -390,6 +376,72 @@ def export_challenge_result_as_xlsx(request, challenge_id):
         with pd.ExcelWriter(response) as writer:
             dataframe.to_excel(writer, sheet_name="sheet1")
         return response
+    else:
+        return redirect("home")
+
+
+def export_personal_result_as_pdf(request, challenge_id):
+    if request.user.is_superuser or request.user.is_staff:
+        by_score_sort = lambda e: e["points"]
+        users = User.objects.filter(is_superuser=False, is_staff=False)
+        challenge = Challenge.objects.get(pk=challenge_id)
+        results_list = []
+        for user in users:
+            points = []
+            answers = Answer.objects.filter(
+                challenge_id=challenge.pk, username=user.username
+            )
+            for answer in answers:
+                points.append(answer.point)
+            results_list.append(
+                {
+                    "user": user.username,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "team": user.team.name,
+                    "points": sum(points),
+                }
+            )
+        results_list.sort(key=by_score_sort, reverse=True)
+        results = [
+            UserResults(results_list.index(result) + 1, result)
+            for result in results_list
+        ]
+        data = {
+            "results": results,
+            "challenge": challenge,
+            "current_year": datetime.datetime.now().year,
+        }
+        pdf = render_to_pdf("user_results_pdf.html", data)
+        return HttpResponse(pdf, content_type="application/pdf")
+    else:
+        return redirect("home")
+
+
+def export_challenge_result_as_pdf(request, challenge_id):
+    if request.user.is_superuser or request.user.is_staff:
+        by_score_sort = lambda e: e["points"]
+        teams = Team.objects.all()
+        challenge = Challenge.objects.get(pk=challenge_id)
+        results_list = []
+        for team in teams:
+            points = []
+            answers = Answer.objects.filter(challenge_id=challenge.pk, team=team.name)
+            for answer in answers:
+                points.append(answer.point)
+            results_list.append({"team": team.name, "points": sum(points)})
+        results_list.sort(key=by_score_sort, reverse=True)
+        results = [
+            TeamResults(results_list.index(result) + 1, result)
+            for result in results_list
+        ]
+        data = {
+            "results": results,
+            "challenge": challenge,
+            "current_year": datetime.datetime.now().year,
+        }
+        pdf = render_to_pdf("team_results_pdf.html", data)
+        return HttpResponse(pdf, content_type="application/pdf")
     else:
         return redirect("home")
 
