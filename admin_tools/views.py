@@ -61,10 +61,10 @@ def register_tools(request):
                     "Topar": [],
                 }
                 for i in range(len(dataframe["Ady"])):
-                    name = dataframe["Ady"][i]
-                    surname = dataframe["Familiyasy"][i]
-                    email = dataframe["Email"][i]
-                    team = dataframe["Topar"][i]
+                    name = dataframe["Ady"][i].strip()
+                    surname = dataframe["Familiyasy"][i].strip()
+                    email = dataframe["Email"][i].strip()
+                    team = dataframe["Topar"][i].strip()
                     already_in_db = True
                     try:
                         user_object = User.objects.get(

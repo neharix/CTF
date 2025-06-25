@@ -41,6 +41,7 @@ class Quizz(TranslatableModel):
     challenge_id = models.IntegerField()
     point = models.IntegerField()
     type_of_quizz = models.CharField(max_length=200)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.challenge_id)

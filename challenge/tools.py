@@ -1,5 +1,9 @@
+import base64
+import io
+import py_compile
 import random
 import string
+import zipfile
 
 import rsa
 from Crypto.Cipher import AES
@@ -656,3 +660,39 @@ def vigenere_encrypt(text, file_path):
         file.write(encrypted)
         file.write("\n\n")
         file.write(f"key: {key}")
+
+
+def generate_polyglot(
+    flag: str,
+    file_path: str,
+    cover_jpg_path: str = "./sources/cover.jpg",
+):
+    zip_buffer = io.BytesIO()
+    with zipfile.ZipFile(zip_buffer, mode="w", compression=zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr("flag.txt", flag)
+
+    zip_bytes = zip_buffer.getvalue()
+
+    with open(cover_jpg_path, "rb") as f:
+        jpg_bytes = f.read()
+
+    with open(file_path + "/ashgabat.jpg", "wb") as out:
+        out.write(jpg_bytes)
+        out.write(zip_bytes)
+
+
+def create_pyc(flag: str, file_path: str):
+    encrypted_flag = base64.b64encode(flag.encode()).decode()
+
+    code_for_executable = f"""import base64
+def get_flag():
+    x = base64.b64decode("{encrypted_flag}").decode()
+    return x
+
+a = "ge" + "t_" + "flag"
+print("Baydagy aljak bol!")
+"""
+    with open("ma.py", "w+") as f:
+        f.write(code_for_executable)
+
+    py_compile.compile("ma.py", cfile=file_path + "/program.pyc")

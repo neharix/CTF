@@ -137,9 +137,8 @@ def play_challenge(request, pk):
         ) and challenge.date_start < datetime.now(
             tz=zoneinfo.ZoneInfo("America/New_York")
         ):
-            quizzes = Quizz.objects.filter(challenge_id=pk)
+            quizzes = Quizz.objects.filter(challenge_id=pk, is_active=True)
 
-            completed = {}
             status = {}
 
             score = 0
@@ -325,6 +324,34 @@ def play_challenge(request, pk):
                             for_team=request.user.team.name,
                         )
 
+                    if quizz.type_of_quizz == "JPG Polyglot":
+                        dir_id = random.randint(10000, 1000000)
+                        dir_path = (
+                            files_directory + f"poly/{request.user.username}{dir_id}"
+                        )
+                        media_path = f"poly/{request.user.username}{dir_id}/"
+                        os.mkdir(dir_path)
+                        generate_polyglot(flag, dir_path)
+
+                        File.objects.create(
+                            file=f"{media_path}ashgabat.jpg",
+                            quizz_id=quizz.pk,
+                            for_team=request.user.team.name,
+                        )
+                    if quizz.type_of_quizz == "Python disassemble":
+                        dir_id = random.randint(10000, 1000000)
+                        dir_path = (
+                            files_directory + f"pydic/{request.user.username}{dir_id}"
+                        )
+                        media_path = f"pydic/{request.user.username}{dir_id}/"
+                        os.mkdir(dir_path)
+                        create_pyc(flag, dir_path)
+
+                        File.objects.create(
+                            file=f"{media_path}program.pyc",
+                            quizz_id=quizz.pk,
+                            for_team=request.user.team.name,
+                        )
                     if quizz.type_of_quizz == "RSA":
                         dir_id = random.randint(10000, 1000000)
                         dir_path = (
@@ -602,7 +629,7 @@ def play_challenge(request, pk):
             }
             return render(request, "play_challenge.html", context)
         else:
-            return redirect("running")
+            return redirect("home")
 
 
 @login_required(login_url="login")
@@ -681,7 +708,7 @@ def play_challenge_quizz(request, pk, pk1):
 
                 return redirect(play_challenge, pk=pk)
         else:
-            return redirect("running")
+            return redirect("home")
 
     return render(request, "play_challenge_quizz.html", context)
 
@@ -692,8 +719,6 @@ def fake_quizz(request, quizz_id):
 
 def check_answer(request):
     is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
-    print("is ajax?: ", is_ajax)
-    print("is post? ", request.method)
     if request.method == "POST" and is_ajax:
         quizz = Quizz.objects.get(pk=request.POST.get("quizz_id"))
         answer = request.POST.get("answer")
