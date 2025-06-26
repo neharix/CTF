@@ -662,6 +662,7 @@ def vigenere_encrypt(text, file_path):
         file.write(f"key: {key}")
 
 
+#
 def generate_polyglot(
     flag: str,
     file_path: str,

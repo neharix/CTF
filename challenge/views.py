@@ -323,7 +323,7 @@ def play_challenge(request, pk):
                             quizz_id=quizz.pk,
                             for_team=request.user.team.name,
                         )
-
+                    #
                     if quizz.type_of_quizz == "JPG Polyglot":
                         dir_id = random.randint(10000, 1000000)
                         dir_path = (
